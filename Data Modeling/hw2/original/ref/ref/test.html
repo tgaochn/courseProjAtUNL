@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #outer {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            background-color: pink;
+        }
+
+        #inner {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 50%;
+            left: 50%;
+            margin-left: -50px;
+            margin-top: -50px;
+            ;
+            background-color: orange;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        #outer,
+        #inner {
+            border-radius: 50%;
+        }
+    </style>
+    <script src="jquery-2.1.1.min.js"></script>
+</head>
+
+<body>
+
+    <body>
+        <div id="outer">
+            <div id="inner">
+            </div>
+        </div>
+    </body>
+    <script>
+        var parentDiv = document.getElementById("outer");
+        parentDiv.addEventListener("mouseover", function () {
+            console.log("父div的mouseover事件被触发");
+        }, false);
+
+//parentDiv.addEventListener("mouseenter", function () {
+//    console.log("父div的mouseenter事件被触发");
+//},false);
+//parentDiv.addEventListener("mouseout", function () {
+//    console.log("父div的mouseout事件被触发");
+//},false);
+//parentDiv.addEventListener("mouseleave", function () {
+//    console.log("父div的mouseleave事件被触发");
+//},false);
+    </script>
+</body>
+
+</html>

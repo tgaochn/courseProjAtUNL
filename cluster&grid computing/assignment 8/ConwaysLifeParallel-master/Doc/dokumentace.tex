@@ -1,0 +1,107 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[a4paper, top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage[IL2]{fontenc}
+\usepackage{url}
+\usepackage{indentfirst}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{color}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage[table,usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[unicode,hyperindex,plainpages=false,pdftex]{hyperref}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}   
+    \hypersetup{
+          colorlinks=true, 
+          linkcolor=Red, 
+          citecolor=Red, 
+          filecolor=magenta, 
+          urlcolor=TealBlue
+    }
+
+\newcommand{\todo}[1]{\textcolor{red}{[[TODO: #1]]}}
+\newcommand{\setHelper}[1]{\left\lbrace #1 \right\rbrace}
+\newlength{\skipeqarray}
+\setlength{\skipeqarray}{0.4cm}
+
+
+\title{[07B]- Implementace CA pomocí Python + MPI}
+\author{Milan Munzar \\
+\normalsize{\href{mailto:xmunza00@stud.fit.vutbr.cz}{xmunza00@stud.fit.vutbr.cz}}}
+\date{}
+
+\definecolor{lightgray}{rgb}{0.9, 0.9, 0.9}
+\newtheorem{veta}{Věta}
+\newtheorem{definition}{Definice}
+\newtheorem{priklad}{Příklad}
+\newfloat{algorithm}{h}{lop}
+\floatname{algorithm}{Algoritmus}
+\renewcommand{\algorithmiccomment}[1]{\hfill\# #1}
+\algrenewcommand\alglinenumber[1]{{\footnotesize#1}}
+    
+\begin{document}
+\maketitle
+
+\section{Úvod}
+Tento text popisuje paralelní řešení celulárního automatu realizující hru Life. Program je implementován v jazyce Python s využítím knihovny \texttt{mpi4py}. V sekci~\ref{porov} se nachází porovnání doby běhu programu s různým stupněm paralelizace a sekvenční verze.
+
+\section{Conwayova hra Life}
+Conwayova hra Life je uniformní dvourozměrný celulární automat. Mřížka hry obsahuje buňky, které mohou být ve stavu živá/mrtvá. Stav buňky závisí na jejím osmiokolím. Pravidla hry jsou následujicí: živá buňka s méně než dvěma živými sousedy zemře, živá buňka s více než třemi živými sousedy zemře a mrtvá buňka se třemi živými sousedy ožije
+
+Výpočet mřížky jsem urychlil sledováním aktivity buněk. Pokud buňka a její sousedé zůstali v minulém kroku výpočtu mřížky nezměněni, pak ani v tomto kroku se stav buňky nemění. Jako okrajovou podmínku jsem použil pevné přiřazení stavu mrtvá krajním buňkám.
+
+\section{Paralelizace Conwayovy hry Life}
+\label{implemLife}
+Výpočet mřížky mezi procesory jsem rozdělil způsobem zobrazeným na obrázku~\ref{div}. Každý proces dostane $radku\_matice/pocet\_procesoru$ řádků a nad nimi poté provádí výpočet. Tato operace je zajištěna funkcí \texttt{scatter()}. Sběr výsledků se prováde funkcí \texttt{gather()}.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.2]{paralelizace.png}
+    \caption{Paralelizace výpočtu mřížky}
+    \label{div}
+\end{figure}
+
+Aby byl výsledek výpočtu validní musí si procesory vyměňovat informace o počtu živých buňěk na sousedicích hranách. K tomu jsem použil dodatečné pole reprezentující mezisoučet na hranách matice. Toto pole si procesy vymění pomocí neblokujícíh operací \texttt{Isend()} a \texttt{Irecv()}. Použití neblokující komunikace mi dovoluje překrýt výpočet vnitřní matice s výměnou hraničních polí.
+Po výpočtu vnitřní matice se dokončí výpočet hran (funkcí \texttt{Wait()} čekám na dokončení komunikace) a uzavře se jedna iterace algoritmu.
+
+
+\section{Zhodnocení paralelní verzí programu}
+\label{porov}
+
+Měření byla prováděna na stroji s dvoujádrovým procesorem \texttt{Intel Core(TM) i5-3210M CPU @ 2.50GHz} a 8GB operační paměti. Porovnání doby běhu programu paralelních a sekvenční verzí je vidět na obrázku~\ref{doba}. Dosažená zrychlení jsou vidět na obr.~\ref{zrychleni}. Hodnoty vynesené v grafu jsou brány jako průměrná hodnota ze 3 běhů programu nad aktuálním nastavení mřížky. Počet epoch byl ve všech měřeních 100.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{doba.png}
+    \caption{Doba běhu programu při různých stupních paralelizace}
+    \label{doba}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{zrychleni.png}
+    \caption{Dosažená zrychlení}
+    \label{zrychleni}
+\end{figure}
+
+\section{Závěr}
+
+Podařilo se mi naimplementovat sekvenční i paralelní variantu Conwayovy hry Life. K dodaným skriptům jsem vytvořil jenoduché GUI. Bohužel dosažená zrychlení nejsou veliká. Chybou může být neefektivní implementace a nevhodnost použitého stroje pro měření paralelních programů. Zadání jsem splnil pouze částečně, protože jsem nestihl implementovat alespoň jeden problém vícestavovém prostoru.
+
+\newpage
+\section*{Appendix}
+\begin{itemize}
+\item Příklad spuštění paralelního programu se třemi procesy:
+\begin{verbatim}
+mpiexec -n 3 python prl_life.py 
+\end{verbatim}
+\end{itemize}
+\end{document}

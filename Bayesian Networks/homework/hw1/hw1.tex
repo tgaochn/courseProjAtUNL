@@ -1,0 +1,110 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+
+% empty set package
+\usepackage{amssymb}
+
+\title{ELEC 996 Bayesian Networks - Homework 1}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+% Question 1
+1. \\
+The DAG looks like this:\\
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=40mm,scale=0.5]{graph1.png}
+\end{figure}
+
+All conditional independencies are listed as follows due to Markov condition:\\
+1. $I_P(H, \{V, T\})$\\
+2. $I_P(V, \{H, B, L\})$\\
+3. $I_P(B, \{L, T, V\} | H)$\\
+4. $I_P(L, \{B, T, V\} | H)$\\
+5. $I_P(T, \{H, B, L\} | V)$\\
+6. $I_P(D, \{H, V, C\} | \{B, L, T\}\})$\\
+7. $I_P(C, \{H, V, B, D\} | \{L, T\}\})$\\
+
+A joint probability distribution is listed as follows so that (G,P) is a Bayesian network.\\
+$P(H=0) = 0.3$\\
+$P(H=1) = 0.7$\\
+
+$P(V=0) = 0.2$\\
+$P(V=1) = 0.8$\\
+
+$P(B=1|H=0) = 0.05$\\
+$P(B=0|H=0) = 0.95$\\
+$P(B=1|H=1) = 0.1$\\
+$P(B=0|H=1) = 0.9$\\
+
+$P(L=1|H=0) = 0.01$\\
+$P(L=0|H=0) = 0.99$\\
+$P(L=1|H=1) = 0.08$\\
+$P(L=0|H=1) = 0.92$\\
+
+$P(T=1|V=0) = 0.05$\\
+$P(T=0|V=0) = 0.95$\\
+$P(T=1|V=1) = 0.06$\\
+$P(T=0|V=1) = 0.94$\\
+
+$P(D=1|B=0,L=0,T=0) = 0.01$\\
+$P(D=0|B=0,L=0,T=0) = 0.99$\\
+$P(D=1|B=0,L=0,T=1) = 0.2$\\
+$P(D=0|B=0,L=0,T=1) = 0.8$\\
+$P(D=1|B=0,L=1,T=0) = 0.3$\\
+$P(D=0|B=0,L=1,T=0) = 0.7$\\
+$P(D=1|B=0,L=1,T=1) = 0.4$\\
+$P(D=0|B=0,L=1,T=1) = 0.6$\\
+$P(D=1|B=1,L=0,T=0) = 0.1$\\
+$P(D=0|B=1,L=0,T=0) = 0.9$\\
+$P(D=1|B=1,L=0,T=1) = 0.25$\\
+$P(D=0|B=1,L=0,T=1) = 0.75$\\
+$P(D=1|B=1,L=1,T=0) = 0.35$\\
+$P(D=0|B=1,L=1,T=0) = 0.65$\\
+$P(D=1|B=1,L=1,T=1) = 0.6$\\
+$P(D=0|B=1,L=1,T=1) = 0.4$\\
+
+$P(C=1|L=0,T=0) = 0.05$\\
+$P(C=0|L=0,T=0) = 0.95$\\
+$P(C=1|L=0,T=1) = 0.7$\\
+$P(C=0|L=0,T=1) = 0.3$\\
+$P(C=1|L=1,T=0) = 0.8$\\
+$P(C=0|L=1,T=0) = 0.2$\\
+$P(C=1|L=1,T=1) = 0.95$\\
+$P(C=0|L=1,T=1) = 0.05$\\
+
+% Question 2
+2. \\
+They said that this result is an example of fat hand manipulation because there might be some other variables other than gender effecting.\\
+For example, maybe hiring personnel prefer to hire young people while the number of the young is different in male and female. So gender is not the only factor that has effect on evaluation.\\
+All the variables are listed as follows:\\
+1. AD: age distribution of those whose resumes are reviewed.\\
+2. MG: manipulation of people's genders.\\
+3. A: people's ages.\\
+4. G: people's genders.\\
+5. JP: job preference.\\
+6. E: evaluation of resumes.\\
+The DAG is like this:
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=40mm,scale=0.5]{graph2.png}
+\end{figure}
+
+% Question 3
+3. \\
+$P(oil=1|test=1)=\frac{P(oil=1,test=1)}{P(test=1)}=\frac{P(test=1|oil=1)P(oil=1)}{\sum\limits_{oil} P(test=1|oil)P(oil)}=\frac{0.9*0.5}{0.9*0.5+0.3*0.2+0.1*0.3}$
+
+
+\end{document}

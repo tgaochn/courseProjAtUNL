@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - PLY</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="js/neo4jQuery.js"></script>
+		<script type="text/javascript" src="js/three.js"></script>
+		<script type="text/javascript" src="js/PLYLoader.js"></script>
+		<script type="text/javascript" src="js/Detector.js"></script>
+		<script type="text/javascript" src="js/stats.min.js"></script>
+		<script type="text/javascript" src="js/OrbitControls.js"></script>
+		<!-- <script type="text/javascript" src="js/calcFeature.js"></script> -->
+	</head>
+	
+	<body>
+	<div id="info">WebGL Plant Renderer</div>
+
+	<label>
+		<input type="text" id="inputBox" placeholder="Input query here." />
+		<button onclick="sentQuery();">submit</button>
+		<input type="text" id="returnBox" />
+	</label>
+
+	<label class="switch">
+	  <input type="checkbox" id="switch" checked="false">
+	  <span class="slider round"></span>
+	</label>
+
+		<script>
+
+			var vertIdLis = [1, 2, 3];
+			var fileName = './data/test.ply';
+			var loader = new THREE.PLYLoader();
+			loader.load(fileName, function (geometry) {
+				geometry.computeVertexNormals();
+
+				var material = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
+				mesh = new THREE.Mesh(geometry, material);
+
+				mesh.position.y = 0.0;
+				mesh.position.z = 0.0;
+				mesh.rotation.z = -Math.PI / 2;
+				mesh.scale.multiplyScalar(0.1);
+
+				mesh.castShadow = true;
+				mesh.receiveShadow = true;
+
+				scene.add(mesh);
+				points = getPoints(scene.children[3].geometry.attributes.position.array);
+				faces = getFaces(scene.children[3].geometry.index.array)
+				original_geo = scene.children[3].geometry.clone();
+
+				console.log(faces);
+				// copy(JSON.stringify(scene));
+			});
+
+			function getPoints(data) {
+				var points = [];
+				for (var i = 0; i < data.length; i += 3) {
+					var point = [];
+					point.push(data[i]);
+					point.push(data[i + 1]);
+					point.push(data[i + 2]);
+					points.push(point);
+				}
+				return points;
+			}
+
+			function getFaces(data) {
+				var faces = [];
+				for (var i = 0; i < data.length; i += 3) {
+					var point = [];
+					face.push(data[i]);
+					face.push(data[i + 1]);
+					face.push(data[i + 2]);
+					faces.push(point);
+				}
+				return faces;
+			}
+
+
+		</script>
+	</body>
+</html>

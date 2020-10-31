@@ -1,0 +1,57 @@
+// MATCH q = (p1: Person) -[: Friend] -> (p2: Person) RETURN q;
+
+{
+    "results": [
+        {
+            "columns": [
+                "q"
+            ],
+            "data": [
+                {},
+                {},
+                {
+                    "row": [
+                        [
+                            {
+                                "name": "test2",
+                                "state": "test11",
+                                "id": 9998
+                            },
+                            {
+                                "year": 2005
+                            },
+                            {
+                                "name": "test0",
+                                "state": "Nebraska",
+                                "id": 9996
+                            }
+                        ]
+                    ],
+                    "meta": [
+                        [
+                            {
+                                "id": 97,
+                                "type": "node",
+                                "deleted": false
+                            },
+                            {
+                                "id": 11,
+                                "type": "relationship",
+                                "deleted": false
+                            },
+                            {
+                                "id": 95,
+                                "type": "node",
+                                "deleted": false
+                            }
+                        ]
+                    ]
+                },
+                {}
+            ]
+        }
+    ],
+        "errors": [
+
+        ]
+}

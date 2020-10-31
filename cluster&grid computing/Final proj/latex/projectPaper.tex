@@ -1,0 +1,126 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage[section]{placeins}
+\usepackage{float}
+\usepackage{subfigure}
+
+% change to a new line when necessary
+\makeatletter
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 835, Fall 2017, Project Paper - Image-Based 3D Reconstruction Of Plants}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Growth and development of plants is always one of the most important field in botany. In this area, quantitative analysis is essential since it would provide the valuable sights about how to measure the difference between plants. Due to the availability and cheap price of cameras, images-based methods are commonly used~\cite{1}.
+However, images-based methods usually produce a large amount of data and dealing  with such big data set is still a time consuming and computing costly task. Although numerous studies have already been done to reduce time complexity from the perspective of algorithms, improving the running time by parallelization is still worth a try.\\
+In this paper, a pipeline of building 3D point cloud from images is proposed and MPI is used to reduce the CPU computing time of calculating volume. By using parallelization, a lower running time is expected. I will introduce the details in the following sections.\\
+
+\section{Materials and Methods}
+\subsection{Dataset}
+The data I am handling with is a series of images of wheats. As shown in Figure 1, a wheat is located on a turntable in front of a fixed camera. Once the switch of the turntable is on, the wheat will rotate at a speed of 7 degrees per second. Meanwhile, the camera is adjusted to take one photograph per second so that two images that are took next to each other will mostly overlap. In total, there will be 50 images for one wheat so that there is no unobserved area on the wheat. Moreover, there are also hundreds of wheats which are raised in different environment or are in various stages of development. Besides, there is a colorful checkboard between the wheat and the turntable, which is used to provide more key points for each image. The model of the camera is Sony A6500 with high resolution and every detail of the wheat can be observed.\\
+
+\begin{figure}[htbp]
+   \centering
+   \includegraphics[width=6cm,height=5cm]{images/camera.jpg}
+   \includegraphics[width=6cm,height=5cm]{images/wheat.png}
+   \caption{Camera Setting And An Image}
+\end{figure}
+
+\subsection{Main Steps For 3D Reconstruction}
+In this section, the main steps to generate 3D models are included. After inputting images, a 3D point cloud will be generated.
+\subsubsection{Detecting Key points}
+Key points are abstractions of a images. Due to the computing limitation, not all the points are included when an image is processed. In this case, key points are used to represent the whole image. \\
+The detecting algorithm I am using is SIFT, which is one of the most famous algorithms in image processing. With SIFT, edges and corners are detected as key points. As shown in figure 2, the green points are the detected as key points~\cite{2}.\\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{images/keypoint.png}
+    \caption{Key Points Detection}
+\end{figure}
+
+\subsubsection{Generating Point Cloud}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{images/matching.png}
+    \caption{Key Points Detection}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{images/tri.png}
+    \caption{Key Points Detection}
+\end{figure}
+
+The method I am using here is called bundler. Generally speaking, there are 3 main steps in this method. The first one is to match key points between images. As shown in Figure 3, the blue lines connect matched points. The next step is to calculate the relationship between images, which means how one image can be transformed into another through rotation and transformation. Finally, with the knowledge in Epipolar Geometry, the 3D coordinate of the corresponding  points are calculated~\cite{3}. This step is called triangulation as shown in Figure 4.\\
+
+\subsection{Method To Calculate Volume}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{images/slice.png}
+    \caption{Volume Calculation}
+\end{figure}
+
+After getting the point cloud, quantitative analysis is necessary to describe the wheat. As a important feature, volume is calculated in this section. \\
+Inspired by calculus, the method of volume calculation is based on slices. As shown in Figure 5, the object is firstly divided into slices with a given height. It is assumed that the z coordinates of all the points are the same in a slice. Then 2D convex hull method is used to calculate the area. The total volume of the object can be calculated based on the following formula:
+$$Volume=\sum Area \times Height$$
+
+\section{Result}
+I firstly recorded the running time without parallelization as the baseline for comparison(shown in the colomn of \#processes=1 in Figure 6). Before using parallelization, the execution time to process 100 files is 202 seconds.\\
+To evaluate the performance of parallelization, I then conducted experiments using MPI and the result is shown in Figure 6.\\
+As we can see, the running time is largely shortened using MPI. When the number of processes is increased to 15, the running time is shortened about 15 times. In total, the running time is only 13 seconds.\\
+
+\begin{figure}[htbp]
+   \centering
+   \includegraphics[width=6cm]{images/mpiTable.png}
+   \includegraphics[width=6cm]{images/mpiBar.png}
+   \caption{Result of MPI}
+\end{figure}
+
+\section{Conclusion and Future Work}
+In this project, MPI shows its great potentiality to reduce running time. MPI is capable of shortening the process of volume calculation at least 18 times. In future, I will include all the processes of 3D Reconstruction using MPI.
+
+\begin{thebibliography}{4}
+
+\bibitem{1} Yangyan Li , Xiaochen Fan , Niloy J. Mitra , Daniel Chamovitz , Daniel Cohen-Or , Baoquan Chen, \textit{Analyzing growing plants from 4D point cloud data}, ACM Transactions on Graphics (TOG), v.32 n.6, November 2013.
+
+\bibitem{2} Lowe, D.G, \textit{Distinctive Image Features from Scale-Invariant Keypoints}, International Journal of Computer Vision (2004) 60: 91.
+
+\bibitem{3} Noah Snavely , Steven M. Seitz , Richard Szeliski, \textit{Photo tourism: exploring photo collections in 3D}, ACM Transactions on Graphics (TOG), v.25 n.3, July 2006.
+
+
+\end{thebibliography}
+
+
+\end{document}

@@ -1,0 +1,188 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{ upgreek }
+
+% change to a new line when necessary
+\makeatletter
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 440/840, Spring 2018, Homework 4}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% 1
+1. (a).\\
+h = 0.2\\
+$f'(x_0)=\frac{1}{2h}(-3f(x_0) + 4f(x_1) - f(x_2))=0.046$\\
+$f'(x_1)=\frac{1}{2h}(-f(x_0) + f(x_2))=0.3883$\\
+$f'(x_2)=\frac{1}{2h}(-f(x_1) + f(x_3))=0.7091$\\
+$f'(x_3)=\frac{1}{2h}(f(x_1) - 4f(x_2) + 3f(x_3))=1.0085$\\
+
+1. (b).\\
+$\phi(h) = L - 4h^{\frac{1}{2}} - 8h^{\frac{2}{2}} - 2h^{\frac{3}{2}} + 3h^{\frac{4}{2}} + h^{\frac{5}{2}}$\\
+$\phi(\frac{h}{2}) = L - 2 \sqrt2h^{\frac{1}{2}} - 4h^{\frac{2}{2}} - \frac{\sqrt2}{2}h^{\frac{3}{2}} + \frac{3}{4}h^{\frac{4}{2}} + \frac{\sqrt2}{8}h^{\frac{5}{2}}$\\
+$\sqrt2\phi(\frac{h}{2}) - \phi(h) = (\sqrt2 - 1)L + (8 - 4\sqrt2)h+h^{\frac{3}{2}} + (\frac{3\sqrt2}{4} - 3)h^2-\frac{3}{4}h^{\frac{5}{2}}$\\
+$\frac{\sqrt2\phi(\frac{h}{2}) - \phi(h)}{\sqrt2-1} = L + 4\sqrt2h+(\sqrt2+1)h^{\frac{3}{2}} - \frac{9\sqrt2 + 6}{4}h^2-\frac{3\sqrt2+3}{4}h^{\frac{5}{2}}$\\
+So $\frac{\sqrt2\phi(\frac{h}{2}) - \phi(h)}{\sqrt2-1}$ is a more accurate estimation of L.\\
+
+% 2
+2. (a).\\
+$f(x)=(x^4+5)^{-1}, h = \frac{1}{2}$\\
+$U(f; P) = h(f(0) + f(\frac{1}{2})) = \frac{161}{810}$\\
+$L(f; P) = h(f(1) + f(\frac{1}{2})) = \frac{59}{324}$\\
+
+2. (b).\\
+$f(x)=x^{-4}, h = \frac{1}{2}$\\
+$U(f; P) = h(f(1) + f(\frac{3}{2})) = \frac{97}{162}$\\
+$L(f; P) = h(f(2) + f(\frac{3}{2})) = \frac{337}{2592}$\\
+
+% 3
+3. (a).\\
+$h=\frac{1}{2}$\\
+$T(f;P)=\frac{h}{2}(f(x_0) + f(x_n)) + h\sum\limits_{i=1}^{n-1}f(x_i)= 15.5$\\
+
+3. (b).\\
+$f(x)=sin(x^4)$\\
+$f''(x)=12x^2cos(x^4)-16x^6sin(x^4)\leq65536$\\
+$h=\frac{b-a}{n}=\frac{1}{50}$\\
+$e=\frac{1}{12}(b-a)h^2f''(x)=\frac{f''(x)}{7500}\leq\frac{65536}{7500}=8.7381$
+
+% 4
+4. (a).\\
+$h=0.5$\\
+$S(f;P)=\frac{h}{3}(f(a)+f(b)+4(f(1)+f(3))+2f(2))=\frac{46}{3}$
+
+4. (b).\\
+$f^{(4)}(x)=(\pi^4x^4-3\pi^3)cos(\frac{\pi x^2}{2}) + 6\pi^3x^2sin(\frac{\pi x^2}{2})\leq1525$\\
+$e=\frac{1}{180}(b-a)h^4f^{(4)}(x)\leq10^{-3}$\\
+$\therefore h\leq0.0876$\\
+
+% 5
+5.\\
+Using Romberg Algorithm,\\
+$R(0,0)=\frac{b-a}{2}(f(a)+f(b))$\\
+$R(i,0)=\frac{1}{2}R(i-1,0)+h_i \sum\limits_{k=0}^{2^{i-1}-1}f(a+(2k+1)h_i)$\\
+$R(i,j)=R(i,j-1)+\frac{1}{4^j-1}(R(i,j-1)-R(i-1,j-1))$\\
+$\therefore R(0, 0)=164, R(1,0)=100, R(2,0)=80$\\
+$R(1, 1)=78.6667, R(2,1)=73.3333$\\
+$R(2, 2)=72.9778$\\
+
+% 6
+6. (a).\\
+\begin{equation}
+  \left\{
+   \begin{aligned}
+       x_1+2x_2+3x_3 &=10\\
+       3x_2 &= 6 \\
+       2x_1-4x_2+2x_3 &= 0
+   \end{aligned}
+  \right.
+\end{equation}
+\begin{equation}
+  \left\{
+   \begin{aligned}
+       x_1+2x_2+3x_3 &=10\\
+       x_2 &= 2 \\
+       -4x_3 &= -4
+   \end{aligned}
+  \right.
+\end{equation}
+$\therefore x_1 =3, x_2=2, x_3=1$\\
+
+6. (b).\\
+The eigenvalues of matrix A are -1, 4, 3.\\
+
+6. (c).\\
+$A^{-1}=
+\begin{bmatrix}
+-0.5 & 1.3333  & 0.75  \\
+0    & 0.3333  & 0     \\
+0.5  & -0.6667 & -0.25
+\end{bmatrix}
+$\\
+
+6. (d).\\
+$||A||_2=5.5832$\\
+
+6. (e).\\
+$||A^{-1}||_2=1.8335$\\
+$\upkappa(A)=||A||_2 * ||A^{-1}||_2=10.2371$\\
+
+
+% 7
+7. (a).\\
+\begin{equation}
+  \left\{
+   \begin{aligned}
+       0.001x_1+2x_2+3x_3 &=10\\
+       3x_2 &= 6 \\
+       2x_1-4x_2+2x_3 &= 0
+   \end{aligned}
+  \right.
+\end{equation}
+\begin{equation}
+  \left\{
+   \begin{aligned}
+       0.001x_1+2x_2+3x_3 &=10\\
+       x_2 &= 2 \\
+       -5998x_3 &= -11992
+   \end{aligned}
+  \right.
+\end{equation}
+$\therefore $After round to 3 digits, $\hat{x} = [3, 2, 1.999]$\\
+$\therefore r=A\hat{x}-b=[0, 0, 1.998]$\\
+
+7. (b).\\
+$s_1=3, s_2=3, s_3=4$\\
+$\frac{|a_{1, 1}|}{s_1}=0.000333$\\
+$\frac{|a_{2, 1}|}{s_2}=0$\\
+$\frac{|a_{3, 1}|}{s_3}=0.5$\\
+\begin{equation}
+  \left\{
+   \begin{aligned}
+       2x_1-4x_2+2x_3 &= 0\\
+       0.001x_1+2x_2+3x_3 &=10\\
+       3x_2 &= 6
+   \end{aligned}
+  \right.
+\end{equation}
+\begin{equation}
+  \left\{
+   \begin{aligned}
+       2x_1-4x_2+2x_3 &= 0\\
+       2.002x_2 + 2.999x_3 &= 10 \\
+       -4.494x_3 &= -8.985
+   \end{aligned}
+  \right.
+\end{equation}
+$\therefore $After round to 3 digits, $\hat{x} = [2.000, 2, 1.999]$\\
+$\therefore r=A\hat{x}-b=[0.002, 0.001, 0]$\\
+
+\end{document}

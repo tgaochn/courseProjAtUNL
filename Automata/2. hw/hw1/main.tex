@@ -1,0 +1,349 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{amssymb}
+
+
+\title{CSCE 828 - Homework 1}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+% Question 1
+
+\section{Question 1}
+Assume that the integer we need to repress is n.\\
+There are 3 states.\\
+\textcircled{1} : n = 3k \\
+\textcircled{2} : n = 3k + 1 \\
+\textcircled{3} : n = 3k + 2  \\
+Here is the Min DFA:\\
+Q = \{\textcircled{1}, \textcircled{2}, \textcircled{3}\}\\
+$\Sigma = \{0, 1\}$\\
+$q_{0}$ =\{\textcircled{1}\}\\
+F = \{\textcircled{1}\}\\
+\begin{tabular}{|c|c|c|}
+\hline
+$\delta$ & 0 & 1 \\ 
+\hline
+\textcircled{1} & \textcircled{1} & \textcircled{2} \\
+\hline
+\textcircled{2} & \textcircled{3} & \textcircled{1} \\
+\hline
+\textcircled{3} & \textcircled{2} & \textcircled{3} \\
+\hline
+\end{tabular}
+
+% Question 2
+
+\section{Question 2}
+Assume that $n = 2 * n_{a}(x) + n_{b}(x)$ and k is a integer.\\
+There are 3 states.\\
+\textcircled{1} : n = 3k \\
+\textcircled{2} : n = 3k + 1 \\
+\textcircled{3} : n = 3k + 2  \\
+Here is the Min DFA:\\
+Q = \{\textcircled{1}, \textcircled{2}, \textcircled{3}\}\\
+$\Sigma = \{a, b\}$\\
+$q_{0}$ =\{\textcircled{1}\}\\
+F = \{\textcircled{1}\}\\
+\begin{tabular}{|c|c|c|}
+\hline
+$\delta$ & a & b \\ 
+\hline
+\textcircled{1} & \textcircled{3} & \textcircled{2} \\
+\hline
+\textcircled{2} & \textcircled{1} & \textcircled{3} \\
+\hline
+\textcircled{3} & \textcircled{2} & \textcircled{1} \\
+\hline
+\end{tabular}\\
+Description:\\
+When we add a to x, $n_{a}(x)$ is added with 1, so n is added with 2. As a result,$(e.g.)$ \textcircled{1} $\rightarrow$ \textcircled{3}.\\
+When we add b to x, $n_{b}(x)$ is added with 1, so n is added with 1. As a result,$(e.g.)$ \textcircled{1} $\rightarrow$ \textcircled{2}.\\
+
+% Question 3
+
+\section{Question 3}
+Assume the reverse of bottom row of x is b and the reverse of top row is a.\\
+There are 3 initial states.\\
+\textcircled{1} : a = b \\
+\textcircled{2} : a $>$ b \\
+\textcircled{3} : a $<$ b \\
+As a Min DFA, there are two new states:  \textcircled{1}' = \{\textcircled{1} ,\textcircled{2}\}, \textcircled{2}' = \textcircled{3}\\
+Here is the Min DFA:\\
+Q = \{\textcircled{1}', \textcircled{2}'\}\\
+$\Sigma$ = \{$\begin{bmatrix}0\\0\end{bmatrix}$, $\begin{bmatrix}0\\1\end{bmatrix}$, $\begin{bmatrix}1\\0\end{bmatrix}$, $\begin{bmatrix}1\\1\end{bmatrix}$\}\\
+$q_{0}$ =\{\textcircled{1}'\}\\
+F = \{\textcircled{2}'\}\\
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$\delta$ & $\begin{bmatrix}0\\0\end{bmatrix}$ & $\begin{bmatrix}0\\1\end{bmatrix}$ & $\begin{bmatrix}1\\0\end{bmatrix}$ & $\begin{bmatrix}1\\1\end{bmatrix}$ \\ 
+\hline
+\textcircled{1}' & \textcircled{1}' & \textcircled{2}' & \textcircled{1}' & \textcircled{1}' \\
+\hline 
+\textcircled{2}' & \textcircled{2}' & \textcircled{2}' & \textcircled{1}' & \textcircled{2}' \\
+\hline
+\end{tabular}\\
+Description:\\
+When we add $\begin{bmatrix}0\\0\end{bmatrix}$, $\begin{bmatrix}1\\1\end{bmatrix}$ to x, the amount relationship of a and b is not changed. So the status will not change.\\
+When we add $\begin{bmatrix}0\\1\end{bmatrix}$ to x, b $>$ a, so the state comes to \textcircled{2}'.\\
+When we add $\begin{bmatrix}1\\0\end{bmatrix}$ to x, b $<$ a, so the state comes to \textcircled{1}'.\\
+
+% Question 4
+
+\section{Question 4}
+There are 5 states.\\
+\textcircled{1} : $\varnothing $  \\
+\textcircled{2} : $n_{ab}(w) = n_{ba}(w)$ and w ends with a.$(e.g. : aba)$\\
+\textcircled{3} : $n_{ab}(w) < n_{ba}(w)$ and w ends with a.$(e.g. : ba)$\\
+\textcircled{4} : $n_{ab}(w) > n_{ba}(w)$ and w ends with b.$(e.g. : ab)$\\
+\textcircled{5} : $n_{ab}(w) = n_{ba}(w)$ and w ends with b.$(e.g. : bab)$\\
+Here is the Min DFA:\\
+Q = \{\textcircled{1}, \textcircled{2}, \textcircled{3}, \textcircled{4}, \textcircled{5}\}\\
+$\Sigma = \{a, b\}$\\
+$q_{0}$ =\{\textcircled{1}\}\\
+F = \{\textcircled{2}, \textcircled{5}\}\\
+\begin{tabular}{|c|c|c|}
+\hline
+$\delta$ & a & b \\ 
+\hline
+\textcircled{1} & \textcircled{2} & \textcircled{3} \\
+\hline
+\textcircled{2} & \textcircled{2} & \textcircled{4} \\
+\hline
+\textcircled{3} & \textcircled{3} & \textcircled{5} \\
+\hline
+\textcircled{4} & \textcircled{2} & \textcircled{4} \\
+\hline
+\textcircled{5} & \textcircled{3} & \textcircled{5} \\
+\hline
+\end{tabular}\\
+
+% Question 5
+
+\section{Question 5}
+There are 7 states.\\
+Q = \{\textcircled{1}, \textcircled{2}, \textcircled{3}, \textcircled{4}, \textcircled{5}, \textcircled{6}, \textcircled{7}\}\\
+$\Sigma = \{a, b\}$\\
+$q_{0}$ =\{\textcircled{1}\}\\
+F = \{\textcircled{7}\}\\
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\delta$ & a & b & $\epsilon$  \\ 
+\hline
+\textcircled{1} & \textcircled{2} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{2} & \textcircled{2} & \{\textcircled{2}, \textcircled{3}\} & $\varnothing$ \\
+\hline
+\textcircled{3} & \textcircled{4} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{4} & $\varnothing$ & \textcircled{5} & $\varnothing$ \\
+\hline
+\textcircled{5} & \{\textcircled{5}, \textcircled{6}\} & \textcircled{5} & $\varnothing$ \\
+\hline
+\textcircled{6} & \textcircled{7} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{7} & $\varnothing$ & $\varnothing$ & $\varnothing$ \\
+\hline
+\end{tabular}\\
+Explanation :\\
+Any language belong to L is in the form of aXbabYaa where X,Y stands for any string constituted by {a,b} .\\
+Start point is \textcircled{1}.\\
+When input a, state is \textcircled{2}.\\
+When input X, state is \textcircled{2}.\\
+When input bab, state is \textcircled{3}, \textcircled{4}, \textcircled{5}.\\
+When input Y, state is \textcircled{5}.\\
+When input aa, state is \textcircled{6}, \textcircled{7}.\\
+So any string that belong to L can be accepted.
+
+% Question 6
+
+\section{Question 6}
+There are 9 states.\\
+Q = \{\textcircled{1}, \textcircled{2}, \textcircled{3}, \textcircled{4}, \textcircled{5}, \textcircled{6}, \textcircled{7}, \textcircled{8}, \textcircled{9}\}\\
+$\Sigma = \{a, b\}$\\
+$q_{0}$ =\{\textcircled{1}\}\\
+F = \{\textcircled{9}\}\\
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\delta$ & a & b & $\epsilon$  \\ 
+\hline
+\textcircled{1} &  \{\textcircled{1}, \textcircled{2}\} & \textcircled{1} & $\varnothing$ \\
+\hline
+\textcircled{2} & $\varnothing$ & \textcircled{3} & $\varnothing$ \\
+\hline
+\textcircled{3} & \textcircled{4} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{4} & $\varnothing$ & \textcircled{5}  & $\varnothing$ \\
+\hline
+\textcircled{5} & \textcircled{6} & $\varnothing$   & $\varnothing$ \\
+\hline
+\textcircled{6} & $\varnothing$ & \textcircled{7}  & $\varnothing$ \\
+\hline
+\textcircled{7} & \textcircled{8} & $\varnothing$   & $\varnothing$ \\
+\hline
+\textcircled{8} & $\varnothing$ & \textcircled{9}  & $\varnothing$ \\
+\hline
+\textcircled{9} & \textcircled{9} & \textcircled{9}  & $\varnothing$ \\
+\hline
+\end{tabular}\\
+Explanation :\\
+Any language belong to L is in the form of XababababY where X,Y stands for any string constituted by {a,b} .\\
+Start point is \textcircled{1}.\\
+When input X, state is \textcircled{1}.\\
+When input abababab, state is \textcircled{2} \textcircled{3}, \textcircled{4}, \textcircled{5}, \textcircled{6}, \textcircled{7}, \textcircled{8}, \textcircled{9}.\\
+When input Y, state is \textcircled{9}.\\
+So any string that belong to L can be accepted.
+
+% Question 7
+
+\section{Question 7}
+There are 6 states.\\
+Q = \{\textcircled{1}, \textcircled{2}, \textcircled{3}, \textcircled{4}, \textcircled{5}, \textcircled{6}\}\\
+$\Sigma = \{0, 1\}$\\
+$q_{0}$ =\{\textcircled{1}\}\\
+F = \{\textcircled{4}\}\\
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\delta$ & 0 & 1 & $\epsilon$  \\ 
+\hline
+\textcircled{1} &  \{\textcircled{1}, \textcircled{2}\} & \{\textcircled{1}, \textcircled{5}\} & $\varnothing$ \\
+\hline
+\textcircled{2} & $\varnothing$ & \textcircled{3} & $\varnothing$ \\
+\hline
+\textcircled{3} & \textcircled{4} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{4} & \textcircled{4} & \textcircled{4}  & $\varnothing$ \\
+\hline
+\textcircled{5} & \textcircled{6} & $\varnothing$   & $\varnothing$ \\
+\hline
+\textcircled{6} & $\varnothing$ & \textcircled{4}  & $\varnothing$ \\
+\hline
+
+\end{tabular}\\
+Explanation :\\
+Any language belong to L is in the form of X010Y or X101Y where X,Y stands for any string constituted by {0,1} .\\
+Start point is \textcircled{1}.\\
+When input X, state is \textcircled{1}.\\
+When input 010, state is \textcircled{2} \textcircled{3}, \textcircled{4}.\\
+When input 101, state is \textcircled{5} \textcircled{6}, \textcircled{4}.\\
+When input Y, state is \textcircled{4}.\\
+So any string that belong to L can be accepted.
+
+% Question 8
+
+\section{Question 8}
+There are 18 states.\\
+Q = \{\textcircled{1}, \textcircled{2}, \textcircled{3}, \textcircled{4}, \textcircled{5}, \textcircled{6}, \textcircled{7}, \textcircled{8}, \textcircled{9}, \textcircled{10}, \textcircled{11}, \textcircled{12}, \textcircled{13}, \textcircled{14}, \textcircled{15}, \textcircled{16}, \textcircled{17}, \textcircled{18}\}\\
+$\Sigma = \{0, 1\}$\\
+$q_{0}$ =\{\textcircled{1}\}\\
+F = \{\textcircled{7}\}\\
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\delta$ & 0 & 1 & $\epsilon$  \\ 
+\hline
+\textcircled{1} &  \{\textcircled{1}, \textcircled{2}, \textcircled{13}\} & \{\textcircled{1}, \textcircled{8}, \textcircled{16}\} & $\varnothing$ \\
+\hline
+\textcircled{2} & $\varnothing$ & \textcircled{3} & $\varnothing$ \\
+\hline
+\textcircled{3} & \textcircled{4} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{4} & \textcircled{4} & \{\textcircled{4}, \textcircled{5}\}  & $\varnothing$ \\
+\hline
+\textcircled{5} & \textcircled{6} & $\varnothing$   & $\varnothing$ \\
+\hline
+\textcircled{6} & $\varnothing$ & \textcircled{7}  & $\varnothing$ \\
+\hline
+\textcircled{7} & \textcircled{7} & \textcircled{7}  & $\varnothing$ \\
+\hline
+\textcircled{8} & \textcircled{9} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{9} & $\varnothing$ & \textcircled{10}  & $\varnothing$ \\
+\hline
+\textcircled{10} & \{\textcircled{10}, \textcircled{11}\} & \textcircled{10}   & $\varnothing$ \\
+\hline
+\textcircled{11} & $\varnothing$ & \textcircled{12}  & $\varnothing$ \\
+\hline
+\textcircled{12} & \textcircled{7} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{13} & $\varnothing$ & \textcircled{14} & $\varnothing$ \\
+\hline
+\textcircled{14} & \textcircled{15} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{15} & $\varnothing$ & \textcircled{7}  & $\varnothing$ \\
+\hline
+\textcircled{16} & \textcircled{17} & $\varnothing$ & $\varnothing$ \\
+\hline
+\textcircled{17} & $\varnothing$ & \textcircled{18}  & $\varnothing$ \\
+\hline
+\textcircled{18} & \textcircled{7} & $\varnothing$   & $\varnothing$ \\
+\hline
+\end{tabular}\\
+Explanation :\\
+Any language belong to L is in the form of X1010Y ,X0101Y, X010Y101Z or X101Y010Z where X,Y,Z stands for any string constituted by {0,1} .\\
+Start point is \textcircled{1}.\\
+When input X1010Y, state is \textcircled{1},\textcircled{16}, \textcircled{17}, \textcircled{18}, \textcircled{7}.\\
+When input X0101Y, state is \textcircled{1}, \textcircled{13}, \textcircled{14}, \textcircled{15}, \textcircled{7}.\\
+When input X010Y101Z, state is \textcircled{1}, \textcircled{2}, \textcircled{3}, \textcircled{4}, \textcircled{5}, \textcircled{6}, \textcircled{7}.\\
+When input X101Y010Z, state is \textcircled{1}, \textcircled{8}, \textcircled{9}, \textcircled{10}, \textcircled{11}, \textcircled{12}, \textcircled{7}.\\
+So any string that belong to L can be accepted.
+
+% Question 9
+
+\section{Question 9}
+Analysis:\\
+Since every odd position of $\epsilon$ is 0 and any string s = xy can be divided into \{x = s, y = $\epsilon$\}, any string s that satisfies $s\neq 11$ and $s\neq 101$ belongs to L. \\
+Moreover, 101 can be divided into \{x = 1, y = 01\}, which also belongs to L. \\
+In conclusion, any string s that satisfies $s\neq 11$ belongs to L.\\
+The regular expression is $\epsilon \cup 1 \cup (0 \cup 10 \cup 110 \cup 111)(0 \cup 1) ^{*}$\\
+Here is NFA.\\
+Q = \{\textcircled{1}, \textcircled{2}, \textcircled{3}, \textcircled{4}\}\\
+$\Sigma = \{0, 1\}$\\
+$q_{0}$ =\{\textcircled{1}\}\\
+F = \{\textcircled{1}, \textcircled{2}, \textcircled{4}\}\\
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\delta$ & 0 & 1 & $\epsilon$  \\ 
+\hline
+\textcircled{1} &  \textcircled{4} & \textcircled{2} & \textcircled{1} \\
+\hline
+\textcircled{2} &  \textcircled{4} & \textcircled{3} & \textcircled{2} \\
+\hline
+\textcircled{3} &  \textcircled{4} & \textcircled{4} & \textcircled{3} \\
+\hline
+\textcircled{4} &  \textcircled{4} & \textcircled{4} & \textcircled{4} \\
+\hline
+\end{tabular}\\
+As analyzed above, any string except 11 can reach a final state.\\
+Min DFA:\\
+Q = \{\textcircled{1}, \textcircled{2}, \textcircled{3}, \textcircled{4}\}\\
+$\Sigma = \{0, 1\}$\\
+$q_{0}$ =\{\textcircled{1}\}\\
+F = \{\textcircled{1}, \textcircled{2}, \textcircled{4}\}\\
+
+\begin{tabular}{|c|c|c|}
+\hline
+$\delta$ & 0 & 1  \\ 
+\hline
+\textcircled{1} &  \textcircled{4} & \textcircled{2} \\
+\hline
+\textcircled{2} &  \textcircled{4} & \textcircled{3} \\
+\hline
+\textcircled{3} &  \textcircled{4} & \textcircled{4} \\
+\hline
+\textcircled{4} &  \textcircled{4} & \textcircled{4} \\
+\hline
+\end{tabular}\\
+
+\end{document}

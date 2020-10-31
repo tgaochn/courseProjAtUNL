@@ -1,0 +1,39 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 835, Fall 2017, homework 7}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% 1
+1.\\
+In the code of the pingpong method, "MPI\_Wtime" is used to measure the communication time.\\
+The running time for executing "MPI\_Send" 100 times as follows.\\
+For intra-node	communication(1 node, 2 tasks for each node), the running time is: 0.000263 seconds.\\
+For inter-node	communication(2 nodes, 1 task for each node), the running time is: 0.006898 seconds.\\
+
+% 2
+2.\\
+To measure the difference between non-blocking and locally blocking send routines, addition operation is executed before the requrest is received.\\
+There are 4 cases: \\
+If receiving is blocked and sending is not blocked, addition operation is executed for 2083 times.\\
+If receiving is not blocked and sending is blocked, addition operation is executed for 4443 times.\\
+If neither receiving nor sending is blocked, addition operation is executed for 8486 times.\\
+If both receiving and sending are blocked, addition operation is not executed .\\
+\end{document}

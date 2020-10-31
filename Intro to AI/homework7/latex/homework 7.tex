@@ -1,0 +1,299 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+\makeatletter
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 476/876, Fall 2017, homework 7}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+% 1 Bonus Researching Description Logic
+1.\\
+Description logics (DL) are a family of formal knowledge representation languages. Compared to propositional logic, DLs are much more expressive. However, they are less expressive than first-order logic.\\
+
+Basically, the goal of DL is to balance the system of knowledge representation languages. In DLs, constructors and axioms are carefully chosen so that the decision procedures are efficient. Efficient reasoning supports are also provided including knowledge description constraints, knowledge entering control constraints and quality control constraints.\\
+
+The syntax of DLs is characterized by its recursive definition. In the syntax, constructors are stated and these constructors are used to form concept. Some constructors are similar with the logical constructors in first-order logic. They include intersection of concepts, conjunction of concepts, union of concepts, disjunction of concepts, negation of concepts, complement of concepts, universal restriction and existential restriction. Also there are some other constructors not included in first-order logic such as inverse, transitivity and functionality.\\
+The semantics of DLs are defined by considering concepts as sets of individuals. Also, they are sets of pairs of individuals with order. The individuals are usually from a given domain. Recursively, atomic concepts define the semantics of non-atomic concepts.\\
+
+DLs and first-order logic are closely related to each other. The difference of them is that the reasoning problems for DLs are always decidable and some DLs have more features than first-order logic. DLs were named with current name in the 1980s. Previously, it was called terminological systems and concept languages. Because frames and semantic networks are lack of formal semantics. To overcome the deficiency, DLs was first introduced into Knowledge Representation systems. The first DL-based Knowledge Representation systems was called KL-ONE invented by Ronald J. Brachman and Schmolze in 1985. In 1980s, some other DL-based systems are also introduced using structural subsumption algorithms. They includes KRYPTON (1983), LOOM (1987), BACK (1988), K-REP (1991) and CLASSIC (1991). This method is more efficient but less expressive. In the early 1990s, a new algorithm paradigm was invented. It is based on tableau and allowed efficient reasoning on more expressive DLs. One of examples is KRIS invented in 1991, which has acceptable reasoning performance and less complexity. From the middle of 1990s, reasoners were created. They have better performance on expressive DLs with better efficience. Examples include FaCT,[6] RACER (2001), CEL (2005), and KAON 2 (2005).\\
+
+Reference:\\
+1. En.wikipedia.org. (2017). Description logic. [online] Available at: \url{https://en.wikipedia.org/wiki/Description_logic} [Accessed 7 Nov. 2017].\\
+2. Xbrl.squarespace.com. (2017). Understanding the Importance of Description Logic - Blog: Digital Financial Reporting (using XBRL) - Intelligent XBRL-based structured digital financial reporting using US GAAP and IFRS. [online] Available at: \url{http://xbrl.squarespace.com/journal/2015/1/8/understanding-the-importance-of-description-logic.html} [Accessed 7 Nov. 2017].\\
+3. Lesliesikos.com. (2017). Relation Between Description Logics and First-Order Logic. [online] Available at: \url{http://www.lesliesikos.com/description-logics-and-first-order-logic/} [Accessed 7 Nov. 2017].\\
+
+2.1 TT-entails \\
+Input:\\
+KB, the knowledge base, a sentence in propositional logic.\\
+$\alpha$, the query, a sentence in propositional logic.\\
+Representation on which it operates:\\
+It returns True if KB entails $\alpha$. Otherwise, it will returns False.\\
+When and Why to stop:\\
+It stops when every assignment for each variable has been tried because there is no more possible assignment.\\
+Mechanism:\\
+Model checking.\\
+
+
+2.2 PL-Resolution \\
+Input:\\
+KB, the knowledge base, a sentence in propositional logic.\\
+$\alpha$, the query, a sentence in propositional logic.\\
+Representation on which it operates:\\
+It returns True if KB entails $\alpha$. Otherwise, it will returns False.\\
+When and Why to stop:\\
+It stops when an empty clause is entailed.\\
+Mechanism:\\
+Contradiction.\\
+
+2.3 PL-FC-entails \\
+Input:\\
+KB, the knowledge base, a sentence in propositional logic.\\
+q, the query, a propositional symbol.\\
+Representation on which it operates:\\
+It returns True if KB entails q. Otherwise, it will returns False.\\
+When and Why to stop:\\
+It stops when q is inferred so that q is entailed.\\
+Also, it stops when q is not reachable so that q is not entailed.\\
+Mechanism:\\
+DFS search.\\
+
+2.4 DPLL-Satisfiable \\
+Input:\\
+s, a sentence in propositional logic.\\
+Representation on which it operates:\\
+It returns True if s is satisfiable . Otherwise, it will returns False.\\
+When and Why to stop:\\
+It stops when all the clauses are verified to be true.\\
+Also, it stops when some clauses are false.\\
+Mechanism:\\
+DFS search.\\
+
+2.5 WalkSAT \\
+Input:\\
+clauses, a set of clauses in propositional logic.\\
+p, the probability of choosing to do a "random walk" move, typically around 0.5.\\
+maxFlips, number of flips allowed before giving up.\\
+Representation on which it operates:\\
+It will return a satisfying model or failure.\\
+When and Why to stop:\\
+It stops when a satisfying model is found.\\
+Also, it stops after trying maxFlips times.\\
+Mechanism:\\
+Local search.\\
+
+3.\\
+Proof:\\
+\begin{enumerate}[1.]
+\item P(1) \hfill Given
+\item $W(1)\wedge W(2) \wedge W(3)$  \hfill Given
+\item $\forall x[P(x)\Rightarrow \neg R(x)]$ \hfill Given
+\item $\forall x[Q(x)\vee R(x)]$ \hfill Given
+\item $\forall x[(Q(x)\wedge W(x)) \Rightarrow Z(x)]$ \hfill Given
+\item $P(1) \Rightarrow \neg R(1)$ \hfill UI from S3
+\item $\neg R(1)$ \hfill Modus Ponens from S6 and S1
+\item $Q(1)\vee R(1)$ \hfill UI from S4
+\item $Q(1)$ \hfill resolution rule from S8 and S7
+\item $W(1)$ \hfill And-Elimination from S2
+\item $Q(1)\wedge W(1)$ \hfill S9 and S10
+\item $(Q(1)\wedge W(1)) \Rightarrow Z(1)$ \hfill UI from S5
+\item $Z(1)$ \hfill Modus Ponens from S11 and S12
+\item $\exists xZ(x)$ \hfill definition of existence from S13
+
+4.\\
+$\forall x \forall y_1 \forall y_2, (world(x)\wedge true(x)\wedge object(y_1) \wedge(y_2) \wedge contain(x, y_1) \wedge contain(x, y_2)) \Rightarrow y_1 = y_2$
+
+5.\\
+a(i): syntactically valid but does not express the meaning of the English sentence.\\
+a(ii): correctly expresses.\\
+a(iii): syntactically valid but does not express the meaning of the English sentence.\\
+b(i): correctly expresses.\\
+b(ii): syntactically valid but does not express the meaning of the English sentence.\\
+b(iii): syntactically invalid.\\
+b(iv): syntactically valid but does not express the meaning of the English sentence.\\
+c(i): correctly expresses.\\
+c(ii): syntactically invalid.\\
+c(iii): syntactically valid but does not express the meaning of the English sentence.\\
+c(iv): syntactically valid but does not express the meaning of the English sentence.\\
+d(i): correctly expresses.\\
+d(ii): correctly expresses.\\
+d(iii): syntactically invalid.\\
+d(iv): syntactically invalid.\\
+e(i): correctly expresses.\\
+e(ii): syntactically valid but does not express the meaning of the English sentence.\\
+e(iii): syntactically valid but does not express the meaning of the English sentence.\\
+e(iv): syntactically invalid.\\
+
+6.\\
+Definition of vocabulary and predicates:\\
+F: French courses.\\
+G: German courses.\\
+S: Spring 2001.\\
+Student(x): x is a Student.\\
+Person(x): x is a Person.\\
+Man(x): x is a Man.\\
+Barber(x): x is a Barber.\\
+Expensive(x): x is Expensive.\\
+Agent(x): x is an Agent.\\
+Insured(x): x is Insured.\\
+Smart(x): x is Smart.\\
+Greeks(x): x is Greeks.\\
+Politician(x): x is a Politicia.\\
+Greater(x, y): x is greater than y.\\
+Takes(x, c, s): x takes course c in (semester) s.\\
+Pass(x, c): x passes course c.\\
+Score(x, c):  the score x get in course c.\\
+Buys(x, y): x buys y.\\
+Sells(x, y, z): x sells y to z.\\
+Shaves(x, y): x shaves y.\\
+Parent(x, y): x is a parent of y.\\
+Citizen(x, c, r): x is a citizen of country c for reason r.\\
+Citizen(x, c): x is a citizen of country c.\\
+Resident(x, c): x is a resident of country c.\\
+Born(x, c): x born in country c.\\
+Fools(x, y, t): person x fools person y at time t .\\
+
+a. Some students took French in spring 2001..\\
+$\exists x Student(x) \wedge Takes(x, F, S)$.\\
+\\
+b. Every student who takes French passes it..\\
+$\forall  x, s Student(x) \wedge Takes(x, F, s) \Rightarrow Passes(x, F, s)$.\\
+\\
+c. Only one student took Greek in spring 2001..\\
+$\forall  x,y, Student(x) \wedge Student(y) \wedge Takes(x,G, S) \wedge Takes(y,G, S)  \Rightarrow x=y$.\\
+\\
+d. The best score in Greek is always higher than the best score in French..\\
+$\exists x \forall y Greater(Score(x,G), Score(y,F))$..\\
+\\
+e. Every person who buys a policy is smart..\\
+$\forall x Person(x) \wedge (\exists y Policy(y) \wedge Buys(x, y)) \Rightarrow Smart(x)$.\\
+\\
+f. No person buys an expensive policy..\\
+$\forall  x, y Person(x) \wedge Policy(y) \wedge Expensive(y) \Rightarrow \neg Buys(x, y)$..\\
+\\
+g. There is an agent who sells policies only to people who are not insured.\\
+$\exists x\forall y, z Agent(x) \wedge Policy(y) \wedge Sells(x, y, z) \wedge Person(z) \Rightarrow \neg Insured(z)$.\\
+\\
+h. There is a barber who shaves all men in town who do not shave themselves..\\
+$\exists x \forall y Barber(x) \wedge Man(y) \wedge \neg Shaves(y, y) \Rightarrow Shaves(x, y)$..\\
+\\
+i. A person born in the UK, each of whose parents is a UK citizen or a UK resident, is a UK citizen by birth..\\
+$\forall x\forall y Person(x) \wedge Born(x,UK) \wedge (Parent(y, x) \Rightarrow ((Citizen(y,UK)) \vee Resident(y,UK))).\\ \Rightarrow Citizen(x,UK,Birth)$.\\
+\\
+j. A person born outside the UK, one of whose parents is a UK citizen by birth, is a UK citizen by descent.\\
+$\forall x\exists y Person(x)\wedge \neg Born(x,UK) \wedge Parent(y, x) \wedge Citizen(y,UK,Birth) \Rightarrow.\\ Citizen(x,UK,Descent)$.\\
+\\
+k. Politicians can fool some of the people all of the time, and they can fool all of the people some of the time, but they can't. fool all of the people all of the time.
+$ \forall  x Politician(x) \Rightarrow (\exists y \forall t Person(y) \wedge  Fools(x, y, t)) \wedge  (\exists t \forall y.\\ Person(y) \Rightarrow Fools(x, y, t)) \wedge \neg(\forall  t \forall y Person(y) \Rightarrow Fools(x, y, t))$\\
+\\
+l. All Greeks speak the same language. (Use Speaks(x, l) to mean that person x speaks language l.).\\
+$\forall  x, y, m, n Greeks(x)\wedge Greeks(y)\wedge Speaks(x, m)\wedge Speaks(y, n) \Rightarrow m=n$.\\
+
+7.1\\
+GrandChild\\
+$GrandChild(c, a) \Leftrightarrow \exists b(Child(c, b) \wedge Child(b, a)))$.\\
+
+GreatGrandParent\\
+$GreatGrandparent(a, b) \Leftrightarrow \exists x, y(Child(x, a) \wedge Child(y, x) \wedge Child(b, y))$.\\
+
+Brother\\
+$Brother(a, b) \Leftrightarrow \exists x, y(Child(a, x) \wedge Child(a, y) \wedge Child(b, x) \wedge Child(b, y) \wedge Male(a) \wedge \neg (a = b))$.\\
+
+Sister\\
+$Sister(a,b) \Leftrightarrow Sibling(a,b) \wedge Female(a)$.\\
+
+Daughter\\
+$Daughter(a,b) \Leftrightarrow Child(a, b) \wedge Female(a)$.\\
+
+Son\\
+$Son(a,b) \Leftrightarrow Child(a, b) \wedge Male(a)$.\\
+
+Aunt\\
+$Aunt(a,b) \Leftrightarrow \exists x Child(b, x) \wedge Sibling(x,a) \wedge Female(a)$.\\
+
+Uncle\\
+$Uncle(a,b) \Leftrightarrow \exists x Child(b, x) \wedge Sibling(x,a) \wedge Male(a)$.\\
+
+BrotherInLaw\\
+$BrotherInLaw(a,b) \Leftrightarrow \exists x Spouse(b,x) \wedge Sibling(a,x) \wedge Male(a)$.\\
+
+SisterInLaw\\
+$SisterInLaw(a,b) \Leftrightarrow Spouse(b,x) \wedge Sibling(a,x) \wedge Female(a)$.\\
+
+FirstCousin\\
+$FirstCousin(a,b) \Leftrightarrow \exists x y Child(a, x) \wedge Child(b, y) \wedge Sibling(x,y)$.\\
+
+8.\\
+Only b and c are correct.\\
+
+9.\\
+a. \{x/A, y/B, z/B\}\\
+b. cannot be unified.\\
+c. \{y/John, x/John\}.\\
+d. cannot be unified.\\
+
+10.\\
+a. $\forall x Horse(x) \vee Cow(x) \vee Pig(x) \Rightarrow Mammal(x)$\\
+b. $\forall x, y Horse(y) \wedge Offspring(x, y) \Rightarrow Horse(x)$\\
+c. $Horse(Bluebeard)$\\
+d. $Parent(Bluebeard, Charlie)$\\
+e. $\forall x, y Offspring(x, y) \Leftrightarrow Parent(y, x)$\\
+f. $\forall x \exists y Parent(y, x)$\\
+
+11.\\
+a.\\
+\includegraphics[height=6cm]{tree.jpg}
+b.\\
+The backward-chaining tree is unlimited.\\
+c.\\
+3 solution can be fetched.\\
+
+12.\\
+Predicates:\\
+Person(x): x is a person.\\
+Rough(x): x is rough.\\
+Biker(x): x is a biker.\\
+Yuppie(x): x is a yuppie.\\
+Lawyer(x): x is a lawyer.\\
+NiceGirl(x): x is a nice girl.\\
+Date(x, y): x dates y.\\
+Ride(x, y): x rides y.\\
+
+1. $\forall x Person(x) \wedge Ride(x, Harley) \Rightarrow Rough(x)$.\\
+2. $\forall x Person(x) \wedge Biker(x) \wedge (Ride(x, Harley) \vee Ride(x, BMW))$.\\
+3. $\forall x Person(x) \wedge Ride(x, BMW) \Rightarrow Yuppie(x)$.\\
+4. $\forall x Yuppie(x) \Rightarrow Lawyer(x)$.\\
+5. $\forall x,y, date(x, y) \wedge Rough(y) \Rightarrow \neg NiceGirl(x)$.\\
+6. $NiceGirl(Mary) \wedge Biker(John)$.\\
+7. $\neg lawyer(John) \Rightarrow \neg Date(Mary, John)$.\\
+
+\end{enumerate}
+
+\end{document}

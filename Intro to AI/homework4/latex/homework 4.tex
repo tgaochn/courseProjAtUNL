@@ -1,0 +1,248 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 476/876, Fall 2017, homework 4}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% 1. Adverserial Search (Total 5 points)
+1. 1\\
+\includegraphics[width=4in]{max-min.png}\\
+1. 2\\
+Max should choose node C in the 1st round and node V in the 2nd round.\\
+
+% 2. Alpha-beta Pruning (Total 5 points)
+2.\\
+\includegraphics[width=4in]{alpha-beta.png}\\
+
+%  3. AIMA, Exercise 5.8, Page 197 (Total 10 points)
+3.a\\
+\includegraphics[height=4in]{game-tree.jpg}\\
+3.b\\
+Since '?' is -1 or +1, min('?', -1) is -1. \\
+3.c\\
+The standard minimax algorithm would fail on this game tree because it is DFS and will be stuck in loops.\\
+When we get to the loop state, we can search for the same state in the tree and replace value of the loop state with value of existing state.\\
+This solution may not work for all the game containing loops because not all the coresponding existing state has a value.\\
+
+% 4 Romanian Holidays
+4.1\\
+Please find the code named 'RomanianHolidays.py' in handin system.\\
+4.2\\
+\begin {table}[H]
+\caption {uniformCost - treeSearch}
+\begin{center}
+\begin{tabular}{ | l | l |  p{5cm} | l | l |} \hline
+City name & \multicolumn{1}{l|}{\#nodes visited} & \multicolumn{1}{l|}{Path to Bucharest} & \multicolumn{1}{l|}{Total cost of path} & \multicolumn{1}{l|}{CPU time} \\ \hline
+Arad & 52 & Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 418 & 1.33 ms \\ \hline
+Bucharest & 0 & Bucharest & 0 & 1.37 ms \\ \hline
+Craiova & 7 & Craiova - Pitesti - Bucharest & 239 & 1.55 ms \\ \hline
+Dobreta & 20 & Dobreta - Craiova - Pitesti - Bucharest & 359 & 1.97 ms \\ \hline
+Eforie & 5 & Eforie - Hirsova - Urziceni - Bucharest & 269 & 2.08 ms \\ \hline
+Fagaras & 4 & Fagaras - Bucharest & 211 & 2.19 ms \\ \hline
+Giurgiu & 1 & Giurgiu - Bucharest & 90 & 2.22 ms \\ \hline
+Hirsova & 4 & Hirsova - Urziceni - Bucharest & 183 & 2.30 ms \\ \hline
+Iasi & 10 & Iasi - Vaslui - Urziceni - Bucharest & 319 & 2.47 ms \\ \hline
+Lugoj & 72 & Lugoj - Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 504 & 4.05 ms \\ \hline
+Mehadia & 45 & Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 434 & 4.93 ms \\ \hline
+Neamt & 11 & Neamt - Iasi - Vaslui - Urziceni - Bucharest & 406 & 5.11 ms \\ \hline
+Oradea & 43 & Oradea - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 429 & 8.44 ms \\ \hline
+Pitesti & 2 & Pitesti - Bucharest & 101 & 8.75 ms \\ \hline
+RimnicuVilcea & 7 & RimnicuVilcea - Pitesti - Bucharest & 198 & 8.94 ms \\ \hline
+Sibiu & 16 & Sibiu - RimnicuVilcea - Pitesti - Bucharest & 278 & 9.31 ms \\ \hline
+Timisoara & 90 & Timisoara - Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 536 & 11.20 ms \\ \hline
+Urziceni & 1 & Urziceni - Bucharest & 85 & 11.25 ms \\ \hline
+Vaslui & 5 & Vaslui - Urziceni - Bucharest & 227 & 11.35 ms \\ \hline
+Zerind & 92 & Zerind - Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 493 & 13.33 ms \\ \hline
+\end{tabular}
+\end{center}
+\end {table}
+
+\begin {table}[H]
+\caption {greed - treeSearch}
+\begin{center}
+\begin{tabular}{ | l | l |  p{5cm} | l | l |} \hline
+City name & \multicolumn{1}{l|}{\#nodes visited} & \multicolumn{1}{l|}{Path to Bucharest} & \multicolumn{1}{l|}{Total cost of path} & \multicolumn{1}{l|}{CPU time} \\ \hline
+Arad & 3 & Arad - Sibiu - Fagaras - Bucharest & 450 & 0.15 ms \\ \hline
+Bucharest & 3 & Bucharest & 0 & 0.19 ms \\ \hline
+Craiova & 5 & Craiova - Pitesti - Bucharest & 239 & 0.26 ms \\ \hline
+Dobreta & 8 & Dobreta - Craiova - Pitesti - Bucharest & 359 & 0.40 ms \\ \hline
+Eforie & 11 & Eforie - Hirsova - Urziceni - Bucharest & 269 & 0.52 ms \\ \hline
+Fagaras & 12 & Fagaras - Bucharest & 211 & 0.56 ms \\ \hline
+Giurgiu & 13 & Giurgiu - Bucharest & 90 & 0.58 ms \\ \hline
+Hirsova & 15 & Hirsova - Urziceni - Bucharest & 183 & 0.64 ms \\ \hline
+Iasi & 18 & Iasi - Vaslui - Urziceni - Bucharest & 319 & 0.71 ms \\ \hline
+Lugoj & 23 & Lugoj - Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 504 & 0.93 ms \\ \hline
+Mehadia & 27 & Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 434 & 1.04 ms \\ \hline
+Neamt & 31 & Neamt - Iasi - Vaslui - Urziceni - Bucharest & 406 & 1.12 ms \\ \hline
+Oradea & 34 & Oradea - Sibiu - Fagaras - Bucharest & 461 & 1.20 ms \\ \hline
+Pitesti & 35 & Pitesti - Bucharest & 101 & 1.24 ms \\ \hline
+RimnicuVilcea & 37 & RimnicuVilcea - Pitesti - Bucharest & 198 & 1.31 ms \\ \hline
+Sibiu & 39 & Sibiu - Fagaras - Bucharest & 310 & 1.38 ms \\ \hline
+Timisoara & 45 & Timisoara - Lugoj - Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 615 & 1.64 ms \\ \hline
+Urziceni & 46 & Urziceni - Bucharest & 85 & 1.68 ms \\ \hline
+Vaslui & 48 & Vaslui - Urziceni - Bucharest & 227 & 1.74 ms \\ \hline
+Zerind & 52 & Zerind - Arad - Sibiu - Fagaras - Bucharest & 525 & 1.85 ms \\ \hline
+\end{tabular}
+\end{center}
+\end {table}
+
+\begin {table}[H]
+\caption {A* - treeSearch}
+\begin{center}
+\begin{tabular}{ | l | l |  p{5cm} | l | l |} \hline
+City name & \multicolumn{1}{l|}{\#nodes visited} & \multicolumn{1}{l|}{Path to Bucharest} & \multicolumn{1}{l|}{Total cost of path} & \multicolumn{1}{l|}{CPU time} \\ \hline
+Arad & 5 & Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 418 & 0.15 ms \\ \hline
+Bucharest & 5 & Bucharest & 0 & 0.19 ms \\ \hline
+Craiova & 7 & Craiova - Pitesti - Bucharest & 239 & 0.25 ms \\ \hline
+Dobreta & 11 & Dobreta - Craiova - Pitesti - Bucharest & 359 & 0.41 ms \\ \hline
+Eforie & 14 & Eforie - Hirsova - Urziceni - Bucharest & 269 & 0.62 ms \\ \hline
+Fagaras & 15 & Fagaras - Bucharest & 211 & 0.66 ms \\ \hline
+Giurgiu & 16 & Giurgiu - Bucharest & 90 & 0.69 ms \\ \hline
+Hirsova & 18 & Hirsova - Urziceni - Bucharest & 183 & 0.74 ms \\ \hline
+Iasi & 21 & Iasi - Vaslui - Urziceni - Bucharest & 319 & 0.82 ms \\ \hline
+Lugoj & 31 & Lugoj - Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 504 & 1.03 ms \\ \hline
+Mehadia & 38 & Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 434 & 1.18 ms \\ \hline
+Neamt & 42 & Neamt - Iasi - Vaslui - Urziceni - Bucharest & 406 & 1.27 ms \\ \hline
+Oradea & 47 & Oradea - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 429 & 1.51 ms \\ \hline
+Pitesti & 48 & Pitesti - Bucharest & 101 & 1.55 ms \\ \hline
+RimnicuVilcea & 50 & RimnicuVilcea - Pitesti - Bucharest & 198 & 1.62 ms \\ \hline
+Sibiu & 54 & Sibiu - RimnicuVilcea - Pitesti - Bucharest & 278 & 1.73 ms \\ \hline
+Timisoara & 64 & Timisoara - Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 536 & 1.96 ms \\ \hline
+Urziceni & 65 & Urziceni - Bucharest & 85 & 2.01 ms \\ \hline
+Vaslui & 67 & Vaslui - Urziceni - Bucharest & 227 & 2.07 ms \\ \hline
+Zerind & 75 & Zerind - Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 493 & 2.27 ms \\ \hline
+\end{tabular}
+\end{center}
+\end {table}
+
+\begin {table}[H]
+\caption {uniformCost - graphSearch}
+\begin{center}
+\begin{tabular}{ | l | l |  p{5cm} | l | l |} \hline
+City name & \multicolumn{1}{l|}{\#nodes visited} & \multicolumn{1}{l|}{Path to Bucharest} & \multicolumn{1}{l|}{Total cost of path} & \multicolumn{1}{l|}{CPU time} \\ \hline
+Arad & 12 & Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 418 & 0.34 ms \\ \hline
+Bucharest & 0 & Bucharest & 0 & 0.44 ms \\ \hline
+Craiova & 6 & Craiova - Pitesti - Bucharest & 239 & 0.66 ms \\ \hline
+Dobreta & 8 & Dobreta - Craiova - Pitesti - Bucharest & 359 & 1.00 ms \\ \hline
+Eforie & 3 & Eforie - Hirsova - Urziceni - Bucharest & 269 & 1.12 ms \\ \hline
+Fagaras & 3 & Fagaras - Bucharest & 211 & 1.27 ms \\ \hline
+Giurgiu & 1 & Giurgiu - Bucharest & 90 & 1.35 ms \\ \hline
+Hirsova & 3 & Hirsova - Urziceni - Bucharest & 183 & 1.49 ms \\ \hline
+Iasi & 4 & Iasi - Vaslui - Urziceni - Bucharest & 319 & 1.65 ms \\ \hline
+Lugoj & 12 & Lugoj - Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 504 & 2.08 ms \\ \hline
+Mehadia & 10 & Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 434 & 2.37 ms \\ \hline
+Neamt & 4 & Neamt - Iasi - Vaslui - Urziceni - Bucharest & 406 & 2.52 ms \\ \hline
+Oradea & 10 & Oradea - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 429 & 2.86 ms \\ \hline
+Pitesti & 2 & Pitesti - Bucharest & 101 & 3.01 ms \\ \hline
+RimnicuVilcea & 5 & RimnicuVilcea - Pitesti - Bucharest & 198 & 3.20 ms \\ \hline
+Sibiu & 9 & Sibiu - RimnicuVilcea - Pitesti - Bucharest & 278 & 4.60 ms \\ \hline
+Timisoara & 12 & Timisoara - Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 536 & 4.95 ms \\ \hline
+Urziceni & 1 & Urziceni - Bucharest & 85 & 5.05 ms \\ \hline
+Vaslui & 4 & Vaslui - Urziceni - Bucharest & 227 & 5.18 ms \\ \hline
+Zerind & 12 & Zerind - Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 493 & 5.51 ms \\ \hline
+\end{tabular}
+\end{center}
+\end {table}
+
+\begin {table}[H]
+\caption {greed - graphSearch}
+\begin{center}
+\begin{tabular}{ | l | l |  p{5cm} | l | l |} \hline
+City name & \multicolumn{1}{l|}{\#nodes visited} & \multicolumn{1}{l|}{Path to Bucharest} & \multicolumn{1}{l|}{Total cost of path} & \multicolumn{1}{l|}{CPU time} \\ \hline
+Arad & 3 & Arad - Sibiu - Fagaras - Bucharest & 450 & 0.18 ms \\ \hline
+Bucharest & 0 & Bucharest & 0 & 0.32 ms \\ \hline
+Craiova & 2 & Craiova - Pitesti - Bucharest & 239 & 0.46 ms \\ \hline
+Dobreta & 3 & Dobreta - Craiova - Pitesti - Bucharest & 359 & 0.63 ms \\ \hline
+Eforie & 3 & Eforie - Hirsova - Urziceni - Bucharest & 269 & 0.86 ms \\ \hline
+Fagaras & 1 & Fagaras - Bucharest & 211 & 0.95 ms \\ \hline
+Giurgiu & 1 & Giurgiu - Bucharest & 90 & 1.04 ms \\ \hline
+Hirsova & 2 & Hirsova - Urziceni - Bucharest & 183 & 1.24 ms \\ \hline
+Iasi & 3 & Iasi - Vaslui - Urziceni - Bucharest & 319 & 1.37 ms \\ \hline
+Lugoj & 5 & Lugoj - Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 504 & 1.55 ms \\ \hline
+Mehadia & 4 & Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 434 & 1.72 ms \\ \hline
+Neamt & 4 & Neamt - Iasi - Vaslui - Urziceni - Bucharest & 406 & 1.93 ms \\ \hline
+Oradea & 3 & Oradea - Sibiu - Fagaras - Bucharest & 461 & 2.07 ms \\ \hline
+Pitesti & 1 & Pitesti - Bucharest & 101 & 2.17 ms \\ \hline
+RimnicuVilcea & 2 & RimnicuVilcea - Pitesti - Bucharest & 198 & 2.34 ms \\ \hline
+Sibiu & 2 & Sibiu - Fagaras - Bucharest & 310 & 2.47 ms \\ \hline
+Timisoara & 6 & Timisoara - Lugoj - Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 615 & 2.67 ms \\ \hline
+Urziceni & 1 & Urziceni - Bucharest & 85 & 2.78 ms \\ \hline
+Vaslui & 2 & Vaslui - Urziceni - Bucharest & 227 & 2.89 ms \\ \hline
+Zerind & 4 & Zerind - Arad - Sibiu - Fagaras - Bucharest & 525 & 4.48 ms \\ \hline
+\end{tabular}
+\end{center}
+\end {table}
+
+\begin {table}[H]
+\caption {A* - graphSearch}
+\begin{center}
+\begin{tabular}{ | l | l |  p{5cm} | l | l |} \hline
+City name & \multicolumn{1}{l|}{\#nodes visited} & \multicolumn{1}{l|}{Path to Bucharest} & \multicolumn{1}{l|}{Total cost of path} & \multicolumn{1}{l|}{CPU time} \\ \hline
+Arad & 5 & Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 418 & 0.20 ms \\ \hline
+Bucharest & 0 & Bucharest & 0 & 0.29 ms \\ \hline
+Craiova & 2 & Craiova - Pitesti - Bucharest & 239 & 0.41 ms \\ \hline
+Dobreta & 4 & Dobreta - Craiova - Pitesti - Bucharest & 359 & 0.56 ms \\ \hline
+Eforie & 3 & Eforie - Hirsova - Urziceni - Bucharest & 269 & 0.78 ms \\ \hline
+Fagaras & 1 & Fagaras - Bucharest & 211 & 0.87 ms \\ \hline
+Giurgiu & 1 & Giurgiu - Bucharest & 90 & 0.95 ms \\ \hline
+Hirsova & 2 & Hirsova - Urziceni - Bucharest & 183 & 1.06 ms \\ \hline
+Iasi & 3 & Iasi - Vaslui - Urziceni - Bucharest & 319 & 1.18 ms \\ \hline
+Lugoj & 6 & Lugoj - Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 504 & 1.37 ms \\ \hline
+Mehadia & 5 & Mehadia - Dobreta - Craiova - Pitesti - Bucharest & 434 & 1.55 ms \\ \hline
+Neamt & 4 & Neamt - Iasi - Vaslui - Urziceni - Bucharest & 406 & 1.75 ms \\ \hline
+Oradea & 5 & Oradea - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 429 & 1.93 ms \\ \hline
+Pitesti & 1 & Pitesti - Bucharest & 101 & 2.03 ms \\ \hline
+RimnicuVilcea & 2 & RimnicuVilcea - Pitesti - Bucharest & 198 & 2.15 ms \\ \hline
+Sibiu & 4 & Sibiu - RimnicuVilcea - Pitesti - Bucharest & 278 & 2.32 ms \\ \hline
+Timisoara & 10 & Timisoara - Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 536 & 2.78 ms \\ \hline
+Urziceni & 1 & Urziceni - Bucharest & 85 & 4.50 ms \\ \hline
+Vaslui & 2 & Vaslui - Urziceni - Bucharest & 227 & 4.64 ms \\ \hline
+Zerind & 7 & Zerind - Arad - Sibiu - RimnicuVilcea - Pitesti - Bucharest & 493 & 4.87 ms \\ \hline
+\end{tabular}
+\end{center}
+\end {table}
+
+% 5 Eight-Piece Sliding Puzzle
+5\\
+Please find the code named 'eight-piece\_sliding\_puzzle.py' in handin system.\\
+Due to the limited space, only 10 random combinations are reported on the following table. More combinations can be generated by modifying parameter 'combinationsCnt' in 'eight-piece\_sliding\_puzzle.py'\\
+
+\begin{table}[]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+ & \multicolumn{3}{l|}{Manhattan Distance} & \multicolumn{3}{l|}{Displaced tile} \\ \hline
+ Instance &   \#NV    &  Path Cost     &   CPU time   &  \#NV    &   Path Cost   &    CPU time     \\ \hline
+$\begin{matrix} 3 &   & 2 \\ 4 & 1 & 5 \\ 6 & 7 & 8 \end{matrix}$ & 3 & 3 & 0.02 sec & 4 & 3 & 0.02 sec \\ \hline
+ $\begin{matrix} 1 &   & 2 \\ 3 & 4 & 7 \\ 6 & 8 & 5 \end{matrix}$ & 17 & 7 & 0.04 sec & 18 & 7 & 0.07 sec \\ \hline
+ $\begin{matrix} 3 & 1 & 2 \\ 6 &   & 5 \\ 7 & 4 & 8 \end{matrix}$ & 4 & 4 & 0.02 sec & 4 & 4 & 0.02 sec \\ \hline
+$\begin{matrix} 3 & 1 & 2 \\ 4 & 5 & 8 \\ 6 & 7 &   \end{matrix}$ & 4 & 4 & 0.02 sec & 4 & 4 & 0.02 sec \\ \hline
+ $\begin{matrix} 3 & 1 & 2 \\ 6 & 4 & 5 \\   & 7 & 8 \end{matrix}$ & 2 & 2 & 0.01 sec & 2 & 2 & 0.01 sec \\ \hline
+ $\begin{matrix} 3 &   & 1 \\ 4 & 7 & 2 \\ 6 & 8 & 5 \end{matrix}$ & 7 & 7 & 0.03 sec & 8 & 7 & 0.04 sec \\ \hline
+ $\begin{matrix} 3 & 1 & 2 \\ 6 & 8 & 4 \\   & 7 & 5 \end{matrix}$ & 22 & 8 & 0.05 sec & 54 & 8 & 0.15 sec \\ \hline
+ $\begin{matrix} 1 & 2 & 5 \\   & 3 & 4 \\ 6 & 7 & 8 \end{matrix}$ & 5 & 5 & 0.02 sec & 6 & 5 & 0.03 sec \\ \hline
+ $\begin{matrix} 3 & 1 & 2 \\ 6 & 4 & 5 \\   & 7 & 8 \end{matrix}$ & 2 & 2 & 0.01 sec & 2 & 2 & 0.01 sec \\ \hline
+ $\begin{matrix} 1 &   & 2 \\ 3 & 4 & 8 \\ 6 & 5 & 7 \end{matrix}$ & 17 & 7 & 0.04 sec & 19 & 7 & 0.08 sec \\ \hline
+\end{tabular}
+\end{table}
+
+\end{document}

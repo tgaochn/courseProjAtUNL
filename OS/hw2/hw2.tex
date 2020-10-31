@@ -1,0 +1,199 @@
+\documentclass[a4paper]{article}
+
+% necessary package
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{parskip} % spacing between paragraphs controller
+\usepackage{amsmath} % equation alignment and reference
+\usepackage{enumerate} % list items
+\usepackage{graphicx} % figure alignment and reference
+
+%% algorithm pseudocode related
+% \usepackage{algorithmicx}
+% \usepackage[noend]{algpseudocode}
+% \usepackage[linesnumbered, ruled, vlined]{algorithm2e}
+
+%% automata circle and edges related
+% \usepackage{tikz}
+% \usetikzlibrary{automata,positioning}
+
+% other package
+\usepackage{amssymb} % empty set package
+\usepackage{url} % url reference
+\usepackage{multirow} % multiple rows/columns in table
+
+% insert c code
+\usepackage{xcolor}
+\usepackage{listings}
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C
+}
+
+
+% change to a new line when necessary
+\makeatletter 
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+\setlength{\parindent}{0pt} % no indent in the beginning of a paragraph
+
+
+\title{CSE 451/851 Homework 2}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+1.\\
+Multiprogramming and time-sharing systems share the following feature in common:
+\begin{enumerate}
+    \item Both of them keep multiple jobs simultaneously in the memory.
+    \item Both of them support multiple users.
+\end{enumerate}
+
+1(a).\\
+Multiprogramming and time-sharing systems are different in the following features:
+\begin{enumerate}
+    \item The goal of a multiprogramming system is to maximize CPU use while the goal of timesharing system is to minimize response time for users.
+    \item In a multiprogramming system, user interaction is not provided while in a timesharing system, each user can interact with programs and get a quick response.
+    \item In a multiprogramming system, the CPU organizes and executes jobs via job scheduling while in time-sharing systems, the CPU executes multiple jobs by switching among them.
+\end{enumerate}
+
+1(b).\\
+Multi-user system like the CSE server is time-sharing.\\
+Justify:\\
+We can interact with the CSE server and get a response quickly.
+Therefore it's a time-sharing system.
+
+Batch Processing System is multiprogramming.\\
+Justify:\\
+Batch Processing System organizes code and data into batches and jobs are processed in the order.
+The CPU will not switch among jobs.
+Therefore it's a multiprogramming system.
+
+2.\\
+Multiprogramming is key to a modern operating system’s operation for the following reasons:
+\begin{enumerate}
+    \item It increases CPU utilization. The CPU will not be idle since it always has one job to execute.
+    \item It increases the throughput of the jobs. Since the CPU does not need to wait for the I/O, the number of executed jobs increases, given a certain period of time.
+    \item It allows multiple users to visit the system.
+\end{enumerate}
+
+3.\\
+(a).\\
+The number of created unique processes is 6.
+
+(b).\\
+Two processes call pthread\_create(), so the number of created unique threads is 2.
+However, considered that each process starts as a single thread, the number of total threads should be 8. (2 threads created by pthread\_create() and 6 threads created with the 6 single-threaded processes)
+
+4.\\
+The examples of events are listed as follows:\\
+Event 1: The process is selected and assigned to the CPU. \\
+Event 2: The CPU time of the process has expired.\\
+Event 3: The process needs to print a document and is waiting for the printer.\\
+Event 4: The process finishes printing the document and is waiting to be executed in memory.\\
+Event 5: The process was waiting to be executed in memory but then removed from main memory due to lack of memory space.\\
+Event 6: The process was waiting for the printer in memory but then removed from main memory due to lack of memory space.\\
+
+5.\\
+The code has been tested on the CSE server.
+
+\begin{lstlisting}[style=CStyle]
+    #include <ctype.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+    
+    #define MSGSIZE 16
+    
+    int main()
+    {
+        char *msg1 = "How are you?";
+        char inbuff[MSGSIZE];
+        int p1[2], p2[2], child1, child2;
+    
+        pipe(p1);
+        pipe(p2);
+        child1 = fork();
+    
+        if (child1 > 0)
+        {
+            // parent
+        }
+        else
+        {
+            child2 = fork();
+            if (child2 > 0)
+            {
+                // child1
+                write(p1[1], msg1, MSGSIZE);
+                close(p1[1]);
+    
+                read(p2[0], inbuff, MSGSIZE);
+                close(p2[0]);
+                printf("%s\n", inbuff);
+            }
+            else
+            {
+                // child2
+                read(p1[0], inbuff, MSGSIZE);
+                close(p1[0]);
+    
+                myStrupr(inbuff);
+                write(p2[1], inbuff, MSGSIZE);
+                close(p2[1]);
+            }
+        }
+        close(p1[0]);
+        close(p1[1]);
+        close(p2[0]);
+        close(p2[1]);
+    
+        exit(0);
+    }
+    
+    void myStrupr(char *s)
+    {
+        char *p = s;
+        while (*p != (char *)NULL)
+        {
+            *p = _toupper(*p);
+            ++p;
+        }
+    }
+\end{lstlisting}
+
+\end{document}
+

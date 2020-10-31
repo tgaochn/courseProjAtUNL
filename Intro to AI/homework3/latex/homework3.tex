@@ -1,0 +1,165 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+% \usepackage[utf8]{inputenc}
+% \DeclareUnicodeCharacter{00A0}{}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{ textcomp }
+
+% empty set package
+\usepackage{amssymb}
+
+\usepackage{forest}
+
+\title{CSCE 476/876, Fall 2017, homework 3}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+1.\\
+Please find the program named 'simple-reflex agent.py' in the handin system. \\
+
+% 3.6 - abd
+2.a \\
+States: A state description specifies which color is assigned to which region.\\
+Initial Status: All regions have no color.\\
+Actions: Assign one color from four to an uncolored region.\\
+Transition Model: A uncolored region is colored and it cannot be colored again.\\
+Goal Test: Whether or not all the regions are colored and each pair of adjacent regions has different color.\\
+Cost Function: Number of actions of coloring.\\
+
+2.b \\
+States: A state description specifies how the crates are located and where is the monkey.\\
+Initial Status: A room with 8-foot-ceiling, a 3-foot-tall monkey, two 3-foot-high crates which are not stacked, bananas on ceiling.\\
+Actions: The monkey can move, stack or climb on the crates.\\
+Transition Model: The crates can be moved and stacked. The monkey climb and stand on the crates.\\
+Goal Test: The monkey gets the bananas.\\
+Cost Function: Number of actions of moving, stacking and climbing on the crates.\\
+
+2.c \\
+States: A state description specifies how much water is in each jug.\\
+Initial Status: Jugs have no water.\\
+Actions: Fill the jugs, empty the jugs or move the water from one jug to another.\\
+Transition Model: The jug will be fill after filling and will be empty after emptying. The amount of water will be decreased after moving.\\
+Goal Test: Whether or not one of the jugs has exact one gallon of water.\\
+Cost Function: Number of actions of filling, emptying.\\
+
+% 3.15
+3.a \\
+\begin{forest}
+  for tree={
+    edge = {->},
+    circle,
+    minimum size=5mm,
+    inner sep=0pt,
+    draw,
+    math content,
+    tier/.wrap pgfmath arg={tier #1}{level()},
+    anchor=center
+  },
+  [1
+    [2
+      [4
+        [8]
+        [9]
+        ]
+      [5
+        [10]
+        [11]
+      ]
+    ]
+    [3
+        [6
+          [12]
+          [13]
+          ]
+        [7
+          [14]
+          [15]
+        ]
+    ]
+  ]
+\end{forest}
+
+3.b \\
+BFS: \\
+1 \textrightarrow 2 \textrightarrow 3 \textrightarrow 4 \textrightarrow 5 \textrightarrow 6 \textrightarrow 7 \textrightarrow 8 \textrightarrow \textrightarrow 10 \textrightarrow 11 \textrightarrow 12 \textrightarrow 13 \textrightarrow 14 \textrightarrow 15\\
+
+Depth-limited search with limit 3:\\
+1 \textrightarrow 2 \textrightarrow 4 \textrightarrow 8 \textrightarrow 9 \textrightarrow 5 \textrightarrow 10 \textrightarrow 11 \textrightarrow 3 \textrightarrow 6 \textrightarrow 12 \textrightarrow 13 \textrightarrow 7 \textrightarrow 14 \textrightarrow 15\\
+
+iterative deepening search:\\
+1 \textrightarrow 1 \textrightarrow 2 \textrightarrow 3 \textrightarrow 1 \textrightarrow 2 \textrightarrow 4 \textrightarrow 5 \textrightarrow 3 \textrightarrow 6 \textrightarrow 7 1 \textrightarrow 2 \textrightarrow 4 \textrightarrow 8 \textrightarrow 9 \textrightarrow 5 \textrightarrow 10 \textrightarrow 11 \textrightarrow 3 \textrightarrow 6 \textrightarrow 12 \textrightarrow 13 \textrightarrow 7 \textrightarrow 14 \textrightarrow 15\\
+
+3.c \\
+Bidirectional search will save half time on this problem. \\
+The branching factor from start node to goal is 2 and it will be 1 from goal to start node.\\
+
+3.d \\
+If the problem is reformulated so that we firstly get the path from goal to starting node, there will be no search since such a path has just one successor for each node.\\
+
+3.e\\
+If the number of goal is turned into binary, each digit will stand for which direction to go along. As a result, there will be no search.\\
+
+4.1\\
+if $h(n) = -g(n)$, the greedy search will emulate a modified version of uniform-cost search in which the node with highest path cost will be expanded.\\
+The reason is that in greedy search, the node n with lowest h(n) will be expanded. Since $h(n) = −g(n)$ and g(n) is the path length, the node highest with path cost will be expanded.\\
+
+4.2\\
+if h(n) = g(n), the greedy search will emulate uniform-cost search.\\
+The reason is similar to 4.1: in greedy search, the node n with lowest h(n) will be expanded. Since h(n) = g(n) and g(n) is the path length, the node lowest with path cost will be expanded, which is uniform-cost search.\\
+
+% 3.21
+5.a \\
+The statement is correct. \\
+If all step costs are equal, uniform-cost search becomes breadth-first search.\\
+
+5.b\\
+The statement is correct. \\
+if f(n) = −depth(n),  best-first tree search becomes Depth-first search.\\
+
+5.c\\
+The statement is correct. \\
+Uniform-cost search is A* search with h(n) = 0.
+if h(n) = 0, A* search becomes Uniform-cost search.\\
+
+% 5.23
+6.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{llll}
+\multicolumn{1}{|c|}{\textbf{Action}} & \multicolumn{1}{c|}{\textbf{g(n)}} & \multicolumn{1}{c|}{\textbf{h(n)}} & \multicolumn{1}{c|}{\textbf{f(n)}} \\ \hline
+Starting node: Lugoj    & 0    & 244  & 244  \\
+Expand Lugoj            &      &      &      \\
+\ \ \ \ Consider Timisoara      & 111  & 329  & 440  \\
+\ \ \ \ Consider Mehadia        & 70   & 241  & 301  \\
+Expand Mehadia          &      &      &      \\
+\ \ \ \ Consider Drobeta        & 145  & 242  & 387  \\
+Expand Drobeta          &      &      &      \\
+\ \ \ \ Consider Craiova        & 265  & 160  & 425  \\
+Expand Craiova          &      &      &      \\
+\ \ \ \ Consider Pitesti        & 403  & 100  & 503  \\
+\ \ \ \ Consider Rimmicu Vilcea & 411  & 193  & 604  \\
+Expand Pitesti          &      &      &      \\
+\ \ \ \ Consider Bucharest               & 504  & 0    & 0    \\
+\end{tabular}
+\end{table}
+
+7.a\\
+Based on the definition of TSP, each city can be visited only once. If we get rid of this requirement and assume that the cost to travel an already visited path is 0, TSP will become MST.\\
+
+7.b\\
+MST dominates for the reason that in MST, distance is minimum connection distance. As a result, the heuristic is admissible.\\
+
+7.c\\
+Please find the program named 'TSP generator.py' in the handin system. \\
+
+\end{document}

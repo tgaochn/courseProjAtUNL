@@ -1,0 +1,123 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+% change to a new line when necessary
+\makeatletter
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 440/840, Spring 2018, Homework 1}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% 1
+1.\\
+(a).\\
+$\because 2^{-14} = (-1)^0 \times 2^{113 - 127} \times (1 + 0)$\\
+$\therefore s = 0, E = 113, M = 0$\\
+$\therefore$ The answer is 0 1110001 00000000000000000000000\\
+
+(b).\\
+$\because -1.5 = (-1)^1 \times 2^{127 - 127} \times (1 + 2^{-1})$\\
+$\therefore s = 1, E = 127, M = 2^{-1}$\\
+$\therefore$ The answer is 1 1111111 10000000000000000000000\\
+
+(c).\\
+$\because 32.015725 \approx (-1)^0 \times 2^{132 - 127} \times (1 + 2^{-11} + 2^{-19} + 2^{-20} + 2^{-22})$\\
+$\therefore s = 0, E = 132, M = 2^{-11} + 2^{-19} + 2^{-20} + 2^{-22}$\\
+$\therefore$ The answer is 0 0000100 00000000001000000011010\\
+
+(d).\\
+$\because -10^{-9} \approx (-1)^1 \times 2^{97 - 127} \times (1 + 2^{-4} + 2^{-7} + 2^{-9} + 2^{-10} + 2^{-11} + 2^{-17} + 2^{-19} + 2^{-20} + 2^{-21} + 2^{-22} + 2^{-23})$\\
+$\therefore s = 0, E = 113, M = 2^{-4} + 2^{-7} + 2^{-9} + 2^{-10} + 2^{-11} + 2^{-17} + 2^{-19} + 2^{-20} + 2^{-21} + 2^{-22} + 2^{-23}$\\
+$\therefore$ The answer is 0 1100001 00010010111000001011111\\
+
+% 2
+2.\\
+(a).\\
+$\because (10000101)_2 = (133)_{10}$\\
+$\therefore s = 0, E = 133, M = 2^{-1} + 2^{-2} + 2^{-3} + 2^{-4} + 2^{-5} + 2^{-6}$\\
+Using formula $v = (-1)^0 \times 2^{E - 127} \times (1 + M) $\\
+The answer is 127.0\\
+
+(b).\\
+$\because (10000010)_2 = (130)_{10}$\\
+$\therefore s = 1, E = 130, M = 2^{-2}$\\
+Using formula $v = (-1)^1 \times 2^{E - 127} \times (1 + M) $\\
+The answer is -10.0\\
+
+(c).\\
+$\because (10000010)_2 = (130)_{10}$\\
+$\therefore s = 0, E = 130, M = 2^{-1} + 2^{-2} + 2^{-3} + 2^{-4} + 2^{-10} + 2^{-11} + 2^{-12} + 2^{-13} + 2^{-14} + 2^{-15} + 2^{-16} +  2^{-17} + 2^{-18} + 2^{-21} + 2^{-22}$\\
+Using formula $v = (-1)^0 \times 2^{E - 127} \times (1 + M) $\\
+The answer is 15.5156\\
+
+(d).\\
+$\because (01011101)_2 = (93)_{10}$\\
+$\therefore s = 0, E = 93, M = 2^{-1} + 2^{-2} + 2^{-3} + 2^{-5} + 2^{-6} + 2^{-7} + 2^{-9} + 2^{-10} + 2^{-14} + 2^{-15} + 2^{-16} +  2^{-17} + 2^{-19} + 2^{-20} + 2^{-21} + 2^{-22} + 2^{-23}$\\
+Using formula $v = (-1)^0 \times 2^{E - 127} \times (1 + M) $\\
+The answer is $1.125 \times 10^{-10}$\\
+
+(e).\\
+$\because (11111111)_2 = (255)_{10}$\\
+$\therefore s = 0, E = 255, M = 0$\\
+Using formula $v = (-1)^0 \times 2^{E - 127} \times (1 + M) $\\
+The answer is $2^{128} = 340282366920938463463374607431768211456$\\
+
+(f).\\
+$\because (10110110)_2 = (182)_{10}$\\
+$\therefore s = 0, E = 182, M = 2^{-4} + 2^{-9} + 2^{-14} + 2^{-18} + 2^{-19}$\\
+Using formula $v = (-1)^1 \times 2^{E - 127} \times (1 + M) $\\
+The answer is $3.8353371 \times 10^{16}$\\
+
+% 3
+3.\\
+$\because f(x)=f(x_0) + \sum\limits_{t=1}^{\infty}\frac{f^{(t)}(x_0)}{t!}(x-x_0)^t$\\
+$\therefore f(3 + h) = f(3) + f'(3)h + \frac{f''(3)}{2!}h^2 + ... + \frac{f^{(n)}(3)}{n!}h^n$\\
+$\because f(3) = -71, f'(3) = -72, f''(3)=-42, f'''(3)=-12, f''''(3) = 0$\\
+$\therefore f(3 + h) = 2h^3 -21h^2-72h-71$\\
+By bringing x = 3 + h directly into f(x), we can also get
+$f(3 + h) = 2h^3 -21h^2-72h-71$\\
+So the result is verified.\\
+
+% 4
+4.\\
+The code wrote in MATLAB can be found in findingZero.m and run.m.\\
+The code has been tested in MATLAB R2017a.\\
+To run the programe, just put the two scripts in the same folder and run run.m.\\
+Using Bisection Method, the root is 0.4597.\\
+Using Newton's Method, the root is 0.4597.\\
+Using Secant Method, the root is 0.4597.\\
+
+% 5
+5.\\
+The fixed point of g(x) is the root of equation g(x) = x.\\
+Let f(x) = g(x) - x, then the root of f(x) = 0 is the root of the above equation.\\
+Using the same programe of Newton's Method in question 4, we can get the fixed point of g(x) is 0.9032.\\
+\end{document}

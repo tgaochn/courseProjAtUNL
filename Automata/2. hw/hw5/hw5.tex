@@ -1,0 +1,86 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{changepage}
+
+% empty set package
+\usepackage{amssymb}
+
+% Automata package
+\usepackage{pgf,tikz}
+\usetikzlibrary{shapes,arrows,automata}
+
+
+\title{CSCE 828 - Homework 4}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% Question 1
+1.\\
+We can construct a correspondence f from T to N as follows:\\
+$f(i,j,k)=2^i \times 3^j \times 5^k$\\
+$\because$ 2, 3, 5 are prime\\
+$\therefore$ any integer has unique factorization\\
+$\therefore$ f is a one-to-one\\
+By definition, T is countable infinite.\\
+To be clear, element in T can be listed and traversed as followed:\\
+$(0, 0, 0) \rightarrow (0, 0, 1) \rightarrow (0,1,0) \rightarrow (0,1,1) \rightarrow (1,0,0) \rightarrow (1,0,1) \rightarrow (1,1,0) \rightarrow (1,1,1) \rightarrow (1,1,2) \rightarrow (1,2,1) \rightarrow (1,2,2) ... $\\
+As a result, each element can be listed and traversed.\\
+
+% Question 2
+2.\\
+we can construct a decider T like this:\\
+on input string $< D >$\\
+\hspace*{5mm} T checks whether $< D >$ is an encoding of a valid DFA\\
+\hspace*{1cm} 	if invalid, T rejects $< D >$\\
+\hspace*{5mm} T generates string $<P>$ which is the encoding of CFG for strings are \hspace*{5mm} palindromes\\
+\hspace*{5mm}    T generates string $<G>$ which is the encoding of CFG G for language \hspace*{5mm} $L(D) \cap L(P)$, which is a context free language\\
+\hspace*{5mm}    T checks whether $L(G) = \emptyset$ using the decider for $E_{CFG}$\\
+\hspace*{1cm}    	if yes, T rejects $<D>$\\
+\hspace*{1cm}       otherwise, T accepts $<D>$\\
+        
+% Question 3
+3.\\
+Assume that $F_{TM}$ is decidable and R is the decider\\
+So we can construct a decider S for $A_{TM}$ as follows\\
+1. we construct a computable function f such that\\
+$$<M, w> \in A_{TM} \Leftrightarrow f(<M, w>)=<M_1> \in F_{TM}$$
+2. TM $M_1$ works as follows when string x is inputted\\
+$M_1$ simulates M on w\\
+if M accepts w, then if x is "Fall", then $M_1$ accepts x, otherwise, $M_1$ rejects x\\
+if M rejects w, then $M_1$ rejects x\\
+Since S is a decider for $A_{TM}$, $A_{TM}$ is decidable. \\
+So there is a contradiction because we already know that $A_{TM}$ is not decidable. \\
+So the assumption is wrong and $F_{TM}$ is not decidable\\
+
+% Question 4
+4.\\
+Assume that $E_{TM}$ is Turing recognizable and R is the TM for $E_{TM}$\\
+So we can construct a TM S for $\overline{A_{TM}}$ as follows\\
+1. we construct a computable function f such that\\
+$$<M, w> \in \overline{A_{TM}} \Leftrightarrow f(<M, w>)=<M_1> \in E_{TM}$$
+f constructs a special TM $M_1$ so that\\
+$L(M_1)=\emptyset$ if M rejects w or M loops on w or invalid coding\\
+$L(M_1)=\Sigma^*$ if M accepts w\\
+f outputs $<M_1>$\\
+f maps an invalid encoding string $<M, w>$ to a valid encoding string $<M_1>$ such that $L(M_1)=\emptyset$\\
+2. The Turing machine $M_1$ on input x works as follows:\\
+Simulate M on w\\
+If M accepts w, then $M_1$ accepts x\\
+If M rejects w, then $M_1$ rejects x\\
+So there is a contradiction because we already know that there is no TM for $A_{TM}$\\
+So the assumption is wrong and $F_{TM}$ is not Turing recognizable\\
+
+
+\end{document}

@@ -1,0 +1,217 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+\makeatletter
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 476/876, Fall 2017, homework 8}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+1.1 \\
+\{x/F(B), y/A, z/B, w/B\}\\
+
+1.2\\
+fail.\\
+
+1.3\\
+\{x/y\}\\
+
+1.4\\
+fail.\\
+
+2.1\\
+\{y/B, z/C, x/B, w/f(A,C,B)\}\\
+
+2.2\\
+\{x/f(f(A)), y/f(A), v/f(A)\}\\
+
+3.\\
+\begin{enumerate}[1.]
+    \item $\forall x(P(x) \Rightarrow Q(x))$ \hfill Given
+    \item $\forall x(P(x) \Rightarrow (\forall yW(y))$ \hfill Given
+    \item $\forall x\forall y((Q(x) \wedge W(y)) \Rightarrow S(x))$ \hfill Given
+    \item $P(Mary)$ \hfill Given
+    \item $\neg P(Mary) \vee Q(Mary)$ \hfill unification and implication elimination from 1
+    \item $\neg P(Mary) \vee W(Mary)$ \hfill unification and implication elimination from 2
+    \item $\neg Q(Mary) \vee \neg W(Mary) \vee S(Mary)$ \hfill unification, implication elimination and De Morgan from 3
+    \item $\neg P(Mary) \vee \neg W(Mary) \vee S(Mary)$ \hfill resolution from 7 and 5
+    \item $\neg S(Mary)$ \hfill refutation
+    \item $\neg P(Mary) \vee \neg W(Mary)$ \hfill resolution from 8 and 9
+    \item $\neg P(Mary)$ \hfill resolution from 10 and 6
+    \item $\varnothing$ \hfill resolution from 11 and 4
+\end{enumerate}
+
+4.1\\
+$Inset(Flik) \wedge Wings(Flik, 4) \wedge \neg (Moth(Flik))$\\
+
+4.2\\
+$\neg(\forall x Insect(x) \wedge Wings(x, 4))$\\
+
+4.3\\
+$\forall x \forall y Insect(x)\wedge Wings(x,2) \wedge Insect(y) \wedge Wings(y, 2) \Rightarrow (Order(x) = Order(y))$\\
+
+4.4\\
+$\exists x \exists y \exists z \neg(Order(x) = Order(y)) \wedge \neg (Order(y) = Order(z)) \wedge \neg (Order(x) = Order(z))$\\
+
+4.5\\
+$\forall x \forall y Moth(x) \wedge Dragonfly(y) \Rightarrow Insect(x) \wedge Insect(y) \wedge \neg (Order(x) = Order(y))$\\
+
+4.6\\
+$\forall x \exists y Spider(x) \wedge Insect(y) \wedge Eats(x, y)$\\
+
+4.7\\
+$\exists x \forall y Spider(x) \wedge Eats(x, y) \Rightarrow Insect(y)$\\
+
+5.1\\
+1) Predicates:\\
+Bird(x): x is a bird\\
+Tree(y): x is a tree\\
+Sleep(x,y): x sleeps in y\\
+Loon(x): x is a loon\\
+Aquatic(x): x is aquatic\\
+Beside(x, y): x is beside y\\
+Lake(x): x is a lake\\
+Eatfish(x): x eats fish\\
+
+2) FOL:\\
+1 $\forall x (Bird(x) \Rightarrow \exists y (Tree(y) \wedge Sleep(x,y)))$\\
+2 $\forall x (Loon(x) \Rightarrow (Bird(x) \wedge Aquatic(x)))$\\
+3 $\forall x ((Tree(x) \wedge \forall y (Bird(y) \wedge Aquatic(y) \wedge Sleep(y,x)) ) \Rightarrow (\exists z Lake(z) \wedge Beside(x, z))$\\
+4 $\forall x \forall y(Sleep(x,y) \wedge (\forall z Lake(z)\wedge Beside(y, z))) )\Rightarrow Eatfish(x))$\\
+5 $\forall x (Loon(x) \Rightarrow Eatfish(x))$\\
+
+3) CNF:\\
+1. $(\neg Bird(x) \vee Tree(h(x))) \wedge (\neg Bird(x) \vee Sleep(x, h(x)))$\\
+2. $(\neg Loon(x) \vee Bird(x)) \wedge (\neg Loon(x) \vee Aquatic(x))$\\
+3. $(\neg Tree(x) \vee \neg Bird(f(x)) \vee \neg Aquatic(f(x)) \vee \wedge Sleep(x, f(x)) \vee Loon(g(x))) \wedge ((\neg Tree(x) \vee \neg Bird(f(x)) \vee \neg Aquatic(f(x)) \vee \wedge Sleep(x, f(x)) \vee Beside(x, g(x)))$\\
+4. $\neg Sleep(x, y) \vee \neg Loon(z) \vee \neg Beside(y, z) \vee Eatfish(x)$\\
+5. $Loon(x) \wedge \neg Eatfish(x)$\\
+f(x), g(x), h(x) are Skolem functions.\\
+
+4) refutation resolution:\\
+\begin{enumerate}[1.]
+    \item $\neg Bird(x) \vee Tree(h(x))$ \hfill And-Elimination from CNF 1
+    \item $\neg Bird(x) \vee Sleep(x, h(x))$ \hfill And-Elimination from CNF 1
+    \item $\neg Loon(x) \vee Bird(x)$ \hfill And-Elimination from CNF 2
+    \item $\neg Loon(x) \vee Aquatic(x)$ \hfill And-Elimination from CNF 2
+    \item $\neg Tree(x) \vee \neg Bird(f(x)) \vee \neg Aquatic(f(x)) \vee \wedge Sleep(x, f(x)) \vee Loon(g(x))$ \hfill And-Elimination from CNF 3
+    \item $(\neg Tree(x) \vee \neg Bird(f(x)) \vee \neg Aquatic(f(x)) \vee \wedge Sleep(x, f(x)) \vee Beside(x, g(x))$ \hfill And-Elimination from CNF 3
+    \item $\neg Sleep(x, y) \vee \neg Loon(z) \vee \neg Beside(y, z) \vee Eatfish(x)$ \hfill And-Elimination from CNF 4
+    \item $Loon(x) \wedge \neg Eatfish(x)$ \hfill Refutation from CNF 5
+    \item $Loon(x)$ \hfill And-Elimination from 8
+    \item $\neg Eatfish(x)$ \hfill And-Elimination from 8
+    \item $Bird(x)$ \hfill Resolution from 3 and 9
+    \item $Tree(h(x))$ \hfill Resolution from 1 and 11
+    \item $Sleep(x, h(x))$ \hfill Resolution from 2 and 11
+    \item $Aquatic(x)$ \hfill Resolution from 4 and 9
+    \item $Loon(g(x))$ \hfill Resolution from 5, 11, 12, 13, 14
+    \item $Beside(x, g(x))$ \hfill Resolution from 6, 11, 12, 13, 14
+    \item $Eatfish(x)$ \hfill Resolution from 7, 13, 15, 16
+    \item $\varnothing$ \hfill Resolution from 10 and 17
+\end{enumerate}
+
+5.2\\
+1) Predicates:\\
+Austinite(x): x is an austinite.\\
+Conservative(x): x is conservative.\\
+Loves(x, y): x loves y.\\
+Armadillo(x): x is an armadillo.\\
+Wear(x): x wears maroon-and-white shirts.\\
+Aggie(x): x is an aggie.\\
+Dog(x): x is a dog.\\
+
+2) FOL:\\
+1 $\forall x (Austinite(x) \wedge \neg Conservative(x) \Rightarrow (\exists y Armadillo(y) \wedge Loves(x,y)))$\\
+2 $\forall x (Wear(x) \Rightarrow Aggie(x))$\\
+3 $\forall x \forall y (Aggie(x) \wedge Dog(y) \Rightarrow Loves(x, y))$\\
+4 $\neg (\exists x \forall y \exists z Loves(x, y) \wedge Dog(y) \wedge Loves(x, z)\wedge Armadillo(z))$\\
+5 $Austinite(Clem) \wedge Wear(Clem)$\\
+6 $\exists x Austinite(x) \wedge Conservative(x)$?\\
+
+5.3\\
+1) Predicates:\\
+BuyCarrots(x): x buys carrots by the bushel.\\
+Own(x, y): x owns a y.\\
+Rabbit(x): x is a rabbit.\\
+GS(x): x is a grocery store.\\
+Dog(x): x is a dog.\\
+Chase(x, y): x chases y.\\
+Hate(x, y): x hates y.\\
+Date(x, y): x dates y.\\
+
+2) FOL:\\
+1 $\forall x (BuyCarrots(x) \Rightarrow ((\exists y Rabbit(y) \wedge Own(x, y)) \vee (\exists z GS(z) \wedge Own(x, z)) ))$\\
+2 $\forall x \exists y (Dog(x) \wedge Rabbit(y) \wedge Chase(x, y))$\\
+3 $BuyCarrots(Mary)$\\
+4 $\forall x \forall y ((\exists z Rabbit(z) \wedge Own(x, z) \wedge Chase(y, z)) \Rightarrow Hate(x, y))$\\
+5 $\exists x Own(John, x) \wedge Dog(x)$\\
+6 $\forall x \forall y \forall z (Hate(x, z) \wedge Own(y, z) \Rightarrow \neg Date(x, y))$\\
+7 $(\neg (\exists x Own(Mary, x) \wedge GS(x))) \Rightarrow Date(x, y)$\\
+
+5.4\\
+1) Predicates:\\
+FeelWarm(x): x feels warm.\\
+Drunk(x): x is drunk.\\
+Has(x, y): x has y.\\
+Costume(x): x is a costume.\\
+Warm(x): x is warm.\\
+Furry(x): x is furry.\\
+AI(x): x is a AI student.\\
+CS(x): x is a CS student.\\
+Robot(x): x is a robot costume.\\
+
+2) FOL:\\
+1 $\forall x (FeelWarm(x) \Rightarrow (Drunk(x) \vee (\forall y Has(x, y) \wedge Costume(y) \wedge Warm(y))))$\\
+2 $\forall x Costume(x) \wedge Warm(x) \Rightarrow Furry(x)$\\
+3 $\forall x AI(x) \Rightarrow CS(x)$\\
+4 $\forall x \exists y AI(x) \wedge Has(x, y) \wedge Robot(y)$\\
+5 $\neg (\exists x Robot(x) \wedge Furry(x))$\\
+6 $\forall x((CS(x) \wedge FeelWarm(x)) \Rightarrow (\forall y AI(y) \Rightarrow Drunk(y)))$\\
+
+5.5\\
+1) Predicates:\\
+Student(x): x is a student.\\
+Grade(x): x makes good grades.\\
+Brilliant(x): x is brilliant.\\
+Studies(x): x studies.\\
+CS(x): x is a CS major.\\
+RM(x, y): x and y are roommates.\\
+Party(x): x lieks to party.\\
+SS(x): x goes to Sixth Street.\\
+
+2) FOL:\\
+1 $\forall x (Student(x) \wedge Grade(x)) \Rightarrow (Brilliant(x) \vee Studies(x))$\\
+2 $\forall x (Student(x) \wedge CS(x) \Rightarrow (\exists y (RM(x, y)))) $\\
+3 $\forall x ((Student(x) \wedge (\exists y RM(x, y) \wedge Party(y))) \Rightarrow SS(x)) $\\
+4 $\forall x (SS(x) \Rightarrow \neg Studies(x))$\\
+5 $(\forall x \forall y Student(x) \wedge CS(x) \wedge RM(x, y) \wedge Party(y)) \Rightarrow (\forall z Student(z) \wedge CS(z) \wedge Grade(z) \Rightarrow Brilliant(z))$\\
+
+
+\end{document}

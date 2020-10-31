@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body { font: 12px Arial;}
+
+</style>
+<body>
+
+<input type="text" id="input" style="width: 800px"/>
+<button onclick="sentQuery()">sent</button>
+<p id="time"> Time: </p>
+<div id="result"> Result shows here </div>
+<script type="text/javascript" src="http://d3js.org/d3.v3.js"></script>
+<script>
+
+    function sentQuery(){
+        var start = performance.now();
+        var queryText = document.getElementById("input").value;
+        var xhttp;    
+        if (queryText == "") {
+            document.getElementById("result").innerHTML = "Please input a valid query!";
+            return;
+        }else{
+            if(window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
+            else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            xmlhttp.onreadystatechange=function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("result").innerHTML = this.responseText;
+                    var end = performance.now();
+                    var time = end-start;
+                    document.getElementById("time").innerHTML = "Time: " + time/1000 + " s";
+                }
+            };
+            xmlhttp.open("POST", "query.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send('myquery='+queryText);
+        }
+    }
+
+</script>
+</body>

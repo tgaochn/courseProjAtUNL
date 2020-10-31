@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>报告结果</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+    <style>
+        body{text-align:center;} 
+#canvas{width:300px;margin:0 auto;}
+</style>
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <script type="text/javascript">
+        var canvas = document.getElementById('canvas');
+        var cx = canvas.getContext('2d');
+        /*
+        var x_width = 300;
+        var y_width = 300;
+        var x_left = 50;
+        var x_right = 230;
+        var y_up_top = 50;
+        var y_up_bottom = 150;
+        var y_down = 80; 
+        */
+        draw();
+        function draw() {
+            //轴
+            // drawLine(-50, 0, 250, 0, 0.5, '#999999');
+            // drawLine(0, 200, 0, -80, 0.5, '#999999');
+            //刻度
+            // for (var i = 2; i <= 10; i = i + 2) {
+                // cx.fillText(i, x(-15), y(g(i)) + 10);
+                // drawLine(-50, g(i), 250, g(i), 0.5, '#f0f0f0');
+            // }
+            //第一个线
+            var color = ['#ffbfab', '#fee17b', '#effe87', '#c2f3a1', '#effe87'];
+            var grades = [7, 8, 6, 10, 8];
+            for (var i = 20, j = 0; j < 5; j++ , i = i + 8) {
+                drawLine(i, 0, i, g(grades[j]), 8, color[j]);
+            }
+            var grades = [6, 7, 6, 9, 8];
+            for (var i = 80, j = 0; j < 5; j++ , i = i + 8) {
+                drawLine(i, 0, i, g(grades[j]), 8, color[j]);
+            }
+            var grades = [5, 7, 5, 1, 8];
+            for (var i = 140, j = 0; j < 5; j++ , i = i + 8) {
+                drawLine(i, 0, i, g(grades[j]), 8, color[j]);
+            }
+            // var grades = [5, 7, 5, 7, 8];
+            // for (var i = 200, j = 0; j < 5; j++ , i = i + 8) {
+                // drawLine(i, 0, i, g(grades[j]), 8, color[j]);
+            // }
+
+        }
+        function x(x) {
+            return x + 50;
+        }
+        function y(y) {
+            return 200 - y;
+        }
+        function g(grade) {
+            return 15 * grade;
+        }
+
+        //画线
+        function drawLine(b_x, b_y, e_x, e_y, width, color) {
+            cx.strokeStyle = color;
+            cx.lineWidth = width;
+            cx.beginPath();
+            cx.moveTo(x(b_x), y(b_y));
+            cx.lineTo(x(e_x), y(e_y));
+            cx.closePath();
+            cx.stroke();
+        }
+
+    </script>
+</body>
+
+</html>

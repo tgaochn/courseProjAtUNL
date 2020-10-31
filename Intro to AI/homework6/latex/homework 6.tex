@@ -1,0 +1,408 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 476/876, Fall 2017, homework 6}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% 1 SAT Modeling
+1.1.\\
+First state the propositions and what they represent:\\
+I: ice cream is selected.\\
+F: fruit bowl is selected.\\
+C: cake is selected.\\
+P: pie is selected.\\
+
+State the sentence:\\
+$(I\wedge  \neg F\wedge  \neg C\wedge  \neg P)\vee ( \neg I\wedge F\wedge  \neg C\wedge  \neg P)\vee ( \neg I\wedge  \neg F\wedge C\wedge  \neg P)\vee ( \neg I\wedge  \neg F\wedge  \neg C\wedge P)$
+
+Explain the meaning of the clauses:\\
+$I\wedge  \neg F\wedge  \neg C\wedge  \neg P$: only I is selected.\\
+$ \neg I\wedge F\wedge  \neg C\wedge  \neg P$: only F is selected.\\
+$ \neg I\wedge  \neg F\wedge C\wedge  \neg P$: only C is selected.\\
+$ \neg I\wedge  \neg F\wedge  \neg C\wedge P$: only P is selected.\\
+
+Is the sentence satisfiable? Explain why or why not:\\
+Yes. One solution is \{I=true, F=C=P=false\}
+
+1.2.\\
+First state the propositions and what they represent:\\
+PAm: meet on Monday for paper.\\
+PRm: meet on Monday for presentation.\\
+PAtu: meet on Tuesday for paper.\\
+PRtu: meet on Tuesday for presentation.\\
+PAw: meet on Wednesday for paper.\\
+PRw: meet on Wednesday for presentation.\\
+PAth: meet on Thursday for paper.\\
+PAth: meet on Thursday for paper.\\
+PRf: meet on Friday for presentation.\\
+PRf: meet on Friday for presentation.\\
+
+State the sentence:\\
+$(\neg PAm\wedge \neg PRm\wedge ((PAtu\wedge (PRw\vee PRth\vee PRf))\vee (PAw\wedge (PRth\vee PRf))\vee (PAth\wedge PRf)))\wedge (\neg (PAm\wedge PRtu)\wedge \neg (PAtu\wedge PRm)\wedge \neg (PAtu\wedge PRw)\wedge \neg (PAw\wedge PRtu)\wedge \neg (PAw\wedge PRth)\wedge \neg (PAth\wedge PRw)\wedge \neg (PAth\wedge PRf)\wedge \neg (PAf\wedge PRth))\wedge (PRm\vee PRtu\vee PRw) \wedge ((PAm \wedge PRtu)\vee (PAm \wedge PRw)\vee (PAm \wedge PRth)\vee (PAtu \wedge PRw)\vee (PAth \wedge PRtu)\vee (PAth \wedge PRw)\vee (PAf \wedge PRm)\vee (PAf \wedge PRtu)\vee (PAf \wedge PRw)\vee (PAf \wedge PRth)\vee (PRm \wedge PAtu)\vee (PRm \wedge PAw)\vee (PRm \wedge PAth)\vee (PRtu \wedge PAw)\vee (PRth \wedge PAtu)\vee (PRth \wedge PAw)\vee (PRf \wedge PAm)\vee (PRf \wedge PAtu)\vee (PRf \wedge PAw)\vee (PRf \wedge PAth))$
+
+Explain the meaning of the clauses:\\
+$(PAm \wedge PRtu)\vee (PAm \wedge PRw)\vee (PAm \wedge PRth)\vee (PAtu \wedge PRw)\vee (PAth \wedge PRtu)\vee (PAth \wedge PRw)\vee (PAf \wedge PRm)\vee (PAf \wedge PRtu)\vee (PAf \wedge PRw)\vee (PAf \wedge PRth)\vee (PRm \wedge PAtu)\vee (PRm \wedge PAw)\vee (PRm \wedge PAth)\vee (PRtu \wedge PAw)\vee (PRth \wedge PAtu)\vee (PRth \wedge PAw)\vee (PRf \wedge PAm)\vee (PRf \wedge PAtu)\vee (PRf \wedge PAw)\vee (PRf \wedge PAth)$ is to select 2 different days to complete paper and presentation.\\
+$(\neg PAm\wedge \neg PRm\wedge ((PAtu\wedge (PRw\vee PRth\vee PRf))\vee (PAw\wedge (PRth\vee PRf))\vee (PAth\wedge PRf)))$ is Damon's requirement.\\
+$(PAth\wedge PRf)))\wedge (\neg (PAm\wedge PRtu)\wedge \neg (PAtu\wedge PRm)\wedge \neg (PAtu\wedge PRw)\wedge \neg (PAw\wedge PRtu)\wedge \neg (PAw\wedge PRth)\wedge \neg (PAth\wedge PRw)\wedge \neg (PAth\wedge PRf)\wedge \neg (PAf\wedge PRth))$ is Enrique's requirement.\\
+$(PRm\vee PRtu\vee PRw)$ is Lois' requirement.\\
+
+Is the sentence satisfiable? Explain why or why not:\\
+No. After calculate all the combinations, there is no one to satisfy the sentence.\\
+
+1.3.\\
+First state the propositions and what they represent:\\
+NEr: NE is colored with red.\\
+IAr: IA is colored with red.\\
+KSr: KS is colored with red.\\
+MOr: MO is colored with red.\\
+
+NEb: NE is colored with blue.\\
+IAb: IA is colored with blue.\\
+KSb: KS is colored with blue.\\
+MOb: MO is colored with blue.\\
+
+NEg: NE is colored with green.\\
+IAg: IA is colored with green.\\
+KSg: KS is colored with green.\\
+MOg: MO is colored with green.\\
+
+State the sentence:\\
+$((NEr \wedge \neg NEg \wedge \neg NEb) \vee (\neg NEr \wedge NEg \wedge \neg NEb) \vee (\neg NEr \wedge \neg NEg \wedge NEb))\wedge ((IAr \wedge \neg IAg \wedge \neg IAb) \vee (\neg IAr \wedge IAg \wedge \neg IAb) \vee (\neg IAr \wedge \neg IAg \wedge IAb))\wedge ((KSr \wedge \neg KSg \wedge \neg KSb) \vee (\neg KSr \wedge KSg \wedge \neg KSb) \vee (\neg KSr \wedge \neg KSg \wedge KSb))\wedge ((MOr \wedge \neg MOg \wedge \neg MOb) \vee (\neg MOr \wedge MOg \wedge \neg MOb) \vee (\neg MOr \wedge \neg MOg \wedge MOb)) \wedge (((NEr \rightarrow (\neg IAr \wedge \neg KSr))\wedge (IAr \rightarrow (\neg NEr \wedge \neg MOr))\wedge (KSr \rightarrow (\neg NEr \wedge \neg MOr))\wedge (MOr \rightarrow (\neg NEr \wedge \neg IAr \wedge \neg KSr))))\wedge (((NEg \rightarrow (\neg IAg \wedge \neg KSg))\wedge (IAg \rightarrow (\neg NEg \wedge \neg MOg))\wedge (KSg \rightarrow (\neg NEg \wedge \neg MOg))\wedge (MOg \rightarrow (\neg NEg \wedge \neg IAg \wedge \neg KSg))))\wedge (((NEb \rightarrow (\neg IAb \wedge \neg KSb))\wedge (IAb \rightarrow (\neg NEb \wedge \neg MOb))\wedge (KSb \rightarrow (\neg NEb \wedge \neg MOb))\wedge (MOb \rightarrow (\neg NEb \wedge \neg IAb \wedge \neg KSb))))$
+
+Explain the meaning of the clauses:\\
+$((NEr \wedge \neg NEg \wedge \neg NEb) \vee (\neg NEr \wedge NEg \wedge \neg NEb) \vee (\neg NEr \wedge \neg NEg \wedge NEb))\wedge ((IAr \wedge \neg IAg \wedge \neg IAb) \vee (\neg IAr \wedge IAg \wedge \neg IAb) \vee (\neg IAr \wedge \neg IAg \wedge IAb))\wedge ((KSr \wedge \neg KSg \wedge \neg KSb) \vee (\neg KSr \wedge KSg \wedge \neg KSb) \vee (\neg KSr \wedge \neg KSg \wedge KSb))\wedge ((MOr \wedge \neg MOg \wedge \neg MOb) \vee (\neg MOr \wedge MOg \wedge \neg MOb) \vee (\neg MOr \wedge \neg MOg \wedge MOb))$ is the requirement in which each state must be colored with exactly one color.\\
+
+$(((NEr \rightarrow (\neg IAr \wedge \neg KSr))\wedge (IAr \rightarrow (\neg NEr \wedge \neg MOr))\wedge (KSr \rightarrow (\neg NEr \wedge \neg MOr))\wedge (MOr \rightarrow (\neg NEr \wedge \neg IAr \wedge \neg KSr))))\wedge (((NEg \rightarrow (\neg IAg \wedge \neg KSg))\wedge (IAg \rightarrow (\neg NEg \wedge \neg MOg))\wedge (KSg \rightarrow (\neg NEg \wedge \neg MOg))\wedge (MOg \rightarrow (\neg NEg \wedge \neg IAg \wedge \neg KSg))))\wedge (((NEb \rightarrow (\neg IAb \wedge \neg KSb))\wedge (IAb \rightarrow (\neg NEb \wedge \neg MOb))\wedge (KSb \rightarrow (\neg NEb \wedge \neg MOb))\wedge (MOb \rightarrow (\neg NEb \wedge \neg IAb \wedge \neg KSb))))$ is the requirement in which adjacent states cannot have the same color.\\
+
+Is the sentence satisfiable? Explain why or why not:\\
+Yes. {MOr=true, NEg=true, KSb=IAb=true, others=false} is a solution.\\
+
+2.\\
+\includegraphics[width=6in]{q2.png}\\
+
+3.\\
+$R_1: mythical \rightarrow \neg mortal $ (If the unicorn is mythical, then it is immortal).\\
+$R_2: \neg mythical \rightarrow mortal $ (If it is not mythical, then it is a mortal mammal).\\
+$R_3: \neg mortal \vee mortal \rightarrow horned $ (If the unicorn is either immortal or a mammal, then it is horned).\\
+$R_4: horned \rightarrow magical $ (The unicorn is magical if it is horned).\\
+
+Whether or not the unicorn is mythical can not be proved. \\
+If it is mortal, the it is mythical. Otherwise, it is not mythical.\\
+From truth-table, it can be seen that the unicorn is always magical and horned.\\
+\includegraphics[width=4in]{q3.png}\\
+
+4.\\
+\includegraphics[width=4in]{4a.png}\\
+There are 12 models for which the proposition is true.
+
+\includegraphics[width=4in]{4b.png}\\
+There are 15 models for which the proposition is true.
+
+\includegraphics[width=4in]{4c.png}\\
+There are 0 models for which the proposition is true.
+
+5.1.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+p & q & $(p \wedge q) \rightarrow \neg(\neg p \vee \neg q)$ \\ \hline
+0 & 0 & 1 \\ \hline
+1 & 0 & 1 \\ \hline
+0 & 1 & 1 \\ \hline
+1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $(p \wedge q) \rightarrow \neg(\neg p \vee \neg q)$ is always true. \\
+As a result, it is tautology.\\
+
+5.2.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Mary & Susy & $[Mary \wedge (Mary \rightarrow Susy)] \rightarrow Susy$ \\ \hline
+0 & 0 & 1 \\ \hline
+1 & 0 & 1 \\ \hline
+0 & 1 & 1 \\ \hline
+1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $[Mary \wedge (Mary \rightarrow Susy)] \rightarrow Susy$ is always true. \\
+As a result, it is tautology.\\
+
+5.3.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+$\alpha$ & $\beta$ & $\alpha \rightarrow [\beta \rightarrow (\alpha \wedge \beta)]$ \\ \hline
+0 & 0 & 1 \\ \hline
+1 & 0 & 1 \\ \hline
+0 & 1 & 1 \\ \hline
+1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $\alpha \rightarrow [\beta \rightarrow (\alpha \wedge \beta)]$ is always true. \\
+As a result, it is tautology.\\
+
+5.4.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+a & b & c & $(a \rightarrow b) \rightarrow [(b \rightarrow c) \rightarrow (a \rightarrow c)]$ \\ \hline
+0 & 0 & 0 & 1 \\ \hline
+1 & 0 & 0 & 1 \\ \hline
+0 & 1 & 0 & 1 \\ \hline
+1 & 1 & 0 & 1 \\ \hline
+0 & 0 & 1 & 1 \\ \hline
+1 & 0 & 1 & 1 \\ \hline
+0 & 1 & 1 & 1 \\ \hline
+1 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $(a \rightarrow b) \rightarrow [(b \rightarrow c) \rightarrow (a \rightarrow c)]$ is always true. \\
+As a result, it is tautology.\\
+
+6.a\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Smoke & $Smoke \rightarrow Smoke$ \\ \hline
+0 & 1 \\ \hline
+1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $Smoke \rightarrow Smoke$ is valid. \\
+
+6.b.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Smoke & Fire & $Smoke \rightarrow Fire$ \\ \hline
+ 0 & 0 & 1 \\ \hline
+ 0 & 1 & 1 \\ \hline
+ 1 & 0 & 0 \\ \hline
+ 1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $Smoke \rightarrow Fire$ is neither valid nor unsatisfiable.\\
+
+6.c.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Smoke & Fire & $(Smoke \rightarrow Fire) \rightarrow (\neg Smoke \rightarrow \neg Fire)$ \\ \hline
+0 & 0 & 1 \\ \hline
+0 & 1 & 0 \\ \hline
+1 & 0 & 1 \\ \hline
+1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $(Smoke \rightarrow Fire) \rightarrow (\neg Smoke \rightarrow \neg Fire)$ is neither valid nor unsatisfiable.\\
+
+6.d.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Smoke & Fire & $Smoke \vee Fire \vee \neg Fire$ \\ \hline
+0 & 0 & 1 \\ \hline
+0 & 1 & 1 \\ \hline
+1 & 0 & 1 \\ \hline
+1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $Smoke \vee Fire \vee \neg Fire$ is valid.\\
+
+6.e.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Smoke & Heat & Fire & $((Smoke \wedge Heat) \rightarrow Fire) \Leftrightarrow (((Smoke \rightarrow Fire) \vee (Heat \rightarrow Fire)))$ \\ \hline
+0 & 0 & 0 & 1 \\ \hline
+0 & 0 & 1 & 1 \\ \hline
+0 & 1 & 0 & 1 \\ \hline
+0 & 1 & 1 & 1 \\ \hline
+1 & 0 & 0 & 1 \\ \hline
+1 & 0 & 1 & 1 \\ \hline
+1 & 1 & 0 & 1 \\ \hline
+1 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $((Smoke \wedge Heat) \rightarrow Fire) \Leftrightarrow (((Smoke \rightarrow Fire) \vee (Heat \rightarrow Fire)))$ is valid.\\
+
+6.f.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Smoke & Heat & Fire & $(Smoke \rightarrow Fire) \Leftrightarrow ((Smoke \wedge Heat) \rightarrow Fire))$ \\ \hline
+0 & 0 & 0 & 1 \\ \hline
+0 & 0 & 1 & 1 \\ \hline
+0 & 1 & 0 & 1 \\ \hline
+0 & 1 & 1 & 1 \\ \hline
+1 & 0 & 0 & 1 \\ \hline
+1 & 0 & 1 & 1 \\ \hline
+1 & 1 & 0 & 1 \\ \hline
+1 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $(Smoke \rightarrow Fire) \Leftrightarrow ((Smoke \wedge Heat) \rightarrow Fire))$ is valid.\\
+
+6.g.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Big & Dumb & $Big \vee Dumb \vee (Big \rightarrow Dumb) $ \\ \hline
+0 & 0 & 1 \\ \hline
+0 & 1 & 1 \\ \hline
+1 & 0 & 1 \\ \hline
+1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $Big \vee Dumb \vee (Big \rightarrow Dumb) $ is valid.\\
+
+7.1.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\alpha$ & $\beta$ & $\alpha \rightarrow \beta$ & $\neg \beta \rightarrow \neg \alpha$ \\ \hline
+0 & 0 & 1 & 1 \\ \hline
+1 & 0 & 1 & 1 \\ \hline
+0 & 1 & 0 & 0 \\ \hline
+1 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $\alpha \rightarrow \beta$ and $\neg \beta \rightarrow \neg \alpha$ has the same value. \\
+As a result, $(\alpha \rightarrow \beta) \equiv (\neg \beta \rightarrow \neg \alpha)$.\\
+
+7.2.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\alpha$ & $\beta$ & $\neg (\alpha \wedge \beta)$ & $ \neg \alpha \vee \neg \beta$ \\ \hline
+0 & 0 & 1 & 1 \\ \hline
+1 & 0 & 1 & 1 \\ \hline
+0 & 1 & 1 & 1 \\ \hline
+1 & 1 & 0 & 0 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $\neg (\alpha \wedge \beta)$ and $ \neg \alpha \vee \neg \beta$ has the same value. \\
+As a result, $(\neg (\alpha \wedge \beta) \equiv (\neg \alpha \vee \neg \beta)$.\\
+
+7.3.\\
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$\alpha$ & $\beta$ & $\gamma$ & $\alpha \wedge (\beta \vee \gamma)$ & $(\alpha \wedge \gamma ) \vee (\beta \wedge \gamma)$ \\ \hline
+0 & 0 & 0 & 0 & 0 \\ \hline
+0 & 0 & 1 & 0 & 0 \\ \hline
+0 & 1 & 0 & 0 & 0 \\ \hline
+0 & 1 & 1 & 0 & 0 \\ \hline
+1 & 0 & 0 & 0 & 0 \\ \hline
+1 & 0 & 1 & 1 & 1 \\ \hline
+1 & 1 & 0 & 1 & 1 \\ \hline
+1 & 1 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+From the truth-table, we can see that $(\alpha \wedge (\beta \vee \gamma)) \equiv ((\alpha \wedge \gamma ) \vee (\beta \wedge \gamma))$ is valid.\\
+
+8.a.\\
+$(X_{1,2} \wedge X_{1,2} \wedge \neg X_{1,2}) \vee (X_{1,2} \wedge \neg X_{1,2} \wedge  X_{1,2}) \vee ( \neg X_{1,2} \wedge X_{1,2} \wedge X_{1,2})$
+
+8.b.\\
+(a) can be reduces to CNF:\\
+$(\neg X_{1,2} \vee \neg X_{2.2} \vee \neg X_{2,1}) \wedge (X_{2,2} \vee X_{1,2}) \wedge (X_{2,2} \vee X_{2,1}) \wedge (X_{2,1} \vee X_{1,2})$
+
+9.1.\\
+If $q \wedge (r \wedge p) , t \rightarrow v, v  \rightarrow  \neg p,$ then $ \neg t \wedge r.$\\
+Proof:\\
+\begin{enumerate}[1.]
+\item $q \wedge (r \wedge p)$ \hfill Given
+\item $t  \rightarrow v$ \hfill Given
+\item $v  \rightarrow  \neg p$ \hfill Given
+\item $t  \rightarrow  \neg p$ \hfill Resolution rule on $R_2$ and $R_3$
+\item $(r \wedge p)$ \hfill And-Elimination on $R_1$
+\item $r$ \hfill And-Elimination on $R_5$
+\item $p$ \hfill And-Elimination on $R_5$
+\item $ \neg  \neg p$ \hfill double-negation elimination on $R_7$
+\item $ \neg t$ \hfill contraposition on $R_4$ and Implication-Elimination on $R_7$
+\item $ \neg t \wedge r$ \hfill $R_6, R_9$
+\end{enumerate}
+
+9.2.\\
+If $p \rightarrow (q \wedge r), q \rightarrow$ s, and r $\rightarrow$ t, then p $\rightarrow (s \wedge t).$\\
+Proof:\\
+\begin{enumerate}[1.]
+    \item $p \rightarrow (q \wedge r)$ \hfill Given
+    \item $\neg p \vee (q \wedge r)$ \hfill implication elimination on $R_1$
+    \item $(\neg p \vee q) \wedge (\neg p \vee r)$ \hfill distributivity of $\vee$ over $\wedge$ on $R_2$
+    \item $\neg p \vee q$ \hfill And-Elimination on $R_3$
+    \item $p \rightarrow q$ \hfill implication elimination on $R_4$
+    \item $q \rightarrow s$ \hfill Given
+    \item $p \rightarrow s$ \hfill resolution of $R_5$ and $R_6$
+    \item $\neg p \vee s$ \hfill implication elimination on $R_7$
+    \item $\neg p \vee r$ \hfill And-Elimination on $R_3$
+    \item $p \rightarrow r$ \hfill implication elimination on $R_9$
+    \item $r \rightarrow t$ \hfill Given
+    \item $p \rightarrow t$ \hfill resolution of $R_10$ and $R_{11}$
+    \item $\neg p \vee t$ \hfill implication elimination on $R_{12}$
+    \item $(\neg p \vee s) \wedge (\neg p \vee t)$ \hfill $R_8, R_{13}$
+    \item $\neg p \vee (s \wedge t)$ \hfill distributivity of $\vee$ over $\wedge$ on $R_{14}$
+    \item $p \rightarrow (s \wedge t)$ \hfill implication elimination on $R_{15}$
+\end{enumerate}
+
+9.3.\\
+If $\neg (\neg p \wedge q), p\rightarrow (\neg t \vee v),$ q, and t, then r.\\
+Proof:\\
+\begin{enumerate}[1.]
+\item $\neg (\neg p \wedge q)$ \hfill Given
+\item $p \rightarrow (\neg t \wedge r)$ \hfill Given
+\item $q$ \hfill Given
+\item $t$ \hfill Given
+\item $\neg r$ \hfill Negation of Conclusion
+\item $p \vee \neg q$ \hfill de Morgan on $R_1$
+\item $(p \vee \neg q) \wedge q$ \hfill $R_3, R_6$
+\item $(p \wedge q) \vee (\neg q \wedge q)$ \hfill distributivity of $\wedge$ over $\vee$ on $R_7$
+\item $(p \wedge q) \vee False$ \hfill Negation laws on $R_8$
+\item $p \wedge q$ \hfill Identity laws on $R_9$
+\item $p$ \hfill And-Elimination on $R_{10}$
+\item $\neg t \vee r$ \hfill Implication-Elimination on $R_2$ and $R_{11}$
+\item $(\neg t \vee r) \wedge \neg r$ \hfill $R_12$ and $R_5$
+\item $(\neg t \wedge \neg r) \vee (r \wedge \neg r)$ \hfill distributivity of $\wedge$ over $\vee$ on $R_{13}$
+\item $(\neg t \wedge \neg r) \vee False$ \hfill Negation laws on $R_{14}$
+\item $\neg t \wedge \neg r$ \hfill  Identity laws on $R_{15}$
+\item $\neg t$ \hfill And-Elimination on $R_{16}$
+\item $t \wedge \neg t$ \hfill $R_{17}$ and $R_4$
+\end{enumerate}
+Since $t \wedge \neg t$ is not satisfiable, the assumption is wrong and $\neg r$ is not possible.\\
+As a result, r is valid.
+
+\end{document}

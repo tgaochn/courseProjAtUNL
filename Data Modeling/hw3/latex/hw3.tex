@@ -1,0 +1,178 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+% change to a new line when necessary
+\makeatletter
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+\setlength{\parindent}{0pt} % no indent in the beginning of a paragraph
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE862 SEC 001 - Homework 2, Group 11}
+\author{Tian Gao, Jin Wang, Yu Shi, Garrett Wirka, Hoa Nguyen}
+\begin{document}
+\maketitle
+
+(Note: If there is any question regarding the code running, please contact ether Tian Gao or Jin Wang.)\\\\
+
+% 0
+Stage 0:\\
+\includegraphics[width=12cm]{img/stage0.png}
+
+% 1
+Stage 1, step a:\\
+In this section, we write the code in c. There are 4 files to get the result for each query. To run the code, please put all these files and the provided files(record.c \& record.h) in the same folder with .dat files.\\
+Query 1:\\
+The total number of Nebraska user is 37\\
+Process time 0.054981 seconds\\
+Query 2:\\
+The total number of user who sent messages between 8am-9am is 1509\\
+Process time 0.055725 seconds\\
+Query 3:\\
+The total number of Nebraska user who sent messages between 8am-9am is 28\\
+Process time 0.055795 seconds\\
+Query 4:\\
+Regine Jersey (id=985) is the user who sent the most messages between 8am-9am in Nebraska. He sent 6 messages\\
+Process time 0.051383 seconds\\
+
+Let $n$ denotes the number of the dat files. Then the complexity of all the queries is $O(n)$ because we have to read all the dat files once, which can explain why the time each query used is very close.\\\\
+Stage 1, step b:\\
+E-R diagram \& relational table:\\
+
+\includegraphics[width=12cm]{img/er.png}\\
+The ER diagram is very straightforward. Since in this assignment, we do not need to explore the relationship between the city and the state, therefore, we treat them equally, which can be expressed like \{A user lives in a city\} \& \{A user lives in a state\} instead of \{A user lives in a city\} \& \{A city belongs to a state\}. Since one user lives in one city or a state, but a city or a state may have multiple users, the relationship between city(or state) and user is one-to-many. Similarly, one message is sent by one user but a uesr may send multiple messages, so the relationship between user and message is one-to-many, too.\\\\
+In the city and the state table, there are two entities, the id (primary key) and the name of City(or State). In the User table, the id is the primary key, and we also split the name into first name and last name. The $City\_id$ and $State\_id$ are the foreign keys which reference to the City and State tables. In the message table, the id is the primary key, and the $User\_id$ is the foreign key that references to the id of a user. $Time$ and $Text$ are also the entities which show the sent time and the content of the a message. $Hour$ is the column we added to simplify the query in stage 2.\\ 
+\\
+$generate\_csv.c$ is used to convert the dat files into csv files, which represent all the tables above. Then the corresponding tables are created at the database. After that, use sql command to import the tables into the database. For example, “LOAD DATA LOCAL INFILE 'c:$\setminus$ message.csv' INTO TABLE mytestdb.message FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '$\setminus$ n';”  is used to import the message table into the testdb database. Please note that all the id we added as the primary key start from 1 instead of 0. Then set up the foreign by using the phpadmin gui or the sql command: ALTER TABLE `user` ADD FOREIGN KEY (`city\_id`) REFERENCES `city`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT; When setting up the foreign key, we found that two users does not have state on the location. We fixed this problem by adding 0 as the empty state id. Similarly, we added 0 to the City table to handle the null exception. In the User table, if the id of a user is 1, then the corresponding index of dat file is 0.\\\\
+$query.html$ \& $query.php$ are used to send queries to database and show the result on the web. To use the files, the $username$ and $password$ in $query.php$ needs to be filled. A screen shot below shows how it works. \\\\
+\includegraphics[width=12cm]{img/11.PNG}\\\\
+Query 1:\\
+sql: Select count($state\_id$) from user Join state on $user.state\_id$=state.id where state.state='Nebraska';\\
+Time: 0.006400000012945384 s\\
+\includegraphics[width=12cm]{img/1.PNG}\\\\
+Query 2:\\
+sql: Select count(distinct $user\_id$) from message where extract(hour from time)=8;\\
+Time: 0.06740000000037252  s\\
+\includegraphics[width=12cm]{img/2.PNG}\\\\
+Query 3:\\
+sql: Select count(distinct $user\_id$) from message join user on message.$user\_id$ = user.id where extract(hour from time)=8 and $user.state\_id$=33;\\
+Time: 0.020499999984167516 s\\  
+\includegraphics[width=12cm]{img/3.PNG}\\\\
+Query 4:\\
+sql1: INSERT INTO result select  $message.user\_id$, user.firstname, user.lastname, count($user\_id$) as num from message join user on $message.user\_id$=user.id where extract(hour from time)=8 and $user.state\_id$=33 group by $user\_id$;\\
+Time: 0.013500000000931323 s\\
+sql2: select * from result where num =(select max(num) from result) \\
+Time: 0.016899999987799674 s\\
+sql1 is to query all the users in nebraska, and store the result in a new table. After that, query the maximum num in the new table.\\
+\includegraphics[height=10cm]{img/44.PNG}\\
+\includegraphics[width=10cm]{img/444.PNG}\\
+\\
+Comparison:\\
+By comparing each timing result with its counterpart in Step a, we found that querying from database takes less time because a database usually implements a more efficient algorithm (B plus tree is the baseline) to store and search the data.\\
+\newpage
+
+(In the following part, python is used and the original input data is the csv files generated in Stage1 - Step b. These files can be found in stage1\_b/data)\\
+
+Stage 2, step a:\\
+Please find the code for splitting tables in "stage2\_a/splitTable.py".\\
+Usage: \\
+python stage2\_a/splitTable.py stage1\_b/data stage2\_a/data\\
+It will load csv files from stage1\_b/data and generate splitted files in stage2\_a/data.\\
+
+Stage 2, step b:\\
+Please find the code for splitting tables in "stage2\_b/tableSort.py".\\
+Usage: \\
+python stage2\_b/tableSort.py stage2\_a/data\\
+It will sort splitted files in stage2\_a/data.\\
+
+It costs 4.21 sec to sort all the files.\\
+For table user, 4th column (stateId) is selected for sorting, because it is easier to split the table into files in the following step.\\
+For table city, 1st column (cityId) is selected for sorting. Selection doesn't matter since we won't use this table.\\
+For table state, 2nd column (stateName) is selected for sorting, because it is easier to split the table into files in the following step.\\
+For table message, 3rd column (msgHour) is selected for sorting, because it is easier to split the table into files in the following step.\\
+
+Stage 2, step c:\\
+Please find the code of the 4 queries in "stage2\_c/process\_record\_1-4.py".\\
+Usage:\\
+python stage2\_c/process\_record\_1-4.py stage2\_b/data\\
+stage2\_b/data is the path of sorted splitted table files.\\
+
+Assume: \\
+The number of files in user table is Nu.\\ 
+The number of files in city table is Nc.\\ 
+The number of files in state table is Ns.\\ 
+The number of files in message table is Nm.\\ 
+The complexity of query 1 is O(Ns + Nu).\\
+The complexity of query 2 is O(Nm).\\
+The complexity of query 3 is O(Ns + Nu + Nm).\\
+The complexity of query 4 is O(Ns + Nu + Nm).\\
+
+Query 1 costs 0.031 sec.\\
+Query 2 costs 0.033 sec.\\
+Query 3 costs 0.037 sec.\\
+Query 4 costs 0.045 sec.\\
+Using splitted table files, queries run faster than their counterparts in Stage 1 Step a.\\
+The reason is that, with splitted table files, only part of files are loaded. \\
+n is the max number of files for a table. If n increases, there will be more files and more change to load less part of content. 
+So more time will be saved.\\
+
+
+% 3
+Stage 3, step a:\\
+Please find the code for building B+ tree in "stage3\_a/buildTree.py" and "stage3\_a/structure.py".\\
+Usage: \\
+stage3\_a/buildTree.py stage2\_b/data stage3\_a/data 10\\
+stage2\_b/data is the path of sorted splitted table files.\\
+stage3\_a/data is the path in which the B+ tree is generated.\\
+10 is the fan-out.\\
+
+Searching operation is also included in "stage3\_a/structure.py".\\
+The files containing B+ tree node are generated in the given path.\\
+With fan-out = 10, it costs 0.9 sec to generate the B+ treess of all tables.\\
+With fan-out = 200, it costs 0.8 sec to generate the B+ treess of all tables.\\
+
+Stage 3, step b:\\
+Please find the code of the 4 queries in "stage3\_b/process\_record\_1-4.py".\\
+Usage:\\
+python stage3\_b/process\_record\_1-4.py stage2\_b/data stage3\_b/data 10
+stage2\_b/data is the path of sorted splitted table files.\\
+stage3\_a/data is the path in which the B+ tree is generated.\\
+10 is the fan-out.\\
+
+With fan-out = 10, query 1 costs 0.0034 sec.\\
+With fan-out = 200, query 1 costs 0.003 sec.\\
+With fan-out = 10, query 2 costs 0.0084 sec.\\
+With fan-out = 200, query 2 costs 0.0107 sec.\\
+With fan-out = 10, query 3 costs 0.0174 sec.\\
+With fan-out = 200, query 3 costs 0.0135 sec.\\
+With fan-out = 10, query 4 costs 0.013 sec.\\
+With fan-out = 200, query 4 costs 0.014 sec.\\
+Using B+ tree, queries run faster than their counterparts in Stage 2 Step c.\\
+The reason is that time complexity of search operation in a B+ tree is O(log(n)) while search operation in Stage 2 Step c is O(n).\\
+n is the max number of files for a table. If n increases, there will be more files and the advantage of B+ tree is more significant.\\
+
+\end{document}

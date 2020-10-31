@@ -1,0 +1,112 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+
+% empty set package
+\usepackage{amssymb}
+
+\title{ELEC 996 Bayesian Networks - Homework 3}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+% Question 1
+1. \\
+\begin{align}
+P(t_1|w_1) =& \sum\limits_{z}P(t_1, z|w_1) \\
+	=& \sum\limits_{z} P(t_1|z)P(z|w_1) \\
+    =& \sum\limits_{x, z} P(t_1|z)P(x,z|w_1) \\
+	=& \sum\limits_{x,z} P(t_1|z)P(z|x)P(x|w_1) \\
+    =& \sum\limits_{x,z} P(t_1|z)P(z|x) \frac{P(w_1|x)P(x)}{P(w_1)} \\
+    =& \sum\limits_{x,z} P(t_1|z)P(z|x) \frac{P(w_1|x)P(x)}{\sum\limits_{y'}P(w_1|y')P(y')} \\
+    =& \sum\limits_{x,z}  \frac{P(t_1|z)P(z|x)P(x)}{\sum\limits_{y'}P(w_1|y')P(y')} P(w_1|x)\\
+    =& \sum\limits_{x,z}  \frac{P(t_1|z)P(z|x)P(x)}{\sum\limits_{y'}P(w_1|y')\sum\limits_{x'}P(x',y')} \sum\limits_{y}P(w_1,y|x)\\
+    =& \sum\limits_{x,y,z}  \frac{P(t_1|z)P(z|x)P(x)}{\sum\limits_{x',y'}P(w_1|y')P(y'|x')P(x')}P(w_1|y)P(y|x)
+\end{align}
+Since all the conditional	probabilities are given, the value of $P(t_1|w_1)$ can be easily calculated using this formula.
+
+% Question 2
+2. \\
+a = 14, b = 6, s = 3, t = 7, M = s + t = 10, N = a + b = 20\\
+(a)\\
+$P(x=1)=\frac{a}{a+b}=0.7$ \\
+(b)\\
+$P(d)=E[F^s(1-F)^t]=\frac{\Gamma(N)}{\Gamma(N + M)} \frac{\Gamma(a+s)\Gamma(b+t)}{\Gamma(a)\Gamma(b)}
+	=\frac{19!}{29!} \frac{16!*12!}{13!*5!}$\\
+(c)\\
+$\rho(f|d)=beta(f; a+s, b+t)=beta(f;17,13)$\\
+(d)\\
+$P(x^{M+1}=1|d)=\frac{a+s}{M+N}=\frac{17}{30}$\\
+
+% Question 3
+3. \\
+$P(x^1=1)=\frac{a}{a+b}=0.1$\\
+$P(x^2=1|d=[1])=\frac{a+1}{a+b+1}=0.8$\\
+so $a=\frac{1}{35},b=\frac{9}{35}$\\
+(a)\\
+$\rho(f|d)=beta(f; a, b)=beta(f;\frac{1}{35},\frac{9}{35})$\\
+(b)\\
+$s = 10, t = 0, M = s + t = 10, N = a + b = \frac{10}{35}$\\
+$P([1,1,...,1]_{10 \times 1})=E[F^s(1-F)^t]=\frac{\Gamma(N)}{\Gamma(N + M)} \frac{\Gamma(a+s)\Gamma(b+t)}{\Gamma(a)\Gamma(b)}
+	=\frac{\Gamma(\frac{10}{35})}{\Gamma(\frac{10}{35} + 10)} \frac{\Gamma(\frac{1}{35}+10)\Gamma(\frac{9}{35}+0)}{\Gamma(\frac{1}{35})\Gamma(\frac{9}{35})}$\\
+(c)\\
+$\rho(f|d=[1])=beta(f; a+s, b+t)=beta(f;1+\frac{1}{35},\frac{9}{35})$\\
+(d)\\
+(1). \\
+$P(x^2=1|d=[1])=0.8$\\
+(2). \\
+$\rho(f|d=[1,1])=beta(f; a, b)=beta(f;\frac{1}{35}+2,\frac{9}{35})$\\
+$P([1,1,...,1]_{8 \times 1}|x^1=1,x^2=1)=\frac{a+s}{M+N}=\frac{\Gamma(\frac{10}{35}+2)}{\Gamma(\frac{10}{35} + 10)} \frac{\Gamma(\frac{1}{35}+10)\Gamma(\frac{9}{35}+0)}{\Gamma(\frac{1}{35}+2)\Gamma(\frac{9}{35})}$\\
+
+% Question 4
+4. \\
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=40mm,scale=0.5]{graph1.jpg}
+\end{figure}
+(a)\\
+$P(x_1=1)=\frac{4}{4+8}$\\
+$P(x_2=1)=\frac{6}{6+6}$\\
+$P(x_1=1|x_1=1,x_2=1)=f_{31}=\frac{1}{1+1}$\\
+$P(x_1=1|x_1=1,x_2=2)=f_{32}=\frac{1}{1+1}$\\
+$P(x_1=1|x_1=2,x_2=1)=f_{33}=\frac{1}{1+3}$\\
+$P(x_1=1|x_1=2,x_2=2)=f_{34}=\frac{3}{3+1}$\\
+
+(b)\\
+$a_{11}=4, b_{11}=8, s_{11}=6, t_{11}=4, M_{11}=10, N_{11}=12$\\
+$a_{21}=6, b_{21}=6, s_{21}=4, t_{21}=6, M_{21}=10, N_{21}=12$\\
+$a_{31}=1, b_{31}=1, s_{31}=1, t_{31}=1, M_{31}=2, N_{31}=2$\\
+$a_{32}=1, b_{32}=1, s_{32}=4, t_{32}=0, M_{32}=5, N_{32}=1$\\
+$a_{33}=1, b_{33}=3, s_{33}=1, t_{33}=1, M_{33}=2, N_{33}=4$\\
+$a_{34}=3, b_{34}=1, s_{34}=1, t_{34}=1, M_{34}=2, N_{34}=4$\\
+
+\begin{align}
+P(D)=&\prod\limits_{i=1}^{n} \prod\limits_{j=1}^{q_i}\frac{\Gamma(N_{i,j})}{\Gamma(N_{i,j} + M_{i,j})} \frac{\Gamma(a_{i,j}+s_{i,j})\Gamma(b_{i,j}+t_{i,j})}{\Gamma(a_{i,j})\Gamma(b_{i,j})}\\
+=&\frac{\Gamma(N_{1,1})}{\Gamma(N_{1,1} + M_{1,1})} \frac{\Gamma(a_{1,1}+s_{1,1})\Gamma(b_{1,1}+t_{1,1})}{\Gamma(a_{1,1})\Gamma(b_{1,1})}\\
+*&\frac{\Gamma(N_{2,1})}{\Gamma(N_{2,1} + M_{2,1})} \frac{\Gamma(a_{2,1}+s_{2,1})\Gamma(b_{2,1}+t_{2,1})}{\Gamma(a_{2,1})\Gamma(b_{2,1})}\\
+*&\frac{\Gamma(N_{3,1})}{\Gamma(N_{3,1} + M_{3,1})} \frac{\Gamma(a_{3,1}+s_{3,1})\Gamma(b_{3,1}+t_{3,1})}{\Gamma(a_{3,1})\Gamma(b_{3,1})}\\
+*&\frac{\Gamma(N_{3,2})}{\Gamma(N_{3,2} + M_{3,2})} \frac{\Gamma(a_{3,2}+s_{3,2})\Gamma(b_{3,2}+t_{3,2})}{\Gamma(a_{3,2})\Gamma(b_{3,2})}\\
+*&\frac{\Gamma(N_{3,3})}{\Gamma(N_{3,3} + M_{3,3})} \frac{\Gamma(a_{3,3}+s_{3,3})\Gamma(b_{3,3}+t_{3,3})}{\Gamma(a_{3,3})\Gamma(b_{3,3})}\\
+*&\frac{\Gamma(N_{3,4})}{\Gamma(N_{3,4} + M_{3,4})} \frac{\Gamma(a_{3,4}+s_{3,4})\Gamma(b_{3,4}+t_{3,4})}{\Gamma(a_{3,4})\Gamma(b_{3,4})}
+\end{align}
+
+(c)\\
+$\rho(f_{11}|d)=beta(f_{11}; 10, 12)$\\
+$\rho(f_{21}|d)=beta(f_{21}; 10, 12)$\\
+$\rho(f_{31}|d)=beta(f_{31}; 2, 2)$\\
+$\rho(f_{32}|d)=beta(f_{32}; 5, 1)$\\
+$\rho(f_{33}|d)=beta(f_{33}; 2, 4)$\\
+$\rho(f_{34}|d)=beta(f_{34}; 4, 2)$\\
+
+(d)\\
+$P(x_1=2,x_2=1,x_3=2)=P(x_1=2)P(x_2=1)P(x_3=2|x_1=2,x_2=1)=\frac{12}{10+12} \frac{10}{10+12} \frac{4}{2+4}$
+\end{document}

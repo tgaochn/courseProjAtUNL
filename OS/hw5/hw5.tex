@@ -1,0 +1,112 @@
+\documentclass[a4paper]{article}
+
+% necessary package
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{parskip} % spacing between paragraphs controller
+\usepackage{amsmath} % equation alignment and reference
+\usepackage{enumerate} % list items
+\usepackage{graphicx} % figure alignment and reference
+
+%% algorithm pseudocode related
+% \usepackage{algorithmicx}
+% \usepackage[noend]{algpseudocode}
+% \usepackage[linesnumbered, ruled, vlined]{algorithm2e}
+
+%% automata circle and edges related
+% \usepackage{tikz}
+% \usetikzlibrary{automata,positioning}
+
+% other package
+\usepackage{amssymb} % empty set package
+\usepackage{url} % url reference
+\usepackage{multirow} % multiple rows/columns in table
+
+
+% change to a new line when necessary
+\makeatletter 
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+\setlength{\parindent}{0pt} % no indent in the beginning of a paragraph
+
+
+\title{CSCE 451/851 Homework 5}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+% ! Q1
+Q1:\\
+a. Available array:\\
+\begin{table}[!htb]
+    \begin{tabular}{llll}
+        A & B & C & D \\
+        6 & 3 & 5 & 4
+    \end{tabular}
+\end{table}
+
+b. Need matrix:\\
+\begin{table}[!htb]
+    \begin{tabular}{lllll}
+              & A & B & C & D \\
+        $P_0$ & 7 & 5 & 3 & 4 \\
+        $P_1$ & 2 & 1 & 2 & 2 \\
+        $P_2$ & 3 & 4 & 4 & 2 \\
+        $P_3$ & 2 & 3 & 3 & 1 \\
+        $P_4$ & 4 & 1 & 2 & 1 \\
+        $P_5$ & 3 & 4 & 3 & 3
+    \end{tabular}
+\end{table}
+
+c. A safe sequence of processes:\\
+$P_1$ - $P_2$ - $P_3$ - $P_4$ - $P_5$ - $P_0$
+
+d. \\
+If given the request (3,2,3,3) from Process P5, the available array will be:
+\begin{table}[!htb]
+    \begin{tabular}{llll}
+        A & B & C & D \\
+        3 & 1 & 2 & 1
+    \end{tabular}
+\end{table}
+
+The need matrix will be:
+\begin{table}[!htb]
+    \begin{tabular}{lllll}
+              & A & B & C & D \\
+        $P_0$ & 7 & 5 & 3 & 4 \\
+        $P_1$ & 2 & 1 & 2 & 2 \\
+        $P_2$ & 3 & 4 & 4 & 2 \\
+        $P_3$ & 2 & 3 & 3 & 1 \\
+        $P_4$ & 4 & 1 & 2 & 1 \\
+        $P_5$ & 0 & 2 & 0 & 0
+    \end{tabular}
+\end{table}
+
+None of the threads can run and the system is in unsafe state.
+Thus, the request can’t be granted
+
+% ! Q2
+Q2:\\
+a. How many bits are in a logical address\\
+$log_2(2^{20} * 2^{12})$ = 32
+
+b. How many bits in the physical address specify the frame\\
+$log_2(2^{16} / 2^{12})$ = 4
+
+c. How many entries are in the page table\\
+$2^{32} / 2^{12}$ = $2^{20}$
+
+\end{document}

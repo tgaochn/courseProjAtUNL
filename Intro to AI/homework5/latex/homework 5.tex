@@ -1,0 +1,248 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 476/876, Fall 2017, homework 5}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% 1 Dynamic Variable Ordering
+% 1.1. Explain the principle of dynamic variable ordering in Backtrack Search
+1.1\\
+When choosing the next unassigned variable, instead of using a static variable ordering, we can choose the variable in a dynamic ordering based on a certain heuristic to get better profermance.\\
+
+% 1.2 Research and describe three heuristics that implement this principal.
+1.2\\
+FF: fail-first heuristic, choosing the variable with smallest current domain, tie breaking randomly.\\
+BZ: Brelaz heuristic, essentially FF tie breaking on the variable with most constraints acting into the future subproblem, and tie breaking further randomly.\\
+GEL: Geelen's combined variable and value ordering heuristic, selecting the most promising value for the least promising variable.\\
+Ref.\\
+D. Brelaz. New methods to color the vertices of a graph. JACM, 22(4):251 - 256,1979.\\
+P.A. Geelen. Dual viewpoint heuristics for the binary constraint satisfaction problem. In Proc. ECAI92, pages 31 - 35, 1992.\\
+R.M. Haralick and G.L. Elliott. Increasing tree search efficiency for constraint satisfaction problems. Artificial Intel ligence, 14:263 - 313, 1980.\\
+
+% 2 Constraint propagation
+2.1\\
+$CSP_I$ is arc-consistent while $CSP_{II}$ is not.\\
+
+2.2\\
+For (X, Y), if x is 1, y can be 4; if x is 2, y can be 3.\\
+For (X, Z), if x is 1, z can be 4; if x is 2, z can be 3.\\
+For (Z, Y), if z is 3, y can be 4; if z is 4, y can be 3.\\
+So $CSP_I$ is arc-consistent.\\
+
+2.3\\
+Domain of X and Z must be reduced. The added constaint on X and Z can be "X is not 2" and "Z is not 3".\\
+
+% 3 Simple scheduling problem
+3.1\\
+Initial state: empty assignment, all variables are unassigned.\\
+variables: $ S_b, S_h, S_p, S_w $; The numbers mean the starting hour of each process.
+domain of $ S_b, S_h, S_p, S_w $: Natural number less than 4.\\
+unary constraints: $S_b + 2 \leqslant 4, S_p + 1 \leqslant 4, S_w + 2 \leqslant 4, S_h + 1 \leqslant 4$.\\
+binary constraints: $S_b + 2 \leqslant S_h, S_p + 1 \leqslant S_w, S_b \neq S_p, S_b + 1 \neq S_p $.\\
+Successor function: a value is assigned to any unassigned variable, provided that it does not conflict with previously assigned variables.\\
+Goal test:  The current assignment is complete and consistent.\\
+Path cost: cost is zero for each step.\\
+
+3.2\\
+The whole search tree:\\
+\includegraphics[width=4in]{searchTree.png}\\
+
+4.1\\
+\includegraphics[width=4in]{equalNetwork.png}\\
+
+4.2\\
+\{  $X_1=G, X_2=B, X_3=B, X_4=B, X_5=G, X_6=R, X_7=R$  \} is a solution.\\
+
+5.1\\
+Using partial look-ahead strategy, the process is stated as follows:\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & $\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & $\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & $\begin{matrix}   \_ & \_ \\   \_ & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ \\ \hline
+b & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+
+If the assignment process continues, it will be like this:\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & $\begin{matrix}   \_ & \_ \\   b & \_  \end{matrix}$ \\ \hline
+b & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+b & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+b & r & $\begin{matrix}   \_ & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   \_ & y  \end{matrix}$ & $\begin{matrix}   \_ & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+b & r & $\begin{matrix}   \_ & \_ \\   \_ & y  \end{matrix}$ & g \\ \hline
+$\begin{matrix}   \_ & \_ \\   \_ & y  \end{matrix}$ & $\begin{matrix}   \_ & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+b & r & y & g \\ \hline
+$\begin{matrix}   \_ & \_ \\   \_ & y  \end{matrix}$ & $\begin{matrix}   \_ & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & \_  \end{matrix}$ & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+b & r & y & g \\ \hline
+y & $\begin{matrix}   \_ & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & \_  \end{matrix}$ & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+b & r & y & g \\ \hline
+y & b & $\begin{matrix}   \_ & g \\   \_ & \_  \end{matrix}$ & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+b & r & y & g \\ \hline
+y & b & g & $\begin{matrix}   r & \_ \\   \_ & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+b & r & y & g \\ \hline
+y & b & g & r \\ \hline
+\end{tabular}\\\\
+
+5.2\\
+Using the full look-ahead strategy, the process is stated as follows:\\
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & $\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & $\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & y  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & g \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   b & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+$\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & \_  \end{matrix}$ \\ \hline
+$\begin{matrix}   \_ & \_ \\   b & y  \end{matrix}$ & $\begin{matrix}   r & \_ \\   b & \_  \end{matrix}$ & $\begin{matrix}   \_ & g \\   \_ & y  \end{matrix}$ & $\begin{matrix}   r & g \\   \_ & \_  \end{matrix}$ \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{|l|l|l|l|}
+\hline
+r & g & b & y \\ \hline
+g & y & r & b \\ \hline
+b & r & y & g \\ \hline
+y & b & g & r \\ \hline
+\end{tabular}\\\\
+
+6.1\\
+Initial state: empty assignment, all variables are unassigned.\\
+variables: literals in 3SAT.\\
+domains: the literals are boolean.\\
+constraints: the literals must make all the clauses in 3SAT true.\\
+Successor function: a value is assigned to any unassigned variable, provided that it does not conflict with previously assigned variables.\\
+Goal test:  The current assignment is complete and consistent.\\
+Path cost: cost is zero for each step.\\
+
+6.2\\
+The arity is 3.\\
+
+\end{document}

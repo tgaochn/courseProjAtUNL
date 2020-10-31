@@ -1,0 +1,156 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+% empty set package
+\usepackage{amssymb}
+
+\title{Intro to AI - Homework 1}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% Question 1
+1. \\
+The latest winner of the Loebner prize is Mitsuku created from AIML technology by Steve Worswick. It is a Chatterbot and also won the Loebner prize in 2013 and 2016. Mitsuku claims to be an 18-year-old female chatbot from Leeds. She contains all of Alice's AIML files, with many additions from user generated conversations, and is always work in progress. Her intelligence includes the ability to reason with specific objects. Moreover, She can play games and do magic tricks at the user's request.\\
+To design Mitsuku, The following techniques are involved: 
+\begin{enumerate}[1)]
+\item Parsing
+\item Pattern matching
+\item AIML
+\item Chat Script
+\item SQL and relational database
+\item Markov Chain
+\item Language tricks
+\item Ontologies
+\end{enumerate}
+I've talked to some chatbot and what Mitsuku impress me most is her ability to reason. For example, if someone says \"Can you eat a house?\", Mitsuku will answer \"No.\" because she looks up the properties for \"house\" and find that house is made from brick or wood which she cannot eat. As the material of a house is not edible, a house is also not edible. \\
+I believe reasoning is one of the most important feature of human being so I think Mitsuku is helping robot to \"think\" like human.\\
+
+References:\\
+\begin{enumerate}[1]
+\item En.wikipedia.org. (2017). Loebner Prize. [online] Available at: \url{https://en.wikipedia.org/wiki/Loebner_Prize}  [Accessed 3 Sep. 2017].
+\item En.wikipedia.org. (2017). Mitsuku. [online] Available at: \url{https://en.wikipedia.org/wiki/Mitsuk} [Accessed 3 Sep. 2017].
+\item Mitsuku.com. (2017). Mitsuku Chatbot. [online] Available at: \url{http://www.mitsuku.com/} [Accessed 3 Sep. 2017].
+\item A., S. and John, D. (2015). Survey on Chatbot Design Techniques in Speech Conversation Systems. International Journal of Advanced Computer Science and Applications, 6(7).
+\end{enumerate}
+
+% Question 2
+2.
+\begin{enumerate}[1)]
+\item Supermarket bar code scanners:\\
+A scanner is not a AI system because it can only read the bar code and search it in a database. It doesn't involve thinking or acting like human or rationally.
+
+\item Web search engines:\\
+A normal web search engine is not a AI system because it only matches the inputted keyword to what appears in websites.
+
+\item Voice-activated telephone menus:\\
+Voice-activated telephone menus can be considered as a AI system because it need to understand what people say and act as expected.
+
+\item Internet routing algorithms that respond dynamically to the state of the network:\\
+Internet routing algorithms are AI system because it response to what happens in the environment and act rationally.
+\end{enumerate}
+
+
+
+
+
+
+% Question 3
+3.
+\begin{enumerate}[a)]
+\item An agent that senses only partial information about the state cannot be perfectly rational.\\
+False. The vacuuming cleaning agent is rational, though it doesn't know the environment of the other room.
+
+\item There exist task environments in which no pure reflex agent can behave rationally.\\
+True. A pure reflex agent cannot behave rationally if action of history need to be considered.
+
+\item There exists a task environment in which every agent is rational.\\
+True. If there is only one possible action which is rational, every agent will be rational.
+
+\item The input to an agent program is the same as the input to the agent function.\\
+False. They are different because an agent program consider history while the function only consider current environment.
+
+\item Every agent function is implementable by some program/machine combination.\\
+False. Learning agents may not be implementable by some program/machine combination.
+
+\item Suppose an agent selects its action uniformly at random from the set of possible actions.
+There exists a deterministic task environment in which this agent is rational.\\
+True. If there is only one possible action which is rational, this agent will be rational.
+
+\item It is possible for a given agent to be perfectly rational in two distinct task environments.\\
+True, but only if two distinct task environments are similar enough.
+
+\item Every agent is rational in an unobservable environment.\\
+False. In driving case, which is an unobservable environment, always driving ahead is not rational.
+
+\item A perfectly rational poker-playing agent never loses.\\
+False. A poker-playing agent must be stochastic, so it just have a high chance to win.
+
+\end{enumerate}
+
+% Question 4
+4.
+\begin{center} 
+\begin{tabular}{ | p{2.5cm} | p{2.5cm} | p{2.5cm} | p{2.5cm} | p{2.5cm} |} 
+\hline Agent & Performance measure & Environment & Actuators & Sensors\\ 
+\hline Robot soccer player & score, injuries & players, field, ball & foot, hand & eyes\\ 
+\hline Internet book-shopping agent & price, shipping time & website, computer & mouse & eyes\\ 
+\hline Autonomous Mars rover & energy & Mars surface, sun & foot, digger & eyes \\ 
+\hline 
+\end{tabular} 
+\end{center}
+
+\begin{center} 
+\begin{tabular}{ | p{2.5cm} | p{4cm} | p{4cm} | p{4cm} |} 
+\hline & Robot soccer player & Internet book-shopping agent & Autonomous Mars rover\\ 
+\hline Observable & Yes & No & No\\ 
+\hline Deterministic & No & Yes & No\\ 
+\hline Episodic & Yes & Yes & No\\ 
+\hline Static & Yes & No & No\\ 
+\hline Discrete & No & Yes & No\\ 
+\hline Single-agent & No & Yes & No\\ 
+\hline suitable agent design & Simple reflex agents with state & Utility-based agents & Learning agents\\ 
+\hline 
+\end{tabular} 
+\end{center}
+
+% Question 5
+5.
+\begin{enumerate}[a)]
+\item Can there be more than one agent program that implements a given agent function? Give an example, or show why one is not possible.\\
+Yes. If a agent function has multiple options, there will be more than one corresponding agent program.
+
+\item Are there agent functions that cannot be implemented by any agent program?\\
+Yes. It happens when there is no solution for a agent function. 
+
+\end{enumerate}
+
+% Question 6
+6.
+\begin{enumerate}[a)]
+\item Can a simple reflex agent be perfectly rational for this environment? Explain.\\
+No. A simple reflex agent will never stop because it cannot store the information of the other room. As a result, it is not rational.
+
+\item What about a reflex agent with state? Design such an agent.\\
+A reflex agent with state will be rational because it stores the information of the other room.
+
+\item How do your answers to a and b change if the agent¡¯s percepts give it the clean/dirty status of every square in the environment?\\
+If it has the option to take no action, the answer will be Yes to both A and B.
+
+\end{enumerate}
+
+\end{document}
+

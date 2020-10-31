@@ -1,0 +1,72 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+% change to a new line when necessary
+\makeatletter
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE 835, Fall 2017, homework 9}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% 1
+1.\\
+To solve the problem, I run 2 hadoop jobs and the input of the 2nd one is the output of the 1st one. The 1st job is used to count the frequency of all the words and the 2nd one is used to sort the words by frequency.\\
+In the mapper of the 1st job, I parse each line and output each single word.\\
+The format of output is 'word $\backslash$ t 1'.\\
+In the reducer of the 1st job, I merge all the same words and count how many times they appear.\\
+The format of output is 'word $\backslash$t frequency'.\\
+In the mapper of the 2nd job, I output the word and frequency so that the words are ordered by frequency.\\
+The format of output is 'frequency $\backslash$t word'.\\
+In the reducer of the 2nd job, I format the output .\\
+The format of output is 'word $\backslash$t frequency'.\\
+\includegraphics[height=6cm]{wordcount.png}\\
+To run the program, you may need to change the output path of 1st job and the input of the 2nd job. They are both in run.sh.\\
+Next, just type in command 'source run.sh'.\\
+
+% 2
+2. \\
+To solve the problem, I run 2 hadoop jobs and the input of the 2nd one is the output of the 1st one. The 1st job is used to list all the mutual friends and which main uids they are share by. The 2nd one is used to calculate how many mutual friends two main uids have.\\
+In the mapper of the 1st job, I parse each line and output each friend for each main uid.\\
+The format of output is 'friend's uid $\backslash$t main uid'.\\
+In the reducer of the 1st job, I merge all the same friend's uids and list all the main uid which is related to each friend's uid.\\
+The format of output is 'friend's uid $\backslash$t all the main uids realted to this friend and these main uid are splitted by comma '.\\
+\includegraphics[width=13cm]{friend1.png}\\
+In the mapper of the 2nd job,  I parse each line and output each pair of main uids.\\
+The format of output is 'main uid1 $\backslash$t main uid2, friend's uid'.\\
+In the reducer of the 2nd job, I merge all the data for each main uid1, format them and sort the recommended friends by the number of mutual friends .\\
+The format of final output is 'main uid1 $\backslash$t (recommended) main uid2 $\backslash$t how many mutual friends they have $\backslash$t the exact uid of all their friends(splitted by commma)'.\\
+\includegraphics[height=6cm]{friend.png}\\
+To run the program, you may need to change the output path of 1st job and the input of the 2nd job. They are both in run.sh.\\
+Next, just type in command 'source run.sh'.\\
+
+
+
+\end{document}

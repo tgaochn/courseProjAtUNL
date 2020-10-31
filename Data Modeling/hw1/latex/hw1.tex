@@ -1,0 +1,78 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+ 
+
+% change to a new line when necessary
+\makeatletter
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+\setlength{\parindent}{0pt} % no indent in the beginning of a paragraph
+
+% empty set package
+\usepackage{amssymb}
+
+\title{CSCE862 SEC 001 - Homework 1}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+% 1
+Stage 1.\\
+After modifying marketbasket.js, the result is shown as follows. \\
+Please find the modified file in stage1 folder.\\
+\includegraphics[width=6cm]{img/stage1.png}
+
+% 2
+Stage 2.\\
+After modifying marketbasket.js and marketbasket.html, part of the result is shown as follows. \\
+Please find the modified file in stage2 folder.\\
+\includegraphics[width=6cm]{img/stage2_1.png}\\
+\includegraphics[width=6cm]{img/stage2_2.png}\\
+\includegraphics[width=6cm]{img/stage2_3.png}\\
+
+% 3
+Stage 3.\\
+After modifying marketbasket\_1.js and marketbasket\_1.html, part of the result is shown as follows. \\
+Please find the modified file in stage3 folder.\\
+\includegraphics[width=6cm]{img/stage3_1.png}\\
+\includegraphics[width=6cm]{img/stage3_2.png}\\
+\includegraphics[width=6cm]{img/stage3_3.png}\\
+
+% 4
+Stage 4.\\
+Running on the same dataset, code in stage 2 is much faster than code in stage 3.\\
+The reason is that the A-Priori algorithm used in stage 2 has already filtered low-frequent 
+items and item pairs, which leads to less calculation.\\
+
+% 5
+Stage 5.\\
+After modifying files, part of the result is shown as follows. \\
+Compared to stage 2, the time cost in stage 5 is 10 times more since the dataset is much larger.\\
+Please find the modified file in stage5 folder.\\
+\includegraphics[width=6cm]{img/stage5_1.png}\\
+\includegraphics[width=6cm]{img/stage5_2.png}\\
+\includegraphics[width=6cm]{img/stage5_3.png}\\
+
+\end{document}

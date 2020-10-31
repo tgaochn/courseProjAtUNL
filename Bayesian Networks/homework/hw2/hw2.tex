@@ -1,0 +1,55 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+
+% empty set package
+\usepackage{amssymb}
+
+\title{ELEC 996 Bayesian Networks - Homework 2}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+% Question 1
+1. \\
+From the DAG, we know that $\neg I_G(X, Y|Z)$\\
+That is, $P(X, Y|Z) \neq P(X|Z)P(Y|Z)$\\
+However, when we calculate the probability using given probability distribution, the inequality does not hold. \\
+That is $I_P(X, Y|Z)$\\
+Since the conditional independence are not the same in G and P\\
+As a result, probability distribution is not faithful to the DAG\\
+This distribution admit the following faithful DAG representation:\\
+\includegraphics{q1.png}\\
+Since $I_P(X, Y|Z) = I_G(X, Y|Z)$ 
+
+% Question 2
+2. \\
+All the DAGs Markov equivalent to (a) and DAG pattern:\\
+\includegraphics{Q2.png}
+
+All the DAGs Markov equivalent to (c) and DAG pattern:\\
+\includegraphics{Q2.png}
+
+All the DAGs Markov equivalent to (d) and DAG pattern:\\
+\includegraphics{Q2.png}
+
+
+% Question 3
+3. \\
+Markov blanket for T: {S, X}\\
+Markov blanket for S: {T, Z}\\
+Markov blanket for X: {T, Z, Y}\\
+Markov blanket for Z: {X, Y, S, T}\\
+Markov blanket for Y: {Z, W, X}\\
+Markov blanket for W: {Y}\\
+
+\end{document}

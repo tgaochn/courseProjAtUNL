@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - PLY</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="js/three.js"></script>
+		<script type="text/javascript" src="js/PLYLoader.js"></script>
+		<script type="text/javascript" src="js/Detector.js"></script>
+		<script type="text/javascript" src="js/stats.min.js"></script>
+		<script type="text/javascript" src="js/OrbitControls.js"></script>
+		<script type="text/javascript" src="js/neo4jQuery.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+	</head>
+	
+	<body>
+
+		<div id="info">WebGL Plant Renderer</div>
+		<label class="switch">
+		  <input type="checkbox" id="switch" checked="false">
+		  <span class="slider round"></span>
+		</label>
+
+		<div class="inputBox">
+			<input type="text" id="inputBox" placeholder="Input query here."/>
+			<button onclick="sentQuery();">submit</button> <button onclick="allClear();">Clear</button>
+		</div>
+
+		<script>
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+			if(typeof(Storage)!=="undefined" && localStorage.getItem('plyPath') != null){
+				init(localStorage.getItem('plyPath'));
+			}else{
+				init('./data/moved_1.ply');
+			}
+            
+            animate();
+
+            document.getElementById("switch").checked = false; //initial switch
+			document.getElementById("switch").addEventListener('change',drawSquare);
+			window.addEventListener( 'resize', onWindowResize, false );
+		</script>
+
+	</body>
+</html>

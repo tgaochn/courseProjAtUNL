@@ -1,0 +1,199 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{array}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{alltt}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% beamer settings
+\usetheme{Berlin}
+\newtranslation[to=Czech]{Definition}{Definice}
+
+% additional commands
+\newcommand{\setHelper}[1]{\left\lbrace #1 \right\rbrace}
+\floatname{algorithm}{Algoritmus}
+\renewcommand{\algorithmiccomment}[1]{// #1}
+
+% title page
+\title[Paralelizace CA]{[07B]- Implementace CA pomocí \\ Python + MPI}
+\author[M. Munzar]{Milan Munzar}
+\institute[FIT VUT]{Fakulta informačních technologií VUT v Brně}
+
+\begin{document}
+%1
+\frame{\maketitle}
+
+%2
+\section{Zadání}
+\begin{frame}
+\frametitle{Zadání projektu}
+    \begin{itemize}
+        \item Implementovat Conwayovu hru Life a alespoń jeden problém ve vícestavovém CA.
+        \item Povolené prostředky: \texttt{Python + mpi4py}.
+        \item Provést měření nad různými stupni paralelizace.
+        \item Porovnat se sekvenční verzí.
+        \item Vyhodnotit výsledky.
+     \end{itemize}
+\end{frame}
+
+%3
+\begin{frame}
+\frametitle{Conwayova hra Life}
+    \begin{itemize}
+    \item dvourozměrný uniformní celulární automat
+    \item buňka může být ve stavu živá/mrtvá
+    \item pravidla hry:
+      \begin{itemize}
+          \item živá buňka s méně než dvěma živými sousedy zemře
+          \item živá buňka s více než třemi živými sousedy zemře
+          \item mrtvá buňka se třemi živými sousedy ožije
+       \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\section{Sekveční verze}
+%4
+\begin{frame}
+\frametitle{Hra Life pseudokód}
+  \begin{algorithm}[H]
+  \caption{sequential Life}
+  \begin{algorithmic}[1]
+    \State $curr\_epoch \leftarrow 0$
+    \While{$curr\_epoch < no\_epoch$}
+      \For{$x = 1$ to $matrix\_size - 1$}
+        \For{$y = 1$ to $matrix\_size - 1$}
+            \State $sum \leftarrow noNeighbor(x, y, matrix1)$
+            \State $matrix2[x][y] \leftarrow applyRules(sum, matrix1[x][y])$ 
+        \EndFor
+      \EndFor
+      \State $swap(matrix1, matrix2)$
+      \State $curr\_epoch \leftarrow curr\_epoch + 1$
+    \EndWhile
+  \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+
+%5
+\begin{frame}
+\frametitle{Okrajové podmínky}
+    \begin{itemize}
+          \item Okraji matice jsou napevno přiděleny mrtvé buňky.
+          \item Jiná možnost je svázat okraje.
+    \end{itemize}
+\end{frame}
+
+
+%6
+\begin{frame}
+\frametitle{Použitá optimalizace}
+   \begin{itemize}
+      \item Platí, že pokud buňka ani žádný její soused nezměnil v minulém kroku stav,
+pak v tomto kroku buňka svůj stav měnit nebude.
+      \item Přidána matice aktivních buňek.
+   \end{itemize}
+\end{frame}
+
+\section{Paralelní verze}
+
+%7
+\begin{frame}
+\frametitle{Paralelizace hry Life}
+\begin{itemize}
+  \item \texttt{MPI\_scatter}
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.2]{paralelizace.png}
+\end{figure}
+\end{frame}
+
+
+%8
+\begin{frame}
+\frametitle{Počítání na hranách matic}
+\begin{itemize}
+  \item Získání součtu z osmiokolí.
+  \item Sousedé si vyměńují mezisoučty na hranách.
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.3]{hrany.png}
+\end{figure}
+\end{frame}
+
+
+%9
+\begin{frame}
+\frametitle{Paralelní hra Life pseudokód}
+  \begin{algorithm}[H]
+  \caption{parallel Life}
+  \begin{algorithmic}[1]
+    \State $curr\_epoch \leftarrow 0$
+    \While{$curr\_epoch < no\_epoch$}
+      \State $request \leftarrow MPI\_Irecv(borders)$
+      \State $borders \leftarrow computeBorders(matrix1)$
+      \State $MPI\_Isend(borders)$
+      \State $matrix2 \leftarrow computeInnerMatrix(matrix1)$
+      \State $MPI\_Wait(request)$
+      \State $updateBorders(borders, matrix2)$
+      \State $computeCells(matrix1, matrix2)$
+      \State $swapPointers(matrix1, matrix2)$
+      \State $curr\_epoch \leftarrow curr\_epoch + 1$
+    \EndWhile
+  \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\section{Experimenty}
+
+%9
+\begin{frame}
+\frametitle{Experimenty}
+Testováno na stroji s \texttt{Intel Core(TM) i5-3210M CPU @ 2.50GHz} a 8GB operační paměti.
+\end{frame}
+
+\begin{frame}
+\frametitle{Doba výpočtu při různých stupních paralelizace}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.55]{doba.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Dosažené zrychlení}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{zrychleni.png}
+\end{figure}
+\end{frame}
+
+\section{Závěr}
+
+\begin{frame}
+\frametitle{Použité prostředky}
+\begin{itemize}
+  \item \texttt{Python 2.7}
+  \begin{itemize}
+    \item \texttt{Tkinter, threading, Queue}
+    \item \texttt{numpy}
+    \item \texttt{mpi4py}
+    \item \texttt{timeit}    
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\end{document}
+
+                           

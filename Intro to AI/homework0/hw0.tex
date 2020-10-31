@@ -1,0 +1,113 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+
+% empty set package
+\usepackage{amssymb}
+
+\title{Intro to AI - Take-home Pretest}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+
+% Question 1
+1. (a)\\
+Assume the claim $4_n=O(2^n)$ is correct. \\
+$\therefore$ exists a $c>0$ and $n_0$, s.t. $4^n = 2^{2n} \leqslant c  2^n, \forall n>n_0$\\
+$\therefore log_2(4^{n}) = log_2(2^{2n})=2n \leqslant log_2(c  2^n) = log_2c + log_2(2^{n}) = log_2c + n$ \\
+$\therefore n \leqslant log_2c$ which is incorrect since $log_2c$ is a fixed number.\\
+$\therefore$ the claim does not hold and $4_n!=O(2^n)$.\\
+
+1. (b)\\
+Assume the claim $2_n=O(4^n)$ is correct. \\
+$\therefore$ exists a $c_1>0, c_2>0$ and $n_0$, s.t. $c_1 4^n \leqslant 2^n \leqslant c_2  4^n , \forall n>n_0$\\
+$\therefore log_2(c_1  4^n) = log_2c_1 + log_2(2^{2n}) = log_2c_1 + 2n \leqslant log_2(2^{n}) = n$ \\
+$\therefore n \leqslant -log_2c_1$ which is incorrect since $-log_2c_1$ is a fixed number.\\
+$\therefore$ the claim does not hold and $4_n!=O(2^n)$.\\
+
+% Question 2
+2. \\
+$\forall \alpha, \beta$, $\because \alpha > \beta > 0$\\
+$\therefore \exists c=\frac{\beta}{2\alpha}>0$ s.t. $\alpha > \beta > c\alpha=\frac{\beta}{2}$\\
+$\therefore \alpha^n > \beta^n > (c\alpha)^n$ if $n > 1$\\
+$\therefore \exists c_1=1>0, c_2=c^n>0, n_0=1>0$ s.t. $c_1\alpha > \beta > c_2\alpha^n>0$\\
+$\therefore \beta^n \in O(\alpha^n)$
+
+% Question 3
+3. \\
+Let x' is a element in S and we need to prove P(x') holds if Basic Step and Induction Step hold.\\
+$\because $ S is a well-ordered set.\\
+$\therefore$ elements in S are ordered.\\
+Let x' be in the $n_{th}$ position and the order of elements in S is $x_0 < x_1 < \dotsb < x_{n-1} < x' < x_{n+1} < \dotsb$\\
+$\because P(x_0)$ is true\\
+$\therefore P(x_1)$ holds, so does $P(x_2), \dotsb P(x_{n-1}), P(x'), P(x_{n+1}), \dotsb$(according to Induction Step)\\
+As a result, $\forall x \in S$, P(x) holds.\\
+
+% Question 4
+4. (a)\\
+(Please find the Algorithm on the next page)
+  \begin{algorithm}[H]
+  \caption{ \Large{\textbf{Two-classes partition algorithm}}}  
+  \label{alg:Framwork}  
+  \begin{algorithmic}[1]  
+    \Require an undirected graph G(V,E);
+    \Ensure whether the graph can be divided into two class, node set of class1, node set of class2
+    \Function {GraphPartition}{V, E}
+    
+    \State $node_{visited} \gets \varnothing$;
+    \State $node_{avail} \gets V$;
+    \If {$node_{avail} = \varnothing$}
+    	\State \Return{true, $node_{class1}$, $node_{class2}$};
+    \EndIf
+    
+    \State $u_0 \gets$ a random node in $node_{avail}$;
+    \State $node_{class1} \gets \{u_0\}$;
+    \State $node_{adj} \gets$ \{$v|u_0,v \in V, (u_0, v) \in E$\};
+    
+    \While {$node_{adj} != \varnothing$}
+    	\State $u_0 \gets$ a random node in $node_{avail}$;
+        \State $node_{class1}$ add $u_0$;
+    \EndWhile
+    
+    
+    \State $node_{visited} \gets node_{class1}$;
+    \State $node_{avail} \gets V-node_{visited}$;
+    \If {$node_{avail} = \varnothing$}
+    	\State \Return{false, \{\}, \{\}};
+    \EndIf    
+    \State $u_0 \gets$ a random node in $node_{avail}$;
+    \State $node_{class2} \gets \{u_0\}$;
+    \State $node_{adj} \gets$ \{$v|u_0,v \in V, (u_0, v) \in E$\};
+    
+    \While {$node_{adj} != \varnothing$}
+    	\State $u_0 \gets$ a random node in $node_{avail}$;
+        \State $node_{class2}$ add $u_0$;
+    \EndWhile
+    
+    \State $node_{visited}$ add $node_{class1}$;
+    \State $node_{avail} \gets V-node_{visited}$;
+    
+    \If {$node_{avail} = \varnothing$}
+    	\State \Return{true, $node_{class1}$, $node_{class2}$};
+    \Else \;
+    	\State \Return {false, \{\}, \{\}};
+    \EndIf 
+   
+    \EndFunction
+  \end{algorithmic}  
+\end{algorithm}  
+
+4. (b)\\
+If the graph has n nodes and e edges, the running time of my algorithm is $O(ne)$.
+
+\end{document}

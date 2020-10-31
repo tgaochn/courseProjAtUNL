@@ -1,0 +1,110 @@
+\documentclass[a4paper]{article}
+
+\usepackage[linesnumbered, ruled]{algorithm2e}
+\usepackage{ tipa }
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+\setlength{\parindent}{0pt} % no indent in the beginning of a paragraph
+
+% empty set package
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+
+
+\title{CSCE 423/823 - Homework 5}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+% 1
+1.\\
+\begin{algorithm}[H]
+    \caption{getAssignSAT($\phi$, varList)}
+    \If{isSatisfiable($\phi$)}
+    {
+        \Return nil\;
+    }
+    assignLis = []\;
+    \For{$i = 1$ to len(varList)}
+    {
+        $x_i = varList[i]$\;
+        \uIf{ isSatisfiable($\phi \wedge x_i$) }
+        {
+            assignLis.append(true)\;
+        }
+        \Else
+        {
+            assignLis.append(false)\;
+        }
+    }
+    \Return assignLis\;
+\end{algorithm}
+
+Explanation:\\
+To get a satisfying assignment for SAT, we can add each variable $x_i$ to the original boolean formula $\phi$ in turn to check whether there exist an assignment.\\
+If $\phi \wedge x_i$ is satisfiable, the assignment of $x_i$ is true; otherwise the assignment is false.\\
+The above algorithm getAssignSAT is polynomial-time because the function isSatisfiable is a magic box that works in polynomial time and there is just a loop going through all the variables.\\ 
+
+% 2
+2.\\
+By definition, a directed simple cycle is a directed Hamiltonian Cycle. We name this problem as directed-HAM-CYCLE.\\
+It can be proved that directed-HAM-CYCLE is a NPC given the fact that HAM-CYCLE is a NPC(ref[1]).\\
+a. prove that directed-HAM-CYCLE belongs to NP.\\
+Given a graph G, our certificate is the sequence of $|V|$ vertices.\\
+The checking algorithm checks that there is an edge from each vertex to the consecutive vertex and from the last vertex to the first vertex. Also we need to check whether all the vertices are visited.\\
+We can verify the certificate in polynomial time since the complexity is O(V + E).\\
+b. prove that directed-HAM-CYCLE belongs to NP-hard by using a reduction from HAM-CYCLE.\\
+a). Construct reduction.\\
+Given a hamiltonian-cycle in undirected graph $G = (V, E)$, we can construct a directed graph $G' = (V, E')$ such that $(u, v), (v, u) \in E'$ if $(u, v) \in E$.\\
+b). Prove the reduction takes polynomial time.\\
+The reduction costs polynomial time since it just go through all the vertices and edges in G. So time complexity is O(V + E).\\
+c). Prove that if directed-HAM-CYCLE is solved, then HAM-CYCLE is solved.\\
+Given a directed hamiltonian-cycle p' in G', there is an edge from each vertex to the consecutive vertex and from the last vertex to the first vertex. \\
+So a cycle p can be constructed by removing all the direction of these edges. And p goes through all the vertices in G only once since p' is a simple cycle. \\
+Also, there is a edge between the first vertex and the last one. So p is a hamiltonian-cycle in G. The time complexity is polynomial.\\
+d). Prove that if HAM-CYCLE is solved, then directed-HAM-CYCLE is solved.\\
+Given a hamiltonian-cycle p in G, there is an edge between each vertex and the consecutive vertex.\\
+We construct a directed path p' by adding direction to the edges in p. The direction follows the vertices visiting order from one vertex to the consecutive one.\\
+So p' is a simple cycle visiting all the vertices in G' only once. The time complexity is polynomial.\\
+
+Ref:\\
+1. Page 1091, Introduction to Algorithms, Third Edition by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein, MIT Press, 2009.\\
+
+% 3
+3.\\
+We name this problem as LIST-PARTITION.\\
+It can be proved that LIST-PARTITION is a NPC given the fact that SUBSET-SUM is a NPC(ref[1]).\\
+1. prove that LIST-PARTITION belongs to NP.\\
+We can guess two sub-lists and check the sum of the price of items in each list. It costs polynomial time.\\
+2. prove that LIST-PARTITION belongs to NP-hard by using a reduction from SUBSET-SUM.\\
+1). Construct reduction.\\
+SUBSET-SUM is defined as follows:\\
+Given a set X of integers and a target number t, find a subset $Y \subseteq X$ such that the members of Y add up to t.\\
+Let s be the sum of members of X. Use $X \bigcup \left \{ s-2t \right \}$ as the price of items in LIST-PARTITION.\\
+2). Prove the reduction takes polynomial time.\\
+The reduction is in polynomial time since it only sums some elements up and add one element.\\
+3). Prove that if LIST-PARTITION is solved, then SUBSET-SUM is solved.\\
+Assume the solution of LIST-PARTITION is sub-list A and B.\\
+Since sum of the price of all the items is 2s - 2t, sum of the price in each sub-list is s - t.\\
+Assume A contain the item whose price is s - 2t.\\
+After A removing this item, we get a set of number from the price, $A - \left \{ s-2t \right \}$, summing up to t and all of these numbers are in X, which is a solution of SUBSET-SUM.\\
+This process obviously works in polynomial time.\\
+4). Prove that if SUBSET-SUM is solved, then LIST-PARTITION is solved.\\
+If there exists a set A of numbers in X that sum to t, then set B containing all the remaining numbers in X sum to s - t. \\
+Then $A \bigcup \left \{ s-2t \right \}$ and B are the two sub-lists we are looking for in LIST-PARTITION.\\
+This process obviously works in polynomial time.\\
+
+Ref:\\
+1. Page 1097, Introduction to Algorithms, Third Edition by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein, MIT Press, 2009.\\
+\end{document}

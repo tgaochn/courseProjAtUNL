@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body { font: 12px Arial;}
+.node > circle {
+  fill: #dddddd;
+  stroke: #777777;
+  stroke-width: 2px;
+}
+.node > text {
+  font-family: sans-serif;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.link {
+  z:-1;
+  stroke: #dddddd;
+  stroke-width: 2px;
+}
+</style>
+
+<body>
+<script type="text/javascript" src="http://d3js.org/d3.v3.js"></script>
+<script src="http://marvl.infotech.monash.edu/webcola/cola.v3.min.js"></script>
+
+<input type="text" id="input" style="width: 600px; height:200px" placeholder="Input query here."/>
+<button onclick="sentQuery()">sent</button>
+<p id="time"> Time: </p>
+<div id="result"> Result shows here </div>
+<svg top="32%" width="1500px" height="1500px" id="graph_svg"></svg>
+
+<script>
+	var url = "http://localhost:11002/db/data/transaction/commit";
+	var output_graph;
+  var count = 0;
+
+  function sentQuery(){
+      var start = performance.now();
+      var queryText = document.getElementById("input").value;
+      var query_com = {"statements": [{"statement": queryText, "resultDataContents":["graph"]}]};
+      var query_str = JSON.stringify(query_com);
+
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("POST", url, true);
+      xmlhttp.setRequestHeader("Accept", "application/json; charset=UTF-8");
+      xmlhttp.setRequestHeader("Content-type", "application/json");
+      xmlhttp.send(query_str);
+
+      xmlhttp.onreadystatechange = function(){
+          if(xmlhttp.responseText !=""){
+              var json_output = eval("("+xmlhttp.responseText+")");
+              var nodes=[], links=[];
+              json_output.results[0].data.forEach(function (row){
+                  row.graph.nodes.forEach(function(n){
+                      if(idIndex(nodes,n.id) == null){
+                          nodes.push({id:n.id, name:n.properties.name, state:n.properties.state});
+                      }
+                  });
+                  links = links.concat(row.graph.relationships.map(function (r){
+                      return {id:count++,source:r.startNode, target:r.endNode, type:r.type};
+                  }));
+              });
+              output_graph = {nodes:nodes, links:links};
+              console.log(output_graph);
+              draw();
+
+              var end = performance.now();
+              var time = end-start;
+              document.getElementById("time").innerHTML = "Time: " + time/1000 + " s";
+          }
+      }
+    }
+
+function draw () {
+  d3.selectAll("svg > *").remove();   // clear svg content
+  var newsvg = document.createElement("svg");
+  newsvg.setAttribute("id", "graph_svg");
+  newsvg.setAttribute("top", "32%");
+  newsvg.setAttribute("width", "1500px");
+  newsvg.setAttribute("height", "1500px");
+  var R, d3cola, enter_nodes, graph, height, l, links, n, nodes, svg, width, _i, _j, _len, _len1, _ref, _ref1;
+
+  graph = output_graph;
+
+  _ref = graph.links;
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    l = _ref[_i];
+    _ref1 = graph.nodes;
+    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+      n = _ref1[_j];
+      if (l.source === n.id) {
+        l.source = n;
+      }
+      if (l.target === n.id) {
+        l.target = n;
+      }
+    }
+  }
+
+  R = Math.sqrt(graph.nodes.length)+6;
+  svg = d3.select('svg');
+  width = svg.node().getBoundingClientRect().width;
+  height = svg.node().getBoundingClientRect().height;
+  links = svg.selectAll('.link').data(graph.links, function(d) {
+    return d.id;
+  });
+
+  links.enter().append('line').attr('class', 'link');
+  nodes = svg.selectAll('.node').data(graph.nodes, function(d) {
+    return d.id;
+  });
+  enter_nodes = nodes.enter().append('g').attr('class', 'node');
+  enter_nodes.append('circle').attr('r', R);
+  enter_nodes.append('text').text(function(d) {
+    return d.id;
+  }).attr('dy', '0.35em');
+  graph.nodes.forEach(function(v) {
+    v.width = 2.5 * R;
+    return v.height = 2.5 * R;
+  });
+  d3cola = cola.d3adaptor().size([width, height]).linkDistance(50).avoidOverlaps(true).nodes(graph.nodes).links(graph.links).on('tick', function() {
+    nodes.attr('transform', function(d) {
+      return "translate(" + d.x + "," + d.y + ")";
+    });
+    return links.attr('x1', function(d) {
+      return d.source.x;
+    }).attr('y1', function(d) {
+      return d.source.y;
+    }).attr('x2', function(d) {
+      return d.target.x;
+    }).attr('y2', function(d) {
+      return d.target.y;
+    });
+  });
+
+  enter_nodes.call(d3cola.drag);
+  d3cola.start(30, 30, 30);
+}
+
+
+function idIndex (a, id){
+    for (var i=0; i< a.length; i++){
+        if(a[i].id==id) return i;
+    }
+    return null;
+}
+
+</script>
+</body>

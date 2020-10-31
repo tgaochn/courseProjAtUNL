@@ -1,0 +1,66 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{url}
+
+% change to a new line when necessary
+\makeatletter
+\def\UrlAlphabet{%
+      \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+      \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+      \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+      \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+      \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+      \do\Y\do\Z}
+\def\UrlDigits{\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0}
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\g@addto@macro{\UrlBreaks}{\UrlAlphabet}
+\g@addto@macro{\UrlBreaks}{\UrlDigits}
+\makeatother
+
+\setlength{\parindent}{0pt} % no indent in the beginning of a paragraph
+
+% empty set package
+\usepackage{amssymb}
+
+
+\title{CSCE862 SEC 001 - Homework 2}
+\author{Tian Gao}
+\begin{document}
+\maketitle
+
+% 1_a
+Stage 1\_a.\\
+Please find the files in step1\_a folder. The result is shown as follows.\\
+\includegraphics[width=6cm]{img/step1_a.png}
+
+% 1_b
+Stage 1\_b.\\
+Please find the files in step1\_b folder. The result is shown as follows.\\
+\includegraphics[width=6cm]{img/step1_b.png}
+
+% 2
+Stage 2.\\
+Please find the files in step2 folder. The result is shown as follows.\\
+\includegraphics[width=6cm]{img/step2.png}\\
+
+% 3
+Stage 3.\\
+Please find the files in step3 folder. The result is shown as follows.\\
+Compared to the code in step1\_a, visualization using native javascript DOM methods is much more complicate. 
+There are too many details to be implemented. 
+For example, we have to manually add event listener. \\
+As a programmer, I believe implementation, maintenance and extensibility of the DOM methods is more difficult.\\
+As a user, I think the learning curve of D3js is much better.\\
+\includegraphics[width=10cm]{img/step3.png}\\
+
+\end{document}
